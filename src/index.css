@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -219,5 +220,38 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
     backdrop-filter: blur(10px);
     background: hsl(var(--card) / 0.8);
     border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  /* Product Slider Custom Styling */
+  .product-swiper {
+    @apply pb-12;
+  }
+
+  .product-swiper .swiper-wrapper {
+    @apply items-stretch;
+  }
+
+  /* Custom pagination bullets */
+  .product-swiper .swiper-pagination {
+    @apply bottom-0;
+  }
+
+  .product-slider-bullet {
+    @apply w-3 h-3 bg-muted-foreground/30 rounded-full cursor-pointer transition-all duration-300;
+    margin: 0 4px !important;
+  }
+
+  .product-slider-bullet-active {
+    @apply bg-accent scale-125;
+    box-shadow: 0 0 10px hsl(var(--accent) / 0.5);
+  }
+
+  .product-slider-bullet:hover {
+    @apply bg-accent/60 scale-110;
+  }
+
+  /* Swiper navigation button styling */
+  .product-swiper .swiper-button-disabled {
+    @apply opacity-30;
   }
 }

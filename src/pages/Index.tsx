@@ -1,6 +1,7 @@
+
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
-import FeaturedProducts from '@/components/FeaturedProducts';
+import ProductSlider from '@/components/ProductSlider';
 import PartnerBrands from '@/components/PartnerBrands';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Globe, Shield, Zap, HeartHandshake } from 'lucide-react';
@@ -34,7 +35,7 @@ const Index = () => {
     <div className="min-h-screen">
       <Navigation />
       <Hero />
-      <FeaturedProducts />
+      <ProductSlider />
       <PartnerBrands />
       
       {/* Why Choose Us Section */}

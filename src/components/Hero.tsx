@@ -40,17 +40,17 @@ const Hero = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 pt-8">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
             <Link to="/products">
-              <Button className="btn-hero-modern group px-6 py-3 rounded-full text-sm sm:text-base">
+              <Button className="btn-hero group">
                 Explore Products
-                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
             
             <Link to="/contact">
-              <Button className="btn-contact-modern group px-6 py-3 rounded-full text-sm sm:text-base">
-                <Play className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <Button className="btn-neon group">
+                <Play className="mr-2 h-5 w-5" />
                 Contact Us
               </Button>
             </Link>

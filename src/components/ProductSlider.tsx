@@ -1,9 +1,10 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper/modules';
+import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import playstationImg from '@/assets/playstation.jpg';
 import xboxImg from '@/assets/xbox.jpg';
 import droneImg from '@/assets/drone.jpg';
@@ -16,6 +17,35 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 const ProductSlider = () => {
+  // Animation variants for staggered effect
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: {
+      opacity: 0,
+      y: 30,
+      x: -20,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1] as const, // Premium easing curve
+      },
+    },
+  };
+
   const products = [
     {
       id: 1,
@@ -74,10 +104,20 @@ const ProductSlider = () => {
         </div>
 
         {/* Product Slider */}
-        <div className="relative">
+        <motion.div 
+          className="relative"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <Swiper
-            modules={[Pagination, Navigation]}
+            modules={[Pagination, Navigation, Autoplay]}
             spaceBetween={24}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: true,
+              stopOnLastSlide: true,
+            }}
             pagination={{
               clickable: true,
               bulletClass: 'swiper-pagination-bullet product-slider-bullet',
@@ -103,11 +143,19 @@ const ProductSlider = () => {
             }}
             speed={600}
             grabCursor={true}
+            loop={false}
             className="product-swiper"
+            onAutoplayStop={() => {
+              // Optional: Can add any logic when autoplay stops
+            }}
           >
-            {products.map((product) => (
+            {products.map((product, index) => (
               <SwiperSlide key={product.id} className="h-auto">
-                <div className="product-card group h-full flex flex-col">
+                <motion.div 
+                  className="product-card group h-full flex flex-col"
+                  variants={cardVariants}
+                  custom={index}
+                >
                   <div className="relative overflow-hidden rounded-lg mb-4 flex-shrink-0">
                     <img 
                       src={product.image} 
@@ -139,7 +187,7 @@ const ProductSlider = () => {
                       </Button>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -153,7 +201,7 @@ const ProductSlider = () => {
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* CTA Section */}
         <div className="text-center mt-12">

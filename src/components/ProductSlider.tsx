@@ -1,10 +1,9 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation, EffectCoverflow } from 'swiper/modules';
+import { Pagination, Navigation } from 'swiper/modules';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import playstationImg from '@/assets/playstation.jpg';
 import xboxImg from '@/assets/xbox.jpg';
 import droneImg from '@/assets/drone.jpg';
@@ -15,7 +14,6 @@ import smartTvImg from '@/assets/smart-tv.jpg';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import 'swiper/css/effect-coverflow';
 
 const ProductSlider = () => {
   const products = [
@@ -78,17 +76,8 @@ const ProductSlider = () => {
         {/* Product Slider */}
         <div className="relative">
           <Swiper
-            modules={[Pagination, Navigation, EffectCoverflow]}
-            effect="coverflow"
-            centeredSlides={true}
+            modules={[Pagination, Navigation]}
             spaceBetween={24}
-            coverflowEffect={{
-              rotate: 15,
-              stretch: 0,
-              depth: 150,
-              modifier: 1.5,
-              slideShadows: false,
-            }}
             pagination={{
               clickable: true,
               bulletClass: 'swiper-pagination-bullet product-slider-bullet',
@@ -102,36 +91,23 @@ const ProductSlider = () => {
               320: {
                 slidesPerView: 1,
                 spaceBetween: 16,
-                effect: 'slide', // Disable coverflow on mobile for better UX
               },
               768: {
                 slidesPerView: 2,
                 spaceBetween: 20,
-                effect: 'coverflow',
               },
               1024: {
                 slidesPerView: 3,
                 spaceBetween: 24,
-                effect: 'coverflow',
               },
             }}
             speed={600}
             grabCursor={true}
             className="product-swiper"
           >
-            {products.map((product, index) => (
+            {products.map((product) => (
               <SwiperSlide key={product.id} className="h-auto">
-                <motion.div 
-                  className="product-card group h-full flex flex-col"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ 
-                    duration: 0.6, 
-                    delay: index * 0.1,
-                    ease: [0.25, 0.25, 0.25, 0.75]
-                  }}
-                >
+                <div className="product-card group h-full flex flex-col">
                   <div className="relative overflow-hidden rounded-lg mb-4 flex-shrink-0">
                     <img 
                       src={product.image} 
@@ -163,7 +139,7 @@ const ProductSlider = () => {
                       </Button>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>

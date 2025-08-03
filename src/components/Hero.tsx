@@ -23,12 +23,12 @@ const Hero = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="space-y-8">
           {/* Main Headline */}
-          <div className="space-y-4">
-            <h1 className="text-center text-3xl lg:text-6xl leading-snug font-bold">
-              <span className="block text-3xl lg:text-7xl font-extrabold mb-1 lg:mb-2">
+          <div className="space-y-2 md:space-y-4">
+            <h1 className="text-center text-3xl md:text-4xl lg:text-6xl leading-snug lg:leading-tight font-bold break-normal whitespace-normal">
+              <span className="block text-3xl md:text-4xl lg:text-7xl font-black mb-1 md:mb-1 lg:mb-2">
                 Global Import & <span className="gradient-text">Distribution</span>
               </span>
-              <span className="block text-foreground text-2xl lg:text-6xl">
+              <span className="block text-foreground text-3xl md:text-4xl lg:text-6xl font-bold">
                 of Electronics, Gaming & <span className="text-accent text-glow">Innovation</span>
               </span>
             </h1>

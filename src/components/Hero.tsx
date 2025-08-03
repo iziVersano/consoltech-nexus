@@ -24,11 +24,13 @@ const Hero = () => {
         <div className="space-y-8">
           {/* Main Headline */}
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              <span className="block text-foreground">Global Import &</span>
-              <span className="block gradient-text">Distribution</span>
-              <span className="block text-foreground">of Electronics, Gaming</span>
-              <span className="block text-accent text-glow">& Innovation</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight lg:leading-tight">
+              <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold">
+                Global Import & <span className="gradient-text">Distribution</span>
+              </span>
+              <span className="block text-foreground mt-2">
+                of Electronics, Gaming & <span className="text-accent text-glow">Innovation</span>
+              </span>
             </h1>
             
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">

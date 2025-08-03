@@ -1,0 +1,286 @@
+import { useState } from 'react';
+import Navigation from '@/components/Navigation';
+import { Button } from '@/components/ui/button';
+import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    subject: '',
+    message: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission here
+    console.log('Form submitted:', formData);
+    // Reset form
+    setFormData({ name: '', email: '', company: '', subject: '', message: '' });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const contactInfo = [
+    {
+      icon: Mail,
+      title: 'Email Us',
+      details: ['info@consoltech.com', 'sales@consoltech.com'],
+      description: 'Get in touch via email for detailed inquiries'
+    },
+    {
+      icon: Phone,
+      title: 'Call Us',
+      details: ['+1 (555) 123-4567', '+44 20 7123 4567'],
+      description: '24/7 support for urgent matters'
+    },
+    {
+      icon: MapPin,
+      title: 'Visit Us',
+      details: ['New York, USA', 'London, UK', 'Singapore'],
+      description: 'Multiple offices worldwide'
+    },
+    {
+      icon: Clock,
+      title: 'Business Hours',
+      details: ['Mon-Fri: 9:00-18:00', 'Weekend: On-call support'],
+      description: 'We\'re here when you need us'
+    }
+  ];
+
+  const offices = [
+    {
+      city: 'New York',
+      country: 'USA',
+      address: '123 Tech Avenue, NY 10001',
+      phone: '+1 (555) 123-4567',
+      email: 'usa@consoltech.com'
+    },
+    {
+      city: 'London',
+      country: 'UK',
+      address: '456 Innovation Street, London SW1A 1AA',
+      phone: '+44 20 7123 4567',
+      email: 'uk@consoltech.com'
+    },
+    {
+      city: 'Singapore',
+      country: 'Singapore',
+      address: '789 Digital Hub, Singapore 018989',
+      phone: '+65 6123 4567',
+      email: 'asia@consoltech.com'
+    }
+  ];
+
+  return (
+    <div className="min-h-screen">
+      <Navigation />
+      
+      {/* Hero Section */}
+      <section className="pt-24 pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Get In <span className="gradient-text">Touch</span>
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Ready to partner with us? Have questions about our products? 
+              Our global team is here to help you succeed.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form & Info */}
+      <section className="pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Contact Form */}
+            <div className="product-card">
+              <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Full Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Email Address *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">Company</label>
+                  <input
+                    type="text"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="Your company name"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Subject *</label>
+                  <select
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  >
+                    <option value="">Select a subject</option>
+                    <option value="partnership">Partnership Inquiry</option>
+                    <option value="products">Product Information</option>
+                    <option value="distribution">Distribution Services</option>
+                    <option value="support">Technical Support</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Message *</label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={6}
+                    className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                    placeholder="Tell us about your requirements..."
+                  />
+                </div>
+
+                <Button type="submit" className="btn-hero w-full">
+                  Send Message
+                  <Send className="ml-2 h-5 w-5" />
+                </Button>
+              </form>
+            </div>
+
+            {/* Contact Information */}
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
+                <div className="grid grid-cols-1 gap-6">
+                  {contactInfo.map((info, index) => (
+                    <div key={index} className="product-card p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
+                          <info.icon className="h-6 w-6 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
+                          <div className="space-y-1">
+                            {info.details.map((detail, idx) => (
+                              <p key={idx} className="text-accent font-medium">{detail}</p>
+                            ))}
+                          </div>
+                          <p className="text-muted-foreground text-sm mt-2">{info.description}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Global Offices */}
+      <section className="py-16 bg-card/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Our <span className="gradient-text">Global Offices</span>
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              With presence across multiple continents, we're always close to our clients
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {offices.map((office, index) => (
+              <div key={index} className="product-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">{office.city}</h3>
+                <p className="text-accent font-medium mb-4">{office.country}</p>
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <p>{office.address}</p>
+                  <p className="text-foreground font-medium">{office.phone}</p>
+                  <p className="text-accent">{office.email}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Frequently Asked <span className="gradient-text">Questions</span>
+            </h2>
+          </div>
+
+          <div className="space-y-6">
+            {[
+              {
+                question: "What is your minimum order quantity?",
+                answer: "Our MOQ varies by product category. For gaming consoles, it's typically 10-20 units. For accessories and smaller electronics, MOQ starts at 50 units. Contact us for specific product requirements."
+              },
+              {
+                question: "Do you provide international shipping?",
+                answer: "Yes, we ship to over 50 countries worldwide. We have partnerships with leading logistics providers to ensure fast, secure delivery with full tracking and insurance coverage."
+              },
+              {
+                question: "What payment methods do you accept?",
+                answer: "We accept bank transfers, letters of credit, and for established clients, we offer flexible payment terms. All transactions are secured and comply with international trade standards."
+              },
+              {
+                question: "Do you provide product warranties?",
+                answer: "All our products come with manufacturer warranties. We also provide additional support and can facilitate warranty claims through our global service network."
+              }
+            ].map((faq, index) => (
+              <div key={index} className="product-card">
+                <h3 className="text-lg font-semibold mb-3 text-accent">{faq.question}</h3>
+                <p className="text-muted-foreground">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Contact;

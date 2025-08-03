@@ -225,15 +225,26 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
   /* Product Slider Custom Styling */
   .product-swiper {
     @apply pb-12;
+    width: 100%;
+    height: auto;
+    min-height: 400px;
   }
 
   .product-swiper .swiper-wrapper {
     @apply items-stretch;
+    height: auto;
+  }
+
+  .product-swiper .swiper-slide {
+    height: auto;
+    display: flex;
   }
 
   /* Custom pagination bullets */
   .product-swiper .swiper-pagination {
     @apply bottom-0;
+    position: relative !important;
+    margin-top: 2rem;
   }
 
   .product-slider-bullet {

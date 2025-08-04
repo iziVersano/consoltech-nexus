@@ -9,50 +9,50 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
 
 @layer base {
   :root {
-    /* Dark theme base */
-    --background: 222 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Enhanced Dark Theme - Better Contrast */
+    --background: 220 15% 6%;
+    --foreground: 220 90% 98%;
 
-    /* Cards with subtle transparency */
-    --card: 222 84% 7%;
-    --card-foreground: 210 40% 98%;
+    /* Enhanced Cards */
+    --card: 220 15% 8%;
+    --card-foreground: 220 90% 98%;
 
-    /* Popover styling */
-    --popover: 222 84% 6%;
-    --popover-foreground: 210 40% 98%;
+    /* Enhanced Popover */
+    --popover: 220 15% 8%;
+    --popover-foreground: 220 90% 98%;
 
-    /* Primary - Electric Blue */
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
-    --primary-glow: 199 89% 48%;
+    /* Enhanced Primary - Modern Electric Blue */
+    --primary: 200 100% 55%;
+    --primary-foreground: 220 15% 6%;
+    --primary-glow: 200 100% 70%;
 
-    /* Secondary - Deep Tech Blue */
-    --secondary: 222 47% 11%;
-    --secondary-foreground: 210 40% 98%;
+    /* Enhanced Secondary */
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 220 90% 98%;
 
-    /* Muted elements */
-    --muted: 217 32% 17%;
-    --muted-foreground: 215 20% 65%;
+    /* Enhanced Muted - Better Readability */
+    --muted: 220 15% 14%;
+    --muted-foreground: 220 12% 70%;
 
-    /* Accent - Neon Cyan */
-    --accent: 191 91% 60%;
-    --accent-foreground: 222 84% 4.9%;
-    --accent-glow: 180 100% 50%;
+    /* Enhanced Accent - Vibrant Purple */
+    --accent: 270 95% 65%;
+    --accent-foreground: 220 90% 98%;
+    --accent-glow: 270 95% 80%;
 
-    /* Status colors */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    /* Enhanced Status */
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 220 90% 98%;
 
-    /* Borders and inputs */
-    --border: 217 32% 20%;
-    --input: 217 32% 15%;
-    --ring: 221 83% 53%;
+    /* Enhanced Borders */
+    --border: 220 15% 20%;
+    --input: 220 15% 18%;
+    --ring: 200 100% 55%;
 
-    /* Design system extensions */
-    --neon: 180 100% 50%;
-    --electric: 199 89% 48%;
-    --tech-blue: 221 83% 53%;
-    --cyber-purple: 270 91% 60%;
+    /* Enhanced Design System Extensions */
+    --neon: 140 100% 60%;
+    --electric: 185 100% 60%;
+    --tech-blue: 210 95% 65%;
+    --cyber-purple: 270 95% 65%;
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
@@ -137,49 +137,70 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
     background: var(--gradient-hero);
     min-height: 100vh;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    letter-spacing: -0.01em;
   }
 }
 
 @layer components {
-  /* Hero button variant */
+  /* Enhanced Hero Button */
   .btn-hero {
-    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105;
+    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 relative overflow-hidden;
     box-shadow: var(--shadow-primary);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .btn-hero::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] transition-transform duration-700;
+  }
+
+  .btn-hero:hover::before {
+    @apply translate-x-[100%];
   }
 
   .btn-hero:hover {
     box-shadow: var(--glow-primary);
   }
 
-  /* Neon button variant */
+  /* Enhanced Neon Button */
   .btn-neon {
-    @apply bg-gradient-to-r from-accent to-accent-glow text-accent-foreground px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105;
+    @apply bg-transparent border-2 border-neon text-neon px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:bg-neon hover:text-background relative;
     box-shadow: var(--shadow-neon);
+    font-weight: 600;
   }
 
   .btn-neon:hover {
     box-shadow: var(--glow-accent);
   }
 
-  /* Product card styling */
+  /* Enhanced Product Card */
   .product-card {
-    @apply bg-card rounded-xl p-6 transition-all duration-300 hover:scale-105;
+    @apply bg-card/90 backdrop-blur-sm rounded-2xl p-6 transition-all duration-500 hover:scale-105 group relative overflow-hidden;
     background: var(--gradient-card);
     box-shadow: var(--shadow-card);
     border: 1px solid hsl(var(--border));
   }
 
-  .product-card:hover {
-    box-shadow: var(--shadow-primary);
-    border-color: hsl(var(--primary) / 0.5);
+  .product-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500;
   }
 
-  /* Glowing text effect */
+  .product-card:hover {
+    box-shadow: var(--shadow-primary);
+    border-color: hsl(var(--primary) / 0.6);
+    transform: translateY(-8px) scale(1.02);
+  }
+
+  /* Enhanced Glowing Text */
   .text-glow {
-    text-shadow: 0 0 20px hsl(var(--accent) / 0.6);
+    text-shadow: 0 0 25px hsl(var(--accent) / 0.8);
+    font-weight: 600;
   }
 
   /* Floating animation */

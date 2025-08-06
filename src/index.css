@@ -60,6 +60,7 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
     --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(217 32% 10%));
     --gradient-neon: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--electric)));
     --gradient-tech: linear-gradient(135deg, hsl(var(--tech-blue)), hsl(var(--cyber-purple)));
+    --gradient-logo-blue: linear-gradient(90deg, hsl(210 100% 70%), hsl(210 100% 45%));
 
     /* Shadows and glows */
     --shadow-neon: 0 0 20px hsl(var(--accent) / 0.3);
@@ -230,6 +231,22 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
   /* Gradient text */
   .gradient-text {
     background: var(--gradient-neon);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Logo styling */
+  .logo-text {
+    @apply font-orbitron font-bold tracking-wider transition-all duration-300;
+  }
+
+  .logo-consol {
+    @apply text-white;
+  }
+
+  .logo-tech {
+    background: var(--gradient-logo-blue);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

@@ -149,10 +149,11 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
 @layer components {
   /* Enhanced Hero Button */
   .btn-hero {
-    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 relative overflow-hidden;
+    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 relative overflow-hidden flex items-center justify-center;
     box-shadow: var(--shadow-primary);
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.025em;
+    min-width: 200px;
   }
 
   .btn-hero::before {
@@ -170,9 +171,11 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
 
   /* Enhanced Neon Button */
   .btn-neon {
-    @apply bg-transparent border-2 border-neon text-neon px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:bg-neon hover:text-background relative;
+    @apply bg-transparent border-2 border-neon text-neon px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-neon hover:text-background relative flex items-center justify-center;
     box-shadow: var(--shadow-neon);
     font-weight: 600;
+    letter-spacing: 0.025em;
+    min-width: 200px;
   }
 
   .btn-neon:hover {

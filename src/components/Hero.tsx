@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play } from 'lucide-react';
+import { ShoppingBag, Headphones } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroImage from '@/assets/hero-tech.jpg';
 
@@ -69,17 +69,17 @@ const Hero = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 justify-center items-center pt-8">
+          <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0 justify-center items-center pt-8">
             <Link to="/products">
-              <Button className="btn-hero group">
+              <Button className="btn-hero group font-orbitron tracking-wide">
+                <ShoppingBag className="mr-3 h-5 w-5 transition-transform group-hover:scale-110" />
                 Explore Products
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
             
             <Link to="/contact">
-              <Button className="btn-neon group">
-                <Play className="mr-2 h-5 w-5" />
+              <Button className="btn-neon group font-orbitron tracking-wide">
+                <Headphones className="mr-3 h-5 w-5 transition-transform group-hover:scale-110" />
                 Contact Us
               </Button>
             </Link>

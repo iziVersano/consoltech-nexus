@@ -449,6 +449,144 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
     }
   }
 
+  /* Floating Products Showcase */
+  .floating-products-container {
+    @apply relative w-full max-w-4xl mx-auto h-80 md:h-96 my-12;
+    perspective: 1200px;
+  }
+
+  .floating-product {
+    @apply absolute transition-all duration-300 hover:scale-110;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 10px 30px hsl(var(--primary) / 0.3));
+  }
+
+  .product-image {
+    @apply w-full h-full object-contain transition-all duration-300;
+    filter: brightness(1.1) contrast(1.1);
+  }
+
+  .floating-product:hover .product-image {
+    filter: brightness(1.2) contrast(1.2) drop-shadow(0 0 20px hsl(var(--accent) / 0.6));
+  }
+
+  /* Individual Product Positioning - Desktop */
+  .product-controller {
+    @apply w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32;
+    top: 60%;
+    left: 5%;
+    transform: translateZ(50px) rotateY(-15deg);
+    animation: product-float 6s ease-in-out infinite;
+  }
+
+  .product-ps5 {
+    @apply w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28;
+    top: 40%;
+    left: 15%;
+    transform: translateZ(-20px) rotateY(10deg);
+    animation: product-float 7s ease-in-out infinite 0.5s;
+  }
+
+  .product-smartphone {
+    @apply w-18 h-18 md:w-26 md:h-26 lg:w-30 lg:h-30;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%) translateZ(30px);
+    animation: product-float 5s ease-in-out infinite 1s;
+  }
+
+  .product-shipping {
+    @apply w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32;
+    top: 50%;
+    left: 40%;
+    transform: translateZ(-30px) rotateY(-10deg);
+    animation: product-float 8s ease-in-out infinite 1.5s;
+  }
+
+  .product-drone {
+    @apply w-16 h-16 md:w-22 md:h-22 lg:w-26 lg:h-26;
+    top: 10%;
+    right: 15%;
+    transform: translateZ(40px) rotateY(20deg);
+    animation: product-float 6.5s ease-in-out infinite 2s;
+  }
+
+  .product-monitor {
+    @apply w-18 h-18 md:w-24 md:h-24 lg:w-28 lg:h-28;
+    top: 35%;
+    right: 5%;
+    transform: translateZ(10px) rotateY(-5deg);
+    animation: product-float 7.5s ease-in-out infinite 2.5s;
+  }
+
+  .product-ebike {
+    @apply w-20 h-20 md:w-26 md:h-26 lg:w-30 lg:h-30;
+    top: 65%;
+    right: 12%;
+    transform: translateZ(20px) rotateY(15deg);
+    animation: product-float 6s ease-in-out infinite 3s;
+  }
+
+  /* Mobile Responsive - Grid Layout */
+  @media (max-width: 768px) {
+    .floating-products-container {
+      @apply h-auto grid grid-cols-3 gap-4 p-4;
+      perspective: none;
+    }
+
+    .floating-product {
+      @apply relative w-full h-20 hover:scale-105;
+      position: relative !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      transform: none !important;
+    }
+
+    .product-smartphone,
+    .product-shipping {
+      @apply col-span-1;
+    }
+
+    .product-controller {
+      @apply col-start-1 row-start-1;
+    }
+
+    .product-ps5 {
+      @apply col-start-2 row-start-1;
+    }
+
+    .product-drone {
+      @apply col-start-3 row-start-1;
+    }
+
+    .product-monitor {
+      @apply col-start-1 row-start-2;
+    }
+
+    .product-smartphone {
+      @apply col-start-2 row-start-2;
+    }
+
+    .product-shipping {
+      @apply col-start-3 row-start-2;
+    }
+
+    .product-ebike {
+      @apply col-start-2 row-start-3;
+    }
+  }
+
+  /* Product Floating Animation */
+  @keyframes product-float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
   /* Mobile optimization for tech elements */
   @media (max-width: 768px) {
     .tech-grid {

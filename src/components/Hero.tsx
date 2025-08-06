@@ -57,7 +57,7 @@ const Hero = () => {
               <span className="block text-3xl md:text-4xl lg:text-7xl font-black mb-2 md:mb-1 lg:mb-2 leading-tight">
                 Your Gateway to Gaming, Gadgets & <span className="gradient-text">Innovation</span>
               </span>
-              <span className="block text-foreground text-3xl md:text-4xl lg:text-6xl font-bold leading-snug">
+              <span className="block text-foreground text-2xl md:text-4xl lg:text-6xl font-bold leading-snug">
                 Delivering Smart Tech & <span className="text-accent text-glow">Toys</span> to the World
               </span>
             </h1>

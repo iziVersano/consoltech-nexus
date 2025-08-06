@@ -51,6 +51,15 @@ const Hero = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="space-y-6 md:space-y-8">
+          {/* CONSOLTECH Promotional Image */}
+          <div className="mb-8 md:mb-12">
+            <img 
+              src="/lovable-uploads/c60c31c0-acf6-42e0-a669-56ef85d2405c.png" 
+              alt="CONSOLTECH - Global Import & Distribution of Electronics, Gaming & Innovation" 
+              className="w-full max-w-4xl mx-auto h-auto rounded-lg shadow-2xl shadow-primary/20"
+            />
+          </div>
+          
           {/* Main Headline */}
           <div className="space-y-3 md:space-y-4">
             <h1 className="text-center text-3xl md:text-4xl lg:text-6xl leading-snug lg:leading-tight font-bold break-normal whitespace-normal">

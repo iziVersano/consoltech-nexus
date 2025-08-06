@@ -55,10 +55,10 @@ const Hero = () => {
           <div className="space-y-3 md:space-y-4">
             <h1 className="text-center text-3xl md:text-4xl lg:text-6xl leading-snug lg:leading-tight font-bold break-normal whitespace-normal">
               <span className="block text-3xl md:text-4xl lg:text-7xl font-black mb-2 md:mb-1 lg:mb-2 leading-tight">
-                Global Import & <span className="gradient-text">Distribution</span>
+                Your Gateway to Gaming, Gadgets & <span className="gradient-text">Innovation</span>
               </span>
               <span className="block text-foreground text-3xl md:text-4xl lg:text-6xl font-bold leading-snug">
-                of Electronics, Gaming & <span className="text-accent text-glow">Innovation</span>
+                Delivering Smart Tech & <span className="text-accent text-glow">Toys</span> to the World
               </span>
             </h1>
             

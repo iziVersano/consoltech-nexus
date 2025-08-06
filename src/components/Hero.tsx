@@ -5,7 +5,7 @@ import heroImage from '@/assets/hero-tech.jpg';
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-16 md:pt-0">
+    <section className="relative min-h-screen flex items-center justify-center pt-20 pb-8 md:pt-24 md:pb-16">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 

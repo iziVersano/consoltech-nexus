@@ -2,13 +2,6 @@ import { Button } from '@/components/ui/button';
 import { ShoppingBag, Headphones } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroImage from '@/assets/hero-tech.jpg';
-import floatingController from '@/assets/floating-controller.png';
-import floatingPS5 from '@/assets/floating-ps5.png';
-import floatingSmartphone from '@/assets/floating-smartphone.png';
-import floatingShipping from '@/assets/floating-shipping.png';
-import floatingDrone from '@/assets/floating-drone.png';
-import floatingMonitor from '@/assets/floating-monitor.png';
-import floatingEbike from '@/assets/floating-ebike.png';
 
 const Hero = () => {
   return (
@@ -69,43 +62,10 @@ const Hero = () => {
               </span>
             </h1>
             
-            {/* Floating Product Showcase */}
-            <div className="floating-products-container">
-              {/* Controller - Front Left */}
-              <div className="floating-product product-controller">
-                <img src={floatingController} alt="Gaming Controller" className="product-image" />
-              </div>
-              
-              {/* PS5 - Back Left */}
-              <div className="floating-product product-ps5">
-                <img src={floatingPS5} alt="PlayStation 5" className="product-image" />
-              </div>
-              
-              {/* Smartphone - Center */}
-              <div className="floating-product product-smartphone">
-                <img src={floatingSmartphone} alt="Smartphone" className="product-image" />
-              </div>
-              
-              {/* Shipping Globe - Center Back */}
-              <div className="floating-product product-shipping">
-                <img src={floatingShipping} alt="Global Shipping" className="product-image" />
-              </div>
-              
-              {/* Drone - Top Right */}
-              <div className="floating-product product-drone">
-                <img src={floatingDrone} alt="Drone" className="product-image" />
-              </div>
-              
-              {/* Monitor - Right */}
-              <div className="floating-product product-monitor">
-                <img src={floatingMonitor} alt="Smart Monitor" className="product-image" />
-              </div>
-              
-              {/* E-bike - Bottom Right */}
-              <div className="floating-product product-ebike">
-                <img src={floatingEbike} alt="Electric Bike" className="product-image" />
-              </div>
-            </div>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Your premier partner for cutting-edge technology distribution worldwide. 
+              From gaming consoles to smart devices, we bring innovation to your doorstep.
+            </p>
           </div>
 
           {/* CTA Buttons */}

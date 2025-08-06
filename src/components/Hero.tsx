@@ -54,8 +54,8 @@ const Hero = () => {
           {/* CONSOLTECH Promotional Image */}
           <div className="mb-8 md:mb-12">
             <img 
-              src="/lovable-uploads/c60c31c0-acf6-42e0-a669-56ef85d2405c.png" 
-              alt="CONSOLTECH - Global Import & Distribution of Electronics, Gaming & Innovation" 
+              src="/lovable-uploads/d6eea1ee-0b41-4dfb-b67f-e1a07a84c02d.png" 
+              alt="CONSOLTECH - Electronics, Gaming & Technology Distribution" 
               className="w-full max-w-4xl mx-auto h-auto rounded-lg shadow-2xl shadow-primary/20"
             />
           </div>

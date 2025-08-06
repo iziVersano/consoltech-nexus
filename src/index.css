@@ -488,7 +488,7 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
   }
 
   .product-smartphone {
-    @apply w-18 h-18 md:w-26 md:h-26 lg:w-30 lg:h-30;
+    @apply w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32;
     top: 30%;
     left: 50%;
     transform: translateX(-50%) translateZ(30px);
@@ -504,7 +504,7 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
   }
 
   .product-drone {
-    @apply w-16 h-16 md:w-22 md:h-22 lg:w-26 lg:h-26;
+    @apply w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28;
     top: 10%;
     right: 15%;
     transform: translateZ(40px) rotateY(20deg);
@@ -512,7 +512,7 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
   }
 
   .product-monitor {
-    @apply w-18 h-18 md:w-24 md:h-24 lg:w-28 lg:h-28;
+    @apply w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28;
     top: 35%;
     right: 5%;
     transform: translateZ(10px) rotateY(-5deg);
@@ -520,7 +520,7 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
   }
 
   .product-ebike {
-    @apply w-20 h-20 md:w-26 md:h-26 lg:w-30 lg:h-30;
+    @apply w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32;
     top: 65%;
     right: 12%;
     transform: translateZ(20px) rotateY(15deg);

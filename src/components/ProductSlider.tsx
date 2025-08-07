@@ -181,9 +181,9 @@ const ProductSlider = () => {
                       <span className="text-primary font-semibold">
                         {product.price}
                       </span>
-                      <Button variant="ghost" size="sm" className="text-accent hover:text-accent-foreground hover:bg-accent/20">
-                        Learn More
-                        <ArrowRight className="ml-1 h-4 w-4" />
+                      <Button className="btn-accent-small">
+                        <ArrowRight className="h-4 w-4" />
+                        <span>Learn More</span>
                       </Button>
                     </div>
                   </div>
@@ -207,8 +207,8 @@ const ProductSlider = () => {
         <div className="text-center mt-12">
           <Link to="/products">
             <Button className="btn-hero">
-              Explore All Products
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="h-5 w-5" />
+              <span>Explore All Products</span>
             </Button>
           </Link>
         </div>

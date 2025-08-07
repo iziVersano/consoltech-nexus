@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Send } from 'lucide-react';
 import playstationImg from '@/assets/playstation.jpg';
 import xboxImg from '@/assets/xbox.jpg';
 import droneImg from '@/assets/drone.jpg';
@@ -141,13 +141,9 @@ const FeaturedProducts = () => {
                       Starting Price
                     </span>
                   </div>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="text-accent hover:text-accent-foreground hover:bg-accent/20 font-semibold group/btn"
-                  >
-                    Explore
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                  <Button className="btn-accent-small group/btn">
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                    <span>Explore</span>
                   </Button>
                 </div>
               </div>
@@ -197,14 +193,15 @@ const FeaturedProducts = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link to="/products">
-              <Button className="btn-hero text-lg px-10 py-4">
-                Browse Catalog
-                <ArrowRight className="ml-2 h-5 w-5" />
+              <Button className="btn-hero">
+                <ArrowRight className="h-5 w-5" />
+                <span>Browse Catalog</span>
               </Button>
             </Link>
             <Link to="/contact">
-              <Button variant="outline" className="text-lg px-10 py-4 border-2 border-accent/30 hover:border-accent hover:bg-accent/10">
-                Contact Sales
+              <Button className="btn-neon">
+                <Send className="h-5 w-5" />
+                <span>Contact Sales</span>
               </Button>
             </Link>
           </div>

@@ -1,6 +1,6 @@
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Globe, Users, Award, Target } from 'lucide-react';
+import { ArrowRight, Globe, Users, Award, Target, Handshake, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const About = () => {
@@ -79,8 +79,8 @@ const About = () => {
               </div>
               <Link to="/contact">
                 <Button className="btn-hero">
-                  Partner With Us
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <Handshake className="h-5 w-5" />
+                  <span>Partner With Us</span>
                 </Button>
               </Link>
             </div>
@@ -191,13 +191,14 @@ const About = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact">
               <Button className="btn-hero">
-                Get Started Today
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="h-5 w-5" />
+                <span>Get Started Today</span>
               </Button>
             </Link>
             <Link to="/products">
               <Button className="btn-neon">
-                View Our Products
+                <Eye className="h-5 w-5" />
+                <span>View Our Products</span>
               </Button>
             </Link>
           </div>

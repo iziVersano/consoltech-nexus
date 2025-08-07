@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Filter, Search } from 'lucide-react';
+import { ArrowRight, Filter, Search, Phone, RotateCcw } from 'lucide-react';
 import playstationImg from '@/assets/playstation.jpg';
 import xboxImg from '@/assets/xbox.jpg';
 import droneImg from '@/assets/drone.jpg';
@@ -132,12 +132,11 @@ const Products = () => {
                 {categories.map((category) => (
                   <Button
                     key={category}
-                    variant={selectedCategory === category ? "default" : "outline"}
-                    size="sm"
                     onClick={() => setSelectedCategory(category)}
-                    className={selectedCategory === category ? "btn-neon" : ""}
+                    className={selectedCategory === category ? "btn-primary-small" : "btn-accent-small"}
                   >
-                    {category}
+                    <Filter className="h-3 w-3" />
+                    <span>{category}</span>
                   </Button>
                 ))}
               </div>
@@ -190,9 +189,9 @@ const Products = () => {
                     <span className="text-primary font-semibold">
                       {product.price}
                     </span>
-                    <Button variant="ghost" size="sm" className="text-accent hover:text-accent-foreground hover:bg-accent/20">
-                      Inquire Now
-                      <ArrowRight className="ml-1 h-4 w-4" />
+                    <Button className="btn-accent-small">
+                      <Phone className="h-4 w-4" />
+                      <span>Inquire Now</span>
                     </Button>
                   </div>
                 </div>
@@ -211,7 +210,8 @@ const Products = () => {
                 Try adjusting your search terms or category filter
               </p>
               <Button onClick={() => { setSearchTerm(''); setSelectedCategory('All'); }} className="btn-neon">
-                Clear Filters
+                <RotateCcw className="h-5 w-5" />
+                <span>Clear Filters</span>
               </Button>
             </div>
           )}
@@ -229,8 +229,8 @@ const Products = () => {
             and create tailored distribution solutions for your business.
           </p>
           <Button className="btn-hero">
-            Contact Our Specialists
-            <ArrowRight className="ml-2 h-5 w-5" />
+            <Phone className="h-5 w-5" />
+            <span>Contact Our Specialists</span>
           </Button>
         </div>
       </section>

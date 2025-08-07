@@ -176,8 +176,8 @@ const Contact = () => {
                 </div>
 
                 <Button type="submit" className="btn-hero w-full">
-                  Send Message
-                  <Send className="ml-2 h-5 w-5" />
+                  <Send className="h-5 w-5" />
+                  <span>Send Message</span>
                 </Button>
               </form>
             </div>

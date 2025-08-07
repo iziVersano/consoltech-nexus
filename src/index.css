@@ -147,12 +147,31 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
 }
 
 @layer components {
+
+  /* Enhanced Neon Button */
+  .btn-neon {
+    @apply bg-transparent border-2 border-neon text-neon px-6 py-3 font-medium transition-all duration-300 hover:bg-neon hover:text-background relative gap-2 inline-flex items-center justify-center;
+    box-shadow: var(--shadow-neon);
+    font-weight: 500;
+    border-radius: 0 !important;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.025em;
+    line-height: 1.4;
+  }
+
+  .btn-neon:hover {
+    box-shadow: var(--glow-accent);
+  }
+
   /* Enhanced Hero Button */
   .btn-hero {
-    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 relative overflow-hidden;
+    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground px-6 py-3 font-medium transition-all duration-300 hover:scale-105 relative overflow-hidden gap-2 inline-flex items-center justify-center;
     box-shadow: var(--shadow-primary);
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    border-radius: 0 !important;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.4;
   }
 
   .btn-hero::before {
@@ -168,14 +187,57 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
     box-shadow: var(--glow-primary);
   }
 
-  /* Enhanced Neon Button */
-  .btn-neon {
-    @apply bg-transparent border-2 border-neon text-neon px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:bg-neon hover:text-background relative;
-    box-shadow: var(--shadow-neon);
-    font-weight: 600;
+  /* Standard Button Variants for Small Buttons */
+  .btn-primary-small {
+    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 relative overflow-hidden gap-2 inline-flex items-center justify-center;
+    box-shadow: var(--shadow-primary);
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    border-radius: 0 !important;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.4;
   }
 
-  .btn-neon:hover {
+  .btn-primary-small::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] transition-transform duration-700;
+  }
+
+  .btn-primary-small:hover::before {
+    @apply translate-x-[100%];
+  }
+
+  .btn-primary-small:hover {
+    box-shadow: var(--glow-primary);
+  }
+
+  .btn-accent-small {
+    @apply bg-transparent border-2 border-accent text-accent px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-accent hover:text-background relative gap-2 inline-flex items-center justify-center;
+    box-shadow: 0 0 10px hsl(var(--accent) / 0.3);
+    font-weight: 500;
+    border-radius: 0 !important;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.025em;
+    line-height: 1.4;
+  }
+
+  .btn-accent-small:hover {
+    box-shadow: 0 0 20px hsl(var(--accent) / 0.4);
+  }
+
+  /* Navigation Button Variant */
+  .btn-nav {
+    @apply bg-gradient-to-r from-tech-blue via-electric to-cyber-purple text-white px-4 py-2 font-medium transition-all duration-300 hover:scale-105 relative gap-2 inline-flex items-center justify-center;
+    box-shadow: var(--shadow-neon);
+    font-weight: 500;
+    border-radius: 0 !important;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.025em;
+    line-height: 1.4;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+  }
+
+  .btn-nav:hover {
     box-shadow: var(--glow-accent);
   }
 

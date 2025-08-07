@@ -4,7 +4,7 @@ import Hero from '@/components/Hero';
 import ProductSlider from '@/components/ProductSlider';
 import PartnerBrands from '@/components/PartnerBrands';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Globe, Shield, Zap, HeartHandshake } from 'lucide-react';
+import { ArrowRight, Globe, Shield, Zap, HeartHandshake, UserPlus, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Index = () => {
@@ -78,13 +78,14 @@ const Index = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact">
               <Button className="btn-hero">
-                Start Partnership
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <UserPlus className="h-5 w-5" />
+                <span>Start Partnership</span>
               </Button>
             </Link>
             <Link to="/products">
               <Button className="btn-neon">
-                Browse Catalog
+                <Search className="h-5 w-5" />
+                <span>Browse Catalog</span>
               </Button>
             </Link>
           </div>

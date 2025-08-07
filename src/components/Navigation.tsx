@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
@@ -42,8 +42,9 @@ const Navigation = () => {
                 {item.name}
               </Link>
             ))}
-            <Button className="btn-neon">
-              Get Quote
+            <Button className="btn-nav">
+              <MessageSquare className="h-4 w-4" />
+              <span>Get Quote</span>
             </Button>
           </div>
 
@@ -79,8 +80,9 @@ const Navigation = () => {
                 </Link>
               ))}
               <div className="px-3 pt-2">
-                <Button className="btn-neon w-full">
-                  Get Quote
+                <Button className="btn-nav w-full">
+                  <MessageSquare className="h-4 w-4" />
+                  <span>Get Quote</span>
                 </Button>
               </div>
             </div>

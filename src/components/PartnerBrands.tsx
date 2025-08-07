@@ -28,7 +28,7 @@ const PartnerBrands = () => {
           {brands.map((brand, index) => (
             <div 
               key={brand.name} 
-              className="flex items-center justify-center p-10 bg-card/40 rounded-xl hover:bg-card/60 transition-all duration-300 group relative overflow-hidden border border-border/10"
+              className="flex items-center justify-center p-3 bg-card/40 rounded-xl hover:bg-card/60 transition-all duration-300 group relative overflow-hidden border border-border/10 aspect-square"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Hover glow effect */}
@@ -37,14 +37,14 @@ const PartnerBrands = () => {
               <img 
                 src={brand.logo} 
                 alt={brand.name}
-                className="h-16 w-auto transition-all duration-300 group-hover:scale-110 relative z-10"
+                className="w-full h-full object-contain transition-all duration-300 group-hover:scale-105 relative z-10"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
                   target.nextElementSibling!.textContent = brand.name;
                 }}
               />
-              <span className="text-muted-foreground font-medium hidden group-hover:block transition-all duration-300 absolute bottom-2 text-xs relative z-10">
+              <span className="text-muted-foreground font-medium hidden absolute inset-0 flex items-center justify-center text-sm relative z-10">
                 {brand.name}
               </span>
             </div>

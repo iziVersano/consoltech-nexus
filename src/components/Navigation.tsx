@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, MessageSquare } from 'lucide-react';
+import { Menu, X, MessageSquare, Gamepad2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
@@ -21,8 +21,12 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <span className="logo-text text-xl md:text-2xl">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative">
+              <Gamepad2 className="h-8 w-8 md:h-10 md:w-10 text-white group-hover:text-accent transition-colors duration-300" />
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
+            </div>
+            <span className="logo-text text-2xl md:text-3xl lg:text-4xl">
               <span className="logo-consol">CONSOL</span><span className="logo-tech">TECH</span>
             </span>
           </Link>

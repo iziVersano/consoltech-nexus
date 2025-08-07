@@ -24,20 +24,20 @@ const PartnerBrands = () => {
         </div>
 
         {/* Brand logos grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 items-center border border-border/20 rounded-2xl overflow-hidden">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-4 bg-card/20 rounded-2xl border border-border/20">
           {brands.map((brand, index) => (
             <div 
               key={brand.name} 
-              className="flex items-center justify-center p-8 bg-card/30 border-r border-b border-border/10 last:border-r-0 hover:bg-card/50 transition-all duration-300 group relative overflow-hidden"
+              className="flex items-center justify-center p-10 bg-card/40 rounded-xl hover:bg-card/60 transition-all duration-300 group relative overflow-hidden border border-border/10"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-electric/10 via-neon/10 to-cyber-purple/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-electric/10 via-neon/10 to-cyber-purple/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
               
               <img 
                 src={brand.logo} 
                 alt={brand.name}
-                className="h-12 w-auto transition-all duration-300 group-hover:scale-110 relative z-10"
+                className="h-16 w-auto transition-all duration-300 group-hover:scale-110 relative z-10"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';

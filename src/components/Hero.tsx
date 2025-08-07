@@ -81,15 +81,15 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0 justify-center items-center pt-8">
             <Link to="/products">
               <Button className="btn-hero-square group">
-                <Grid3X3 className="mb-2 h-6 w-6" />
-                Explore Products
+                <Grid3X3 className="h-5 w-5 md:h-6 md:w-6" />
+                <span>Explore Products</span>
               </Button>
             </Link>
             
             <Link to="/contact">
               <Button className="btn-neon-square group">
-                <Send className="mb-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
-                Contact Us
+                <Send className="h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:translate-x-1" />
+                <span>Contact Us</span>
               </Button>
             </Link>
           </div>

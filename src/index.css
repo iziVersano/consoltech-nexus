@@ -182,14 +182,15 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
   /* Square Button Variants */
   .btn-hero-square {
     @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground 
-           w-48 h-48 md:w-56 md:h-56 flex flex-col items-center justify-center text-center
-           font-semibold text-lg transition-all duration-300 hover:scale-105 relative overflow-hidden
-           border-2 border-primary/30 hover:border-primary/60;
+           w-48 h-48 md:w-56 md:h-56 flex flex-row items-center justify-center text-center
+           font-medium text-lg md:text-xl transition-all duration-300 hover:scale-105 relative overflow-hidden
+           border-2 border-primary/30 hover:border-primary/60 gap-3;
     box-shadow: var(--shadow-primary), 0 0 20px rgba(59, 130, 246, 0.3), inset 0 0 20px rgba(59, 130, 246, 0.1);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    border-radius: 0;
-    font-family: 'Orbitron', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    border-radius: 0 !important;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.4;
   }
 
   .btn-hero-square::before {
@@ -207,13 +208,15 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
 
   .btn-neon-square {
     @apply bg-gradient-to-r from-tech-blue via-electric to-cyber-purple text-white
-           w-48 h-48 md:w-56 md:h-56 flex flex-col items-center justify-center text-center
-           border-2 border-neon font-semibold text-lg transition-all duration-300 hover:scale-105 relative;
+           w-48 h-48 md:w-56 md:h-56 flex flex-row items-center justify-center text-center
+           border-2 border-neon font-medium text-lg md:text-xl transition-all duration-300 hover:scale-105 relative gap-3;
     box-shadow: var(--shadow-neon), 0 0 20px rgba(0, 255, 255, 0.4), inset 0 0 20px rgba(0, 255, 255, 0.1);
-    font-weight: 600;
-    border-radius: 0;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    font-family: 'Orbitron', sans-serif;
+    font-weight: 500;
+    border-radius: 0 !important;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.025em;
+    line-height: 1.4;
   }
 
   .btn-neon-square:hover {

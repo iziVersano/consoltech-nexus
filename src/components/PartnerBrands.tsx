@@ -24,24 +24,27 @@ const PartnerBrands = () => {
         </div>
 
         {/* Brand logos grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-8 items-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 items-center border border-border/20 rounded-2xl overflow-hidden">
           {brands.map((brand, index) => (
             <div 
               key={brand.name} 
-              className="flex items-center justify-center p-6 bg-card rounded-xl hover:bg-card/80 transition-all duration-300 hover:scale-105 group"
+              className="flex items-center justify-center p-8 bg-card/30 border-r border-b border-border/10 last:border-r-0 hover:bg-card/50 transition-all duration-300 group relative overflow-hidden"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
+              {/* Hover glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-electric/10 via-neon/10 to-cyber-purple/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
               <img 
                 src={brand.logo} 
                 alt={brand.name}
-                className="h-12 w-auto filter grayscale group-hover:grayscale-0 transition-all duration-300 opacity-60 group-hover:opacity-100"
+                className="h-12 w-auto transition-all duration-300 group-hover:scale-110 relative z-10"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
                   target.nextElementSibling!.textContent = brand.name;
                 }}
               />
-              <span className="text-muted-foreground font-medium hidden group-hover:block transition-all duration-300">
+              <span className="text-muted-foreground font-medium hidden group-hover:block transition-all duration-300 absolute bottom-2 text-xs relative z-10">
                 {brand.name}
               </span>
             </div>

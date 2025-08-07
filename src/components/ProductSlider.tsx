@@ -10,6 +10,7 @@ import xboxImg from '@/assets/xbox.jpg';
 import droneImg from '@/assets/drone.jpg';
 import ebikeImg from '@/assets/ebike.jpg';
 import smartTvImg from '@/assets/smart-tv.jpg';
+import { cn } from '@/lib/utils';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -160,7 +161,12 @@ const ProductSlider = () => {
                     <img 
                       src={product.image} 
                       alt={product.name}
-                      className="w-full h-48 sm:h-56 md:h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                      className={cn(
+                        "w-full h-48 sm:h-56 md:h-64 transition-transform duration-500",
+                        product.category === 'E-Bikes'
+                          ? "object-contain bg-muted p-4 group-hover:scale-105"
+                          : "object-cover group-hover:scale-110"
+                      )}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div className="absolute top-4 left-4">

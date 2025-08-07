@@ -52,12 +52,17 @@ const Hero = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="space-y-6 md:space-y-8">
           {/* CONSOLTECH Promotional Image */}
-          <div className="mb-8 md:mb-12">
+          <div className="relative mb-8 md:mb-12">
             <img 
               src="/lovable-uploads/hero-products-led.png" 
               alt="Gaming consoles, electronics, drones, smart TV and tech products showcase" 
               className="w-full max-w-4xl mx-auto h-auto rounded-lg shadow-2xl shadow-primary/20"
             />
+            {/* Subtle glows behind drone (top-right) and bicycle (bottom-left) */}
+            <div className="pointer-events-none absolute inset-0 z-10" aria-hidden="true">
+              <div className="absolute top-[18%] right-[12%] w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 rounded-full blur-3xl opacity-70 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--accent))/0.45_0%,transparent_60%)]"></div>
+              <div className="absolute bottom-[14%] left-[10%] w-44 h-44 md:w-60 md:h-60 lg:w-80 lg:h-80 rounded-full blur-3xl opacity-70 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--primary))/0.35_0%,transparent_65%)]"></div>
+            </div>
           </div>
           
           {/* Main Headline */}

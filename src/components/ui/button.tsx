@@ -18,6 +18,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        "mobile-menu": "bg-black/80 border-2 border-electric text-cyber-purple hover:bg-black/90 hover:border-electric hover:text-cyber-purple transition-all duration-300 rounded-full p-2",
       },
       size: {
         default: "h-10 px-4 py-2",

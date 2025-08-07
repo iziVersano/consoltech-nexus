@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play } from 'lucide-react';
+import { Grid3X3, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroImage from '@/assets/hero-tech.jpg';
 
@@ -78,17 +78,17 @@ const Hero = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 justify-center items-center pt-8">
+          <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0 justify-center items-center pt-8">
             <Link to="/products">
-              <Button className="btn-hero group">
+              <Button className="btn-hero-square group">
+                <Grid3X3 className="mb-2 h-6 w-6" />
                 Explore Products
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
             
             <Link to="/contact">
-              <Button className="btn-neon group">
-                <Play className="mr-2 h-5 w-5" />
+              <Button className="btn-neon-square group">
+                <Send className="mb-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
                 Contact Us
               </Button>
             </Link>

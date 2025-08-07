@@ -179,6 +179,48 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
     box-shadow: var(--glow-accent);
   }
 
+  /* Square Button Variants */
+  .btn-hero-square {
+    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground 
+           w-48 h-48 md:w-56 md:h-56 flex flex-col items-center justify-center text-center
+           font-semibold text-lg transition-all duration-300 hover:scale-105 relative overflow-hidden
+           border-2 border-primary/30 hover:border-primary/60;
+    box-shadow: var(--shadow-primary), 0 0 20px rgba(59, 130, 246, 0.3), inset 0 0 20px rgba(59, 130, 246, 0.1);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    border-radius: 0;
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  .btn-hero-square::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] transition-transform duration-700;
+  }
+
+  .btn-hero-square:hover::before {
+    @apply translate-x-[100%];
+  }
+
+  .btn-hero-square:hover {
+    box-shadow: var(--glow-primary), 0 0 30px rgba(59, 130, 246, 0.5);
+  }
+
+  .btn-neon-square {
+    @apply bg-gradient-to-r from-tech-blue via-electric to-cyber-purple text-white
+           w-48 h-48 md:w-56 md:h-56 flex flex-col items-center justify-center text-center
+           border-2 border-neon font-semibold text-lg transition-all duration-300 hover:scale-105 relative;
+    box-shadow: var(--shadow-neon), 0 0 20px rgba(0, 255, 255, 0.4), inset 0 0 20px rgba(0, 255, 255, 0.1);
+    font-weight: 600;
+    border-radius: 0;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  .btn-neon-square:hover {
+    box-shadow: var(--glow-accent), 0 0 30px rgba(0, 255, 255, 0.6);
+    border-color: rgba(0, 255, 255, 0.8);
+  }
+
   /* Enhanced Product Card */
   .product-card {
     @apply bg-card/90 backdrop-blur-sm rounded-2xl p-6 transition-all duration-500 hover:scale-105 relative overflow-hidden;

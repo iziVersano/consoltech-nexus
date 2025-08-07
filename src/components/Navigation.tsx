@@ -60,7 +60,7 @@ const Navigation = () => {
               onClick={() => setIsOpen(!isOpen)}
               className="text-foreground hover:text-accent"
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              <Menu size={24} />
             </Button>
           </div>
         </div>

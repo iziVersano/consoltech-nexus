@@ -60,8 +60,12 @@ const Hero = () => {
             />
             {/* Subtle glows behind drone (top-right) and bicycle (bottom-left) */}
             <div className="pointer-events-none absolute inset-0 z-10" aria-hidden="true">
-              <div className="absolute top-[18%] right-[12%] w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 rounded-full blur-3xl opacity-70 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--accent))/0.45_0%,transparent_60%)]"></div>
-              <div className="absolute bottom-[14%] left-[10%] w-44 h-44 md:w-60 md:h-60 lg:w-80 lg:h-80 rounded-full blur-3xl opacity-70 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--primary))/0.35_0%,transparent_65%)]"></div>
+              {/* Drone glow */}
+              <div className="absolute top-[18%] right-[12%] w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 rounded-full blur-3xl opacity-80 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--accent))/0.55_0%,transparent_65%)]"></div>
+              <div className="absolute top-[16.5%] right-[11%] w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full blur-xl opacity-80 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--accent))/0.7_0%,transparent_70%)]"></div>
+              {/* Bicycle glow */}
+              <div className="absolute bottom-[14%] left-[10%] w-44 h-44 md:w-60 md:h-60 lg:w-80 lg:h-80 rounded-full blur-3xl opacity-80 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--primary))/0.5_0%,transparent_70%)]"></div>
+              <div className="absolute bottom-[16%] left-[12%] w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full blur-xl opacity-80 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--primary))/0.65_0%,transparent_75%)]"></div>
             </div>
           </div>
           

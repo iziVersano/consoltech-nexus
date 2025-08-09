@@ -48,7 +48,7 @@ const Products = () => {
       name: 'Smart E-Bikes',
       category: 'E-Bikes',
       description: 'Electric bikes with smart connectivity, long-range batteries, and advanced motor systems for urban mobility.',
-      image: '/lovable-uploads/85e8fc01-5d68-4434-9ead-000b164ba330.png',
+      image: '/lovable-uploads/7961e89d-383a-4f7d-81a5-e3b2a71a2958.png',
       features: ['80km Range', 'Smart App', 'Fast Charging', 'GPS Tracking'],
       price: 'Contact for pricing'
     },

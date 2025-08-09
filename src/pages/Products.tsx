@@ -5,7 +5,7 @@ import { ArrowRight, Filter, Search, Phone, RotateCcw } from 'lucide-react';
 import playstationImg from '@/assets/playstation.jpg';
 import xboxImg from '@/assets/xbox.jpg';
 import droneImg from '@/assets/drone.jpg';
-import ebikeImg from '@/assets/ebike.jpg';
+
 import smartTvImg from '@/assets/smart-tv.jpg';
 import { cn } from '@/lib/utils';
 
@@ -48,7 +48,7 @@ const Products = () => {
       name: 'Smart E-Bikes',
       category: 'E-Bikes',
       description: 'Electric bikes with smart connectivity, long-range batteries, and advanced motor systems for urban mobility.',
-      image: ebikeImg,
+      image: '/lovable-uploads/85e8fc01-5d68-4434-9ead-000b164ba330.png',
       features: ['80km Range', 'Smart App', 'Fast Charging', 'GPS Tracking'],
       price: 'Contact for pricing'
     },

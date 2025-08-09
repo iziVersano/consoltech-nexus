@@ -44,8 +44,10 @@ const About = () => {
         </header>
 
         <section className="max-w-3xl mx-auto space-y-3 text-base leading-6 text-muted-foreground">
-          <p>Founded in 2001 and headquartered in Tel Aviv, Israel.</p>
-          <p>Consoltech is a trusted importer, exporter, and distributor of:</p>
+          <div className="space-y-0">
+            <p>Founded in 2001 and headquartered in Tel Aviv, Israel.</p>
+            <p>Consoltech is a trusted importer, exporter, and distributor of:</p>
+          </div>
           <ul className="list-disc pl-6 space-y-1">
             <li>Consumer electronics &amp; IT products</li>
             <li>Gaming consoles &amp; accessories</li>
@@ -79,12 +81,13 @@ const About = () => {
             <li>Asia (Hong Kong, China, Singapore, Korea)</li>
           </ul>
 
-          <p>Our supply chain is designed for speed and flexibility.</p>
-          <p>We meet the evolving needs of the electronics and gaming industries.</p>
-
-          <p>At Consoltech, we are expanding our network.</p>
-          <p>We welcome serious suppliers and buyers.</p>
-          <p>We focus on long-term, mutually beneficial cooperation.</p>
+          <div className="space-y-0">
+            <p>Our supply chain is designed for speed and flexibility.</p>
+            <p>We meet the evolving needs of the electronics and gaming industries.</p>
+            <p>At Consoltech, we are expanding our network.</p>
+            <p>We welcome serious suppliers and buyers.</p>
+            <p>We focus on long-term, mutually beneficial cooperation.</p>
+          </div>
         </section>
 
         <section className="max-w-4xl mx-auto mt-12" aria-labelledby="connect-heading">

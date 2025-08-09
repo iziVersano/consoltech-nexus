@@ -48,7 +48,7 @@ const Products = () => {
       name: 'Smart E-Bikes',
       category: 'E-Bikes',
       description: 'Electric bikes with smart connectivity, long-range batteries, and advanced motor systems for urban mobility.',
-      image: '/lovable-uploads/85e8fc01-5d68-4434-9ead-000b164ba330.png',
+      image: '/lovable-uploads/1d54363f-71e3-400c-b828-1fab1e31907d.png',
       features: ['80km Range', 'Smart App', 'Fast Charging', 'GPS Tracking'],
       price: 'Contact for pricing'
     },
@@ -157,10 +157,7 @@ const Products = () => {
                     src={product.image} 
                     alt={product.name}
                     className={cn(
-                      "w-full h-48 transition-transform duration-500",
-                      product.category === 'E-Bikes'
-                        ? "object-contain bg-muted p-4 group-hover:scale-105"
-                        : "object-cover group-hover:scale-110"
+                      "w-full h-48 transition-transform duration-500 object-cover group-hover:scale-110"
                     )}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

@@ -1,5 +1,6 @@
 import Navigation from '@/components/Navigation';
 import { Helmet } from 'react-helmet-async';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const About = () => {
   const canonicalUrl = typeof window !== 'undefined' ? `${window.location.origin}/about` : '/about';
@@ -37,7 +38,7 @@ const About = () => {
         </script>
       </Helmet>
 
-      <main className="px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+      <main className="container px-4 md:px-6 pt-24 pb-16">
         <header className="max-w-4xl mx-auto text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold">About Consoltech</h1>
           <p className="text-lg text-muted-foreground mt-4">
@@ -45,7 +46,7 @@ const About = () => {
           </p>
         </header>
 
-        <section className="max-w-4xl mx-auto space-y-6">
+        <section className="max-w-3xl mx-auto space-y-6 text-base leading-7 text-muted-foreground">
           <p>
             Established in 2001 and headquartered in Tel Aviv, Israel, Consoltech is a leading importer, exporter, and
             distributor of consumer electronics, IT products, gaming consoles and accessories, electric bikes, branded
@@ -80,29 +81,31 @@ const About = () => {
             If you are a manufacturer, distributor, or wholesaler interested in doing business, please feel free to reach
             out with your company profile and updated price lists.
           </p>
-          <article className="product-card p-6">
-            <h3 className="sr-only">Contact Information</h3>
-            <address className="not-italic space-y-2">
-              <p>📍 Address: 47 Moshe Sneh St., Tel Aviv 6930243, Israel</p>
-              <p>
-                📞 Mobile / WhatsApp:{' '}
-                <a href="tel:+972522768607" className="underline">
-                  +972-52-2768607
-                </a>
+          <Card className="max-w-3xl mx-auto">
+            <CardHeader>
+              <CardTitle>Contact Information</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-3">
+                <li>
+                  <span className="font-medium">Address:</span> 47 Moshe Sneh St., Tel Aviv 6930243, Israel
+                </li>
+                <li>
+                  <span className="font-medium">Mobile / WhatsApp:</span> <a href="tel:+972522768607" className="underline">+972-52-2768607</a>
+                </li>
+                <li>
+                  <span className="font-medium">Email:</span> <a href="mailto:sales@gamestation.co.il" className="underline">sales@gamestation.co.il</a>
+                </li>
+                <li>
+                  <span className="font-medium">VAT Registration Number:</span> 032398497
+                </li>
+              </ul>
+              <p className="mt-6 text-muted-foreground">
+                We look forward to doing business with you!
+                <br />– Rotem Sharon, Import Manager &amp; Business Development
               </p>
-              <p>
-                📧 Email:{' '}
-                <a href="mailto:sales@gamestation.co.il" className="underline">
-                  sales@gamestation.co.il
-                </a>
-              </p>
-              <p>📄 VAT Registration Number: 032398497</p>
-            </address>
-            <p className="mt-6 text-muted-foreground">
-              We look forward to doing business with you!
-              <br />– Rotem Sharon, Import Manager &amp; Business Development
-            </p>
-          </article>
+            </CardContent>
+          </Card>
         </section>
       </main>
     </div>

@@ -55,9 +55,11 @@ const About = () => {
             <li>Gadgets &amp; tech innovations</li>
           </ul>
 
-          <p>We have over 20 years of experience.</p>
-          <p>We proudly serve a wide range of global markets.</p>
-          <p>Our main focus is the Middle East.</p>
+          <div className="space-y-0">
+            <p>We have over 20 years of experience.</p>
+            <p>We proudly serve a wide range of global markets.</p>
+            <p>Our main focus is the Middle East.</p>
+          </div>
 
           <p>We deliver innovative and high-demand products to:</p>
           <ul className="list-disc pl-6 space-y-1">

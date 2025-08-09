@@ -41,45 +41,50 @@ const About = () => {
       <main className="container px-4 md:px-6 pt-24 pb-16">
         <header className="max-w-4xl mx-auto text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold">About Consoltech</h1>
-          <p className="text-lg text-muted-foreground mt-4">
-            Welcome to Consoltech – Global Import & Distribution Experts in Consumer Electronics and Gaming
-          </p>
         </header>
 
         <section className="max-w-3xl mx-auto space-y-6 text-base leading-7 text-muted-foreground">
-          <p>
-            Founded in 2001 and headquartered in Tel Aviv, Israel, Consoltech is a trusted importer, exporter, and distributor of:
-          </p>
+          <p>Founded in 2001 and headquartered in Tel Aviv, Israel.</p>
+          <p>Consoltech is a trusted importer, exporter, and distributor of:</p>
           <ul className="list-disc pl-6 space-y-2">
             <li>Consumer electronics &amp; IT products</li>
             <li>Gaming consoles &amp; accessories</li>
             <li>Electric bikes &amp; branded toys</li>
             <li>Gadgets &amp; tech innovations</li>
           </ul>
-          <p>
-            With over 20 years of experience, we serve a wide range of global markets, with a strong focus on the Middle East. Our mission is to deliver innovative, high-demand products to retailers, resellers, and wholesale clients.
-          </p>
-          <p>
-            As a VIP+ member on <a href="https://www.handelot.com" target="_blank" rel="noopener noreferrer" className="underline">Handelot</a>, we maintain strong global partnerships and are recognized for:
-          </p>
+
+          <p>We have over 20 years of experience.</p>
+          <p>We proudly serve a wide range of global markets.</p>
+          <p>Our main focus is the Middle East.</p>
+
+          <p>We deliver innovative and high-demand products to:</p>
           <ul className="list-disc pl-6 space-y-2">
-            <li>Reliability</li>
-            <li>Transparency</li>
-            <li>Efficient logistics</li>
+            <li>Retailers</li>
+            <li>Resellers</li>
+            <li>Wholesale clients</li>
           </ul>
-          <p>We source and distribute from major regions worldwide, including:</p>
+
+          <p>As a VIP+ member on Handelot, we:</p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Maintain strong global partnerships</li>
+            <li>Uphold reliability and transparency</li>
+            <li>Ensure efficient logistics</li>
+          </ul>
+
+          <p>We source and distribute from major regions:</p>
           <ul className="list-disc pl-6 space-y-2">
             <li>Europe</li>
             <li>United States</li>
             <li>Middle East</li>
             <li>Asia (Hong Kong, China, Singapore, Korea)</li>
           </ul>
-          <p>
-            Our fast and flexible supply chain ensures we meet the evolving needs of the electronics and gaming industries.
-          </p>
-          <p>
-            At Consoltech, we’re always looking to expand our network and welcome serious suppliers and buyers interested in long-term, mutually beneficial cooperation.
-          </p>
+
+          <p>Our supply chain is designed for speed and flexibility.</p>
+          <p>We meet the evolving needs of the electronics and gaming industries.</p>
+
+          <p>At Consoltech, we are expanding our network.</p>
+          <p>We welcome serious suppliers and buyers.</p>
+          <p>We focus on long-term, mutually beneficial cooperation.</p>
         </section>
 
         <section className="max-w-4xl mx-auto mt-12" aria-labelledby="connect-heading">

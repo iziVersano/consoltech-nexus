@@ -43,10 +43,10 @@ const About = () => {
           <h1 className="text-4xl md:text-5xl font-bold">About Consoltech</h1>
         </header>
 
-        <section className="max-w-3xl mx-auto space-y-6 text-base leading-7 text-muted-foreground">
+        <section className="max-w-3xl mx-auto space-y-3 text-base leading-6 text-muted-foreground">
           <p>Founded in 2001 and headquartered in Tel Aviv, Israel.</p>
           <p>Consoltech is a trusted importer, exporter, and distributor of:</p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc pl-6 space-y-1">
             <li>Consumer electronics &amp; IT products</li>
             <li>Gaming consoles &amp; accessories</li>
             <li>Electric bikes &amp; branded toys</li>
@@ -58,21 +58,21 @@ const About = () => {
           <p>Our main focus is the Middle East.</p>
 
           <p>We deliver innovative and high-demand products to:</p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc pl-6 space-y-1">
             <li>Retailers</li>
             <li>Resellers</li>
             <li>Wholesale clients</li>
           </ul>
 
           <p>As a VIP+ member on Handelot, we:</p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc pl-6 space-y-1">
             <li>Maintain strong global partnerships</li>
             <li>Uphold reliability and transparency</li>
             <li>Ensure efficient logistics</li>
           </ul>
 
           <p>We source and distribute from major regions:</p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc pl-6 space-y-1">
             <li>Europe</li>
             <li>United States</li>
             <li>Middle East</li>

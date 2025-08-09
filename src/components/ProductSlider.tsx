@@ -77,7 +77,7 @@ const ProductSlider = () => {
       name: 'Smart E-Bikes',
       category: 'E-Bikes',
       description: 'Electric bikes with smart connectivity and long-range batteries',
-      image: '/lovable-uploads/7961e89d-383a-4f7d-81a5-e3b2a71a2958.png',
+      image: '/lovable-uploads/85e8fc01-5d68-4434-9ead-000b164ba330.png',
       price: 'Contact for pricing'
     },
     {

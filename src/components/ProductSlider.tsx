@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import playstationImg from '@/assets/playstation.jpg';
 import xboxImg from '@/assets/xbox.jpg';
 import droneImg from '@/assets/drone.jpg';
-import ebikeImg from '@/assets/ebike.jpg';
+
 import smartTvImg from '@/assets/smart-tv.jpg';
 import { cn } from '@/lib/utils';
 
@@ -77,7 +77,7 @@ const ProductSlider = () => {
       name: 'Smart E-Bikes',
       category: 'E-Bikes',
       description: 'Electric bikes with smart connectivity and long-range batteries',
-      image: ebikeImg,
+      image: '/lovable-uploads/7961e89d-383a-4f7d-81a5-e3b2a71a2958.png',
       price: 'Contact for pricing'
     },
     {

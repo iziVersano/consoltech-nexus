@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import playstationImg from '@/assets/playstation5-console-rotated.jpg';
+const playstationImg = '/lovable-uploads/5d9ed11e-a595-47de-a39d-1db2995c515b.png';
 import xboxImg from '@/assets/xbox.jpg';
 import droneImg from '@/assets/drone.jpg';
 

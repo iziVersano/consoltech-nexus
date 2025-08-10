@@ -6,7 +6,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 const playstationImg = '/lovable-uploads/bd80e124-a5e2-4d34-9c82-ebc0dbd6a697.png';
-import xboxImg from '@/assets/xbox.jpg';
+const xboxImg = '/lovable-uploads/78a95f48-606e-44b6-950e-af0555a3f04f.png';
 import droneImg from '@/assets/drone.jpg';
 
 import smartTvImg from '@/assets/smart-tv.jpg';

@@ -133,7 +133,7 @@ const Index = () => {
               <div className="space-y-2 text-muted-foreground">
                 <p>info@consoltech.com</p>
                 <p>+1 (555) 123-4567</p>
-                <p>Global offices in NY, London, Singapore</p>
+                <p>Office in Tel Aviv, Israel</p>
               </div>
             </div>
           </div>

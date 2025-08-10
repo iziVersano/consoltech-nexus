@@ -43,8 +43,8 @@ const Contact = () => {
     {
       icon: MapPin,
       title: 'Visit Us',
-      details: ['New York, USA', 'London, UK', 'Singapore'],
-      description: 'Multiple offices worldwide'
+      details: ['Tel Aviv, Israel'],
+      description: 'Headquarters in Tel Aviv, Israel'
     },
     {
       icon: Clock,
@@ -56,25 +56,11 @@ const Contact = () => {
 
   const offices = [
     {
-      city: 'New York',
-      country: 'USA',
-      address: '123 Tech Avenue, NY 10001',
-      phone: '+1 (555) 123-4567',
-      email: 'usa@consoltech.com'
-    },
-    {
-      city: 'London',
-      country: 'UK',
-      address: '456 Innovation Street, London SW1A 1AA',
-      phone: '+44 20 7123 4567',
-      email: 'uk@consoltech.com'
-    },
-    {
-      city: 'Singapore',
-      country: 'Singapore',
-      address: '789 Digital Hub, Singapore 018989',
-      phone: '+65 6123 4567',
-      email: 'asia@consoltech.com'
+      city: 'Tel Aviv',
+      country: 'Israel',
+      address: '47 Moshe Sneh St., Tel Aviv 6930243',
+      phone: '+972-52-2768607',
+      email: 'sales@gamestation.co.il'
     }
   ];
 
@@ -220,7 +206,7 @@ const Contact = () => {
               Our <span className="gradient-text">Global Offices</span>
             </h2>
             <p className="text-xl text-muted-foreground">
-              With presence across multiple continents, we're always close to our clients
+              Headquartered in Tel Aviv, Israel.
             </p>
           </div>
 

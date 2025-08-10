@@ -64,6 +64,8 @@ const Contact = () => {
     }
   ];
 
+  const isSingleOffice = offices.length === 1;
+
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -210,7 +212,7 @@ const Contact = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className={`grid gap-8 grid-cols-1 ${isSingleOffice ? 'md:grid-cols-1 md:max-w-md md:mx-auto' : 'md:grid-cols-3'}`}>
             {offices.map((office, index) => (
               <div key={index} className="product-card text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center mx-auto mb-4">

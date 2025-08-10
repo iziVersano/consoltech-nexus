@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Filter, Search, Phone, RotateCcw } from 'lucide-react';
 const playstationImg = '/lovable-uploads/bd80e124-a5e2-4d34-9c82-ebc0dbd6a697.png';
 const xboxImg = '/lovable-uploads/78a95f48-606e-44b6-950e-af0555a3f04f.png';
-import droneImg from '@/assets/drone.jpg';
+const droneImg = '/lovable-uploads/836c9883-89c7-4fcc-af11-cd99469fda9b.png';
 
 import smartTvImg from '@/assets/smart-tv.jpg';
 import { cn } from '@/lib/utils';

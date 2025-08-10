@@ -1,13 +1,13 @@
 const PartnerBrands = () => {
   const brands = [
-    { name: 'Microsoft', logo: 'https://logo.clearbit.com/microsoft.com' },
-    { name: 'Xbox', logo: 'https://logo.clearbit.com/xbox.com' },
-    { name: 'PlayStation', logo: 'https://logo.clearbit.com/playstation.com' },
-    { name: 'Samsung', logo: 'https://logo.clearbit.com/samsung.com' },
-    { name: 'LG', logo: 'https://logo.clearbit.com/lg.com' },
-    { name: 'TCL', logo: 'https://logo.clearbit.com/tcl.com' },
-    { name: 'Apple', logo: 'https://logo.clearbit.com/apple.com' },
-    { name: 'Sony', logo: 'https://logo.clearbit.com/sony.com' }
+    'microsoft',
+    'xbox',
+    'playstation',
+    'samsung',
+    'lg',
+    'tcl',
+    'apple',
+    'sony',
   ];
 
   return (
@@ -25,30 +25,37 @@ const PartnerBrands = () => {
 
         {/* Brand logos grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-4 bg-card/20 rounded-2xl border border-border/20">
-          {brands.map((brand, index) => (
-            <div 
-              key={brand.name} 
-              className="flex items-center justify-center p-3 bg-card/40 rounded-xl hover:bg-card/60 transition-all duration-300 group relative overflow-hidden border border-border/10 aspect-square"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-electric/10 via-neon/10 to-cyber-purple/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
-              
-              <img 
-                src={brand.logo} 
-                alt={brand.name}
-                className="w-full h-full object-contain transition-all duration-300 group-hover:scale-105 relative z-10"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                  target.nextElementSibling!.textContent = brand.name;
-                }}
-              />
-              <span className="text-muted-foreground font-medium hidden absolute inset-0 flex items-center justify-center text-sm relative z-10">
-                {brand.name}
-              </span>
-            </div>
-          ))}
+          {brands.map((name, index) => {
+            const label = name.charAt(0).toUpperCase() + name.slice(1);
+            return (
+              <div 
+                key={name} 
+                className="grid place-items-center p-3 bg-card/40 rounded-xl hover:bg-card/60 transition-all duration-300 group relative overflow-hidden border border-border/10 aspect-square"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-electric/10 via-neon/10 to-cyber-purple/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+                
+                <img 
+                  src={`/brands/${name}.svg`} 
+                  alt={label}
+                  loading="lazy"
+                  className="w-4/5 h-4/5 object-contain transition-all duration-300 group-hover:scale-105 relative z-10"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    if (target.nextElementSibling) {
+                      target.nextElementSibling.textContent = label;
+                      (target.nextElementSibling as HTMLElement).classList.remove('hidden');
+                    }
+                  }}
+                />
+                <span className="text-muted-foreground font-medium hidden absolute inset-0 flex items-center justify-center text-sm relative z-10">
+                  {label}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
         {/* Partnership CTA */}

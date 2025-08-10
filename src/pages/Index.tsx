@@ -39,9 +39,9 @@ const Index = () => {
       <PartnerBrands />
       
       {/* Why Choose Us Section */}
-      <section className="py-20">
+      <section className="py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 md:mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Why Choose <span className="gradient-text">CONSOLTECH</span>?
             </h2>
@@ -66,12 +66,12 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary/10 to-accent/10">
+      <section className="py-12 md:py-20 bg-gradient-to-r from-primary/10 to-accent/10">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Ready to <span className="gradient-text">Transform</span> Your Business?
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-xl text-muted-foreground mb-6 md:mb-8">
             Join thousands of successful businesses worldwide who trust CONSOLTECH 
             for their technology distribution needs.
           </p>

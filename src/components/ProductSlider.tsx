@@ -91,10 +91,10 @@ const ProductSlider = () => {
   ];
 
   return (
-    <section className="py-20 relative">
+    <section className="py-12 md:py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="gradient-text">Featured Products</span>
           </h2>
@@ -208,7 +208,7 @@ const ProductSlider = () => {
         </motion.div>
 
         {/* CTA Section */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-8 md:mt-12">
           <Link to="/products">
             <Button className="btn-hero">
               <ArrowRight className="h-5 w-5" />

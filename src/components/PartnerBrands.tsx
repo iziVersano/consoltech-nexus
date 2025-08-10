@@ -11,9 +11,9 @@ const PartnerBrands = () => {
   ];
 
   return (
-    <section className="py-20 bg-card/30">
+    <section className="py-10 md:py-16 bg-card/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Trusted by <span className="gradient-text">Global Brands</span>
           </h2>
@@ -24,7 +24,7 @@ const PartnerBrands = () => {
         </div>
 
         {/* Brand logos grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-4 bg-card/20 rounded-2xl border border-border/20">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 sm:gap-4 p-2 sm:p-4 bg-card/20 rounded-2xl border border-border/20">
           {brands.map((name, index) => {
             const label = name.charAt(0).toUpperCase() + name.slice(1);
             return (
@@ -59,7 +59,7 @@ const PartnerBrands = () => {
         </div>
 
         {/* Partnership CTA */}
-        <div className="text-center mt-16">
+        <div className="text-center mt-8 md:mt-12">
           <div className="inline-flex items-center space-x-2 text-muted-foreground">
             <div className="flex -space-x-2">
               {[1, 2, 3].map((i) => (

@@ -30,7 +30,7 @@ const PartnerBrands = () => {
             return (
               <div 
                 key={name} 
-                className="grid place-items-center p-3 bg-card/40 rounded-xl hover:bg-card/60 transition-all duration-300 group relative overflow-hidden border border-border/10 aspect-square"
+                className="brand-card grid place-items-center p-3 rounded-xl transition-all duration-300 group relative overflow-hidden border border-border/10"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Hover glow effect */}

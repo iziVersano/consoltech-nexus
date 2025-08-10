@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Filter, Search, Phone, RotateCcw } from 'lucide-react';
-const playstationImg = '/lovable-uploads/5d9ed11e-a595-47de-a39d-1db2995c515b.png';
+const playstationImg = '/lovable-uploads/f0f7a682-c411-4de0-876f-a7534993905c.png';
 import xboxImg from '@/assets/xbox.jpg';
 import droneImg from '@/assets/drone.jpg';
 

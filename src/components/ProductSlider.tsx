@@ -9,7 +9,7 @@ const playstationImg = '/lovable-uploads/bd80e124-a5e2-4d34-9c82-ebc0dbd6a697.pn
 const xboxImg = '/lovable-uploads/78a95f48-606e-44b6-950e-af0555a3f04f.png';
 const droneImg = '/lovable-uploads/07ba8bc0-8d14-4d62-a534-659913ac5f99.png';
 
-import smartTvImg from '@/assets/smart-tv.jpg';
+const smartTvImg = '/lovable-uploads/6df37998-af04-426e-b749-365ffeb66787.png';
 import { cn } from '@/lib/utils';
 
 // Import Swiper styles

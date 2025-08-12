@@ -95,7 +95,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="py-16 bg-card border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
@@ -109,24 +109,7 @@ const Index = () => {
               </p>
             </div>
             
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-              <div className="space-y-2">
-                <Link to="/about" className="block text-muted-foreground hover:text-accent transition-colors">About Us</Link>
-                <Link to="/products" className="block text-muted-foreground hover:text-accent transition-colors">Products</Link>
-                <Link to="/contact" className="block text-muted-foreground hover:text-accent transition-colors">Contact</Link>
-              </div>
-            </div>
             
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Categories</h3>
-              <div className="space-y-2">
-                <span className="block text-muted-foreground">Gaming Consoles</span>
-                <span className="block text-muted-foreground">Smart Electronics</span>
-                <span className="block text-muted-foreground">Drones & Tech</span>
-                <span className="block text-muted-foreground">E-Mobility</span>
-              </div>
-            </div>
             
               <div>
                 <h3 className="text-lg font-semibold mb-4">Contact</h3>

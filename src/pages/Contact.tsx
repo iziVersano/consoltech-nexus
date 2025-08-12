@@ -228,7 +228,7 @@ const Contact = () => {
       </section>
 
       {/* Global Offices */}
-      <section className="pt-8 pb-4 md:py-16 bg-card/30">
+      <section className="pt-6 pb-0 md:py-16 bg-card/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -271,7 +271,7 @@ const Contact = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="pt-2 pb-12 md:py-16">
+      <section className="pt-0 pb-12 md:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">

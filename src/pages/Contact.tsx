@@ -37,13 +37,13 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Call Us',
-      details: ['+1 (555) 123-4567', '+44 20 7123 4567'],
+      details: ['+972-52-2768607 (Mobile / WhatsApp)'],
       description: '24/7 support for urgent matters'
     },
     {
       icon: MapPin,
       title: 'Visit Us',
-      details: ['Tel Aviv, Israel'],
+      details: ['47 Moshe Sneh St., Tel Aviv 6930243, Israel'],
       description: 'Headquarters in Tel Aviv, Israel'
     },
     {
@@ -184,9 +184,36 @@ const Contact = () => {
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
                           <div className="space-y-1">
-                            {info.details.map((detail, idx) => (
-                              <p key={idx} className="text-accent font-medium">{detail}</p>
-                            ))}
+                            {info.details.map((detail, idx) => {
+                              if (info.title === 'Call Us') {
+                                return (
+                                  <a
+                                    key={idx}
+                                    href={`tel:+972522768607`}
+                                    className="text-accent font-medium underline"
+                                  >
+                                    {detail}
+                                  </a>
+                                );
+                              }
+                              if (info.title === 'Visit Us') {
+                                const mapsQuery = encodeURIComponent(detail);
+                                return (
+                                  <a
+                                    key={idx}
+                                    href={`https://www.google.com/maps?q=${mapsQuery}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-accent font-medium underline"
+                                  >
+                                    {detail}
+                                  </a>
+                                );
+                              }
+                              return (
+                                <p key={idx} className="text-accent font-medium">{detail}</p>
+                              );
+                            })}
                           </div>
                           <p className="text-muted-foreground text-sm mt-2">{info.description}</p>
                         </div>
@@ -220,11 +247,23 @@ const Contact = () => {
                 </div>
                 <h3 className="text-xl font-bold mb-2">{office.city}</h3>
                 <p className="text-accent font-medium mb-4">{office.country}</p>
-                <div className="space-y-2 text-sm text-muted-foreground">
-                  <p>{office.address}</p>
-                  <p className="text-foreground font-medium">{office.phone}</p>
-                  <p className="text-accent">{office.email}</p>
-                </div>
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <a
+                      href={`https://www.google.com/maps?q=${encodeURIComponent(`${office.address}, ${office.country}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent underline"
+                    >
+                      {office.address}
+                    </a>
+                    <a
+                      href={`tel:${office.phone.replace(/[^+\d]/g, '')}`}
+                      className="text-foreground font-medium underline"
+                    >
+                      {office.phone}
+                    </a>
+                    <p className="text-accent">{office.email}</p>
+                  </div>
               </div>
             ))}
           </div>

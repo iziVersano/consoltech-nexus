@@ -71,9 +71,9 @@ const Contact = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-12">
+      <section className="pt-24 pb-8 md:pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 md:mb-16">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               Get In <span className="gradient-text">Touch</span>
             </h1>
@@ -86,7 +86,7 @@ const Contact = () => {
       </section>
 
       {/* Contact Form & Info */}
-      <section className="pb-16">
+      <section className="pb-10 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
@@ -228,7 +228,7 @@ const Contact = () => {
       </section>
 
       {/* Global Offices */}
-      <section className="py-16 bg-card/30">
+      <section className="pt-10 pb-16 md:py-16 bg-card/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">

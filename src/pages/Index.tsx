@@ -39,7 +39,7 @@ const Index = () => {
       <PartnerBrands />
       
       {/* Why Choose Us Section */}
-      <section className="py-12 md:py-20">
+      <section className="pt-4 md:pt-6 pb-12 md:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">

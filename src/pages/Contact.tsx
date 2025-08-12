@@ -71,9 +71,9 @@ const Contact = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-8 md:pb-12">
+      <section className="pt-24 pb-2 md:pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-16">
+          <div className="text-center mb-4 md:mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               Get In <span className="gradient-text">Touch</span>
             </h1>

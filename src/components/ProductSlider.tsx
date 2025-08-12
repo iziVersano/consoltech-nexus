@@ -185,10 +185,12 @@ const ProductSlider = () => {
                       <span className="text-primary font-semibold">
                         {product.price}
                       </span>
-                      <Button className="btn-accent-small">
-                        <ArrowRight className="h-4 w-4" />
-                        <span>Learn More</span>
-                      </Button>
+                      <Link to={`/products?q=${encodeURIComponent(product.name)}`}>
+                        <Button className="btn-accent-small">
+                          <ArrowRight className="h-4 w-4" />
+                          <span>Learn More</span>
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </motion.div>

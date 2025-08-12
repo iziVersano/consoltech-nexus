@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Filter, Search, Phone, RotateCcw } from 'lucide-react';
@@ -12,6 +13,17 @@ import { cn } from '@/lib/utils';
 const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+
+  const location = useLocation();
+
+  // Prefill search from ?q= query param
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get('q') || '';
+    if (q) {
+      setSearchTerm(q);
+    }
+  }, [location.search]);
 
   const categories = ['All', 'Gaming', 'Electronics', 'Drones', 'E-Bikes', 'TVs'];
 

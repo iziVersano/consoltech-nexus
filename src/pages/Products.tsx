@@ -91,15 +91,6 @@ const Products = () => {
       features: ['Voice Control', 'App Integration', 'Security', 'Energy Efficient'],
       price: 'Contact for pricing'
     },
-    {
-      id: 8,
-      name: 'Racing Drones',
-      category: 'Drones',
-      description: 'High-speed racing drones with FPV capabilities and aerodynamic designs for competitive flying.',
-      image: droneImg,
-      features: ['FPV Camera', 'High Speed', 'Aerodynamic', 'Competition Ready'],
-      price: 'Contact for pricing'
-    }
   ];
 
   const filteredProducts = products.filter(product => {

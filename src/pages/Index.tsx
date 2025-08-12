@@ -130,20 +130,20 @@ const Index = () => {
             
               <div>
                 <h3 className="text-lg font-semibold mb-4">Contact</h3>
-                <div className="space-y-2 text-muted-foreground">
-                  <a href="mailto:sales@gamestation.co.il" className="hover:underline">
-                    Email: sales@gamestation.co.il
+                <div className="space-y-3 text-muted-foreground">
+                  <a href="mailto:sales@gamestation.co.il" className="block hover:underline leading-relaxed break-words">
+                    <span className="text-accent font-semibold">Email:</span> sales@gamestation.co.il
                   </a>
-                  <a href="tel:+972522768607" className="hover:underline">
-                    Mobile / WhatsApp: +972 52 276 8607
+                  <a href="tel:+972522768607" className="block hover:underline leading-relaxed break-words">
+                    <span className="text-accent font-semibold">Mobile / WhatsApp:</span> +972 52 276 8607
                   </a>
                   <a
                     href="https://www.google.com/maps?q=47%20Moshe%20Sneh%20St.,%20Tel%20Aviv%206930243,%20Israel"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:underline"
+                    className="block hover:underline leading-relaxed break-words"
                   >
-                    Address: 47 Moshe Sneh St., Tel Aviv 6930243, Israel
+                    <span className="text-accent font-semibold">Address:</span> 47 Moshe Sneh St., Tel Aviv 6930243, Israel
                   </a>
                 </div>
               </div>

@@ -31,7 +31,7 @@ const Contact = () => {
     {
       icon: Mail,
       title: 'Email Us',
-      details: ['info@consoltech.com', 'sales@consoltech.com'],
+      details: ['info@consoltec.shop', 'sales@consoltec.shop'],
       description: 'Get in touch via email for detailed inquiries'
     },
     {

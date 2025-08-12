@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
-import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, Loader2 } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/XXXXXXXX";
+const RECAPTCHA_SITE_KEY = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,12 +16,86 @@ const Contact = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState('');
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (!RECAPTCHA_SITE_KEY || RECAPTCHA_SITE_KEY.includes('XXXX')) return;
+    if (document.getElementById('recaptcha-script')) return;
+    const script = document.createElement('script');
+    script.id = 'recaptcha-script';
+    script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', company: '', subject: '', message: '' });
+    if (isSubmitting) return;
+
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      toast({ variant: "destructive", title: "Please fill in all required fields." });
+      return;
+    }
+
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+    if (!emailValid) {
+      toast({ variant: "destructive", title: "Please enter a valid email address." });
+      return;
+    }
+
+    const formEl = e.currentTarget;
+    // Honeypot check
+    const hpValue = (formEl.querySelector('input[name="website"]') as HTMLInputElement)?.value;
+    if (hpValue) {
+      // Silently ignore spam
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      let token = '';
+      const grecaptcha = (window as any).grecaptcha;
+      if (RECAPTCHA_SITE_KEY && !RECAPTCHA_SITE_KEY.includes('XXXX') && grecaptcha?.ready) {
+        token = await new Promise<string>((resolve, reject) => {
+          grecaptcha.ready(() => {
+            grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact' }).then(resolve).catch(reject);
+          });
+        });
+        setRecaptchaToken(token);
+      }
+
+      const fd = new FormData(formEl);
+      fd.append('page_url', window.location.href);
+      fd.append('timestamp', new Date().toISOString());
+      fd.append('_subject', `New website inquiry – ${formData.subject || 'General'}`);
+      if (token) {
+        fd.set('g-recaptcha-response', token);
+      }
+
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: fd,
+      });
+
+      if (res.ok) {
+        toast({ title: "Message sent!", description: "We will get back to you shortly." });
+        setFormData({ name: '', email: '', company: '', subject: '', message: '' });
+      } else {
+        let message = "Something went wrong. Please try again.";
+        if (res.status === 429) message = "Rate limit reached. Please try again in a while.";
+        if (res.status === 400) message = "Validation failed. Please check your inputs.";
+        toast({ variant: "destructive", title: "Failed to send", description: message });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Network error", description: "Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -26,7 +104,6 @@ const Contact = () => {
       [e.target.name]: e.target.value
     });
   };
-
   const contactInfo = [
     {
       icon: Mail,
@@ -92,82 +169,97 @@ const Contact = () => {
             {/* Contact Form */}
             <div className="product-card">
               <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <form onSubmit={handleSubmit} action={FORMSPREE_ENDPOINT} method="POST" className="space-y-6" noValidate>
+                  {/* Honeypot field */}
+                  <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+                  {/* reCAPTCHA token (v3) */}
+                  <input type="hidden" name="g-recaptcha-response" value={recaptchaToken} />
+                  {/* Ensure replies go to the user */}
+                  <input type="hidden" name="_replyto" value={formData.email} />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Full Name *</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="Your full name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Email Address *</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="your@email.com"
+                      />
+                    </div>
+                  </div>
+                  
                   <div>
-                    <label className="block text-sm font-medium mb-2">Full Name *</label>
+                    <label className="block text-sm font-medium mb-2">Company</label>
                     <input
                       type="text"
-                      name="name"
-                      value={formData.name}
+                      name="company"
+                      value={formData.company}
                       onChange={handleChange}
-                      required
                       className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="Your full name"
+                      placeholder="Your company name"
                     />
                   </div>
+  
                   <div>
-                    <label className="block text-sm font-medium mb-2">Email Address *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
+                    <label className="block text-sm font-medium mb-2">Subject *</label>
+                    <select
+                      name="subject"
+                      value={formData.subject}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="your@email.com"
+                    >
+                      <option value="">Select a subject</option>
+                      <option value="partnership">Partnership Inquiry</option>
+                      <option value="products">Product Information</option>
+                      <option value="distribution">Distribution Services</option>
+                      <option value="support">Technical Support</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+  
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Message *</label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      rows={6}
+                      className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                      placeholder="Tell us about your requirements..."
                     />
                   </div>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium mb-2">Company</label>
-                  <input
-                    type="text"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Your company name"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Subject *</label>
-                  <select
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  >
-                    <option value="">Select a subject</option>
-                    <option value="partnership">Partnership Inquiry</option>
-                    <option value="products">Product Information</option>
-                    <option value="distribution">Distribution Services</option>
-                    <option value="support">Technical Support</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Message *</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={6}
-                    className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                    placeholder="Tell us about your requirements..."
-                  />
-                </div>
-
-                <Button type="submit" className="btn-hero w-full">
-                  <Send className="h-5 w-5" />
-                  <span>Send Message</span>
-                </Button>
-              </form>
+  
+                  <Button type="submit" className="btn-hero w-full" disabled={isSubmitting} aria-disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-5 w-5" />
+                        <span>Send Message</span>
+                      </>
+                    )}
+                  </Button>
+                </form>
             </div>
 
             {/* Contact Information */}

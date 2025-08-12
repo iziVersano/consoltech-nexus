@@ -91,7 +91,7 @@ const ProductSlider = () => {
   ];
 
   return (
-    <section className="py-12 md:py-20 relative">
+    <section className="pt-12 pb-6 md:pt-16 md:pb-8 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-10 md:mb-16">

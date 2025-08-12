@@ -300,10 +300,10 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
     border: 1px solid hsl(var(--border));
   }
 
-  .product-card::before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500;
-  }
+.product-card::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none;
+}
 
   .product-card:hover {
     box-shadow: var(--shadow-primary);

@@ -208,7 +208,7 @@ const ProductSlider = () => {
         </motion.div>
 
         {/* CTA Section */}
-        <div className="text-center mt-4 md:mt-6">
+        <div className="text-center mt-8 md:mt-12">
           <Link to="/products">
             <Button className="btn-hero">
               <ArrowRight className="h-5 w-5" />

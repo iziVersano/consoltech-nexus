@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Filter, Search, Phone, RotateCcw } from 'lucide-react';
@@ -234,9 +234,11 @@ const Products = () => {
             Can't find what you're looking for? Our team can source custom products 
             and create tailored distribution solutions for your business.
           </p>
-          <Button className="btn-hero">
-            <Phone className="h-5 w-5" />
-            <span>Contact Our Specialists</span>
+          <Button asChild className="btn-hero">
+            <Link to="/contact">
+              <Phone className="h-5 w-5" />
+              <span>Contact Our Specialists</span>
+            </Link>
           </Button>
         </div>
       </section>

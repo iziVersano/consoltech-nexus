@@ -33,6 +33,10 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Pre-deploy guard (no source refs in dist/index.html)
+        run: |
+          test -f dist/index.html || { echo "dist missing"; exit 1; }
+          ! grep -E "\.tsx?\b|/src/" dist/index.html || { echo "ERROR: source files referenced in index.html"; echo "Found:"; grep -nE "\.tsx?\b|/src/" dist/index.html; exit 1; }
       - name: Add SPA fallback (404.html)
         run: cp dist/index.html dist/404.html
 
@@ -62,3 +66,34 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  verify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Purge Cloudflare cache (optional)
+        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ZONE_ID != '' }}
+        run: |
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}'
+
+      - name: Wait for deployment to be live
+        run: |
+          for i in {1..20}; do
+            curl -sSf https://consoltech.shop/ >/dev/null && break || sleep 3
+          done
+
+      - name: Extract main JS from live index
+        id: extract
+        run: |
+          HTML=$(curl -s https://consoltech.shop/)
+          JS_PATH=$(echo "$HTML" | grep -oE '/assets/main-[a-zA-Z0-9]+\.js' | head -n1)
+          echo "js=$JS_PATH" >> $GITHUB_OUTPUT
+          echo "Found JS: $JS_PATH"
+
+      - name: Check JS Content-Type header
+        if: steps.extract.outputs.js != ''
+        run: |
+          curl -sI "https://consoltech.shop${{ steps.extract.outputs.js }}" | tr -d '\r' | grep -i "content-type: application/javascript"

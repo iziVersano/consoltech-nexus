@@ -15,19 +15,6 @@ export default defineConfig(({ mode }) => ({
     mode === 'development' &&
     componentTagger(),
   ].filter(Boolean),
-  build: {
-    rollupOptions: {
-      output: {
-        entryFileNames: 'assets/main-[hash].js',
-        chunkFileNames: 'assets/chunk-[hash].js',
-        assetFileNames: ({ name }) => {
-          const ext = name?.split('.').pop();
-          if (ext === 'css') return 'assets/main-[hash][extname]';
-          return 'assets/[name]-[hash][extname]';
-        },
-      },
-    },
-  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

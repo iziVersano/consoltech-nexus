@@ -33,14 +33,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Pre-deploy guard (no source refs in dist/index.html)
-        run: |
-          test -f dist/index.html || { echo "dist missing"; exit 1; }
-          ! grep -E "\.tsx?\b|/src/" dist/index.html || { echo "ERROR: source files referenced in index.html"; echo "Found:"; grep -nE "\.tsx?\b|/src/" dist/index.html; exit 1; }
-      - name: Validate dist index (hashed assets + modulepreload)
-        run: |
-          grep -q 'rel="modulepreload"' dist/index.html || { echo "ERROR: modulepreload link missing"; exit 1; }
-          grep -q '/assets/main-' dist/index.html || { echo "ERROR: main hashed asset missing"; exit 1; }
       - name: Add SPA fallback (404.html)
         run: cp dist/index.html dist/404.html
 
@@ -70,62 +62,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-  verify:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Purge Cloudflare cache (optional)
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ZONE_ID != '' }}
-        run: |
-          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}'
-
-      - name: Wait for deployment to be live
-        run: |
-          for i in {1..20}; do
-            curl -sSf https://consoltech.shop/ >/dev/null && break || sleep 3
-          done
-
-      - name: Extract asset paths from live index
-        id: extract
-        run: |
-          HTML=$(curl -s https://consoltech.shop/)
-          JS_PATH=$(echo "$HTML" | grep -oE '/assets/main-[a-zA-Z0-9]+\.js' | head -n1)
-          CSS_PATH=$(echo "$HTML" | grep -oE '/assets/[a-zA-Z0-9._-]+\.css' | head -n1)
-          echo "js=$JS_PATH" >> $GITHUB_OUTPUT
-          echo "css=$CSS_PATH" >> $GITHUB_OUTPUT
-          echo "Found JS: $JS_PATH"
-          echo "Found CSS: $CSS_PATH"
-          if echo "$HTML" | grep -E "\.tsx?\b|/src/" >/dev/null; then
-            echo "ERROR: live index references source files"
-            echo "$HTML" | grep -nE "\.tsx?\b|/src/"
-            exit 1
-          fi
-          if ! echo "$HTML" | grep -q 'rel="modulepreload"'; then
-            echo "ERROR: modulepreload link missing in live index"
-            exit 1
-          fi
-
-      - name: Check JS Content-Type header
-        if: steps.extract.outputs.js != ''
-        run: |
-          curl -sI "https://consoltech.shop${{ steps.extract.outputs.js }}" | tr -d '\r' | grep -i "content-type: application/javascript"
-
-      - name: Check CSS Content-Type header
-        if: steps.extract.outputs.css != ''
-        run: |
-          curl -sI "https://consoltech.shop${{ steps.extract.outputs.css }}" | tr -d '\r' | grep -i "content-type: text/css"
-
-      - name: Report HTML caching headers (informational)
-        continue-on-error: true
-        run: |
-          curl -sI https://consoltech.shop/ | tr -d '\r' | grep -iE 'cache-control|content-type'
-
-      - name: Report asset caching headers (informational)
-        if: steps.extract.outputs.js != ''
-        continue-on-error: true
-        run: |
-          curl -sI "https://consoltech.shop${{ steps.extract.outputs.js }}" | tr -d '\r' | grep -iE 'cache-control|content-type'

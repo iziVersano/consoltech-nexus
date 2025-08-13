@@ -3,9 +3,10 @@ import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, Clock, Send, Loader2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import { getContactEndpoint } from '@/lib/supabase';
 
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/XXXXXXXX";
-const RECAPTCHA_SITE_KEY = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+const CONTACT_ENDPOINT = getContactEndpoint();
+const RECAPTCHA_SITE_KEY = "6LfXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; // Replace with actual site key
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -48,7 +49,7 @@ const Contact = () => {
 
     const formEl = e.currentTarget;
     // Honeypot check
-    const hpValue = (formEl.querySelector('input[name="website"]') as HTMLInputElement)?.value;
+    const hpValue = (formEl.querySelector('input[name="_gotcha"]') as HTMLInputElement)?.value;
     if (hpValue) {
       // Silently ignore spam
       return;
@@ -76,17 +77,18 @@ const Contact = () => {
         fd.set('g-recaptcha-response', token);
       }
 
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const res = await fetch(CONTACT_ENDPOINT, {
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: fd,
       });
 
       if (res.ok) {
-        toast({ title: "Message sent!", description: "We will get back to you shortly." });
+        toast({ title: "Your message has been sent.", description: "We will get back to you shortly." });
         setFormData({ name: '', email: '', company: '', subject: '', message: '' });
       } else {
-        let message = "Something went wrong. Please try again.";
+        const errorData = await res.json();
+        let message = errorData.error || "Something went wrong. Please try again.";
         if (res.status === 429) message = "Rate limit reached. Please try again in a while.";
         if (res.status === 400) message = "Validation failed. Please check your inputs.";
         toast({ variant: "destructive", title: "Failed to send", description: message });
@@ -169,9 +171,9 @@ const Contact = () => {
             {/* Contact Form */}
             <div className="product-card">
               <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-                <form onSubmit={handleSubmit} action={FORMSPREE_ENDPOINT} method="POST" className="space-y-6" noValidate>
+                <form onSubmit={handleSubmit} method="POST" className="space-y-6" noValidate>
                   {/* Honeypot field */}
-                  <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+                  <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
                   {/* reCAPTCHA token (v3) */}
                   <input type="hidden" name="g-recaptcha-response" value={recaptchaToken} />
                   {/* Ensure replies go to the user */}

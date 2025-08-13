@@ -11,8 +11,11 @@ AddType text/css .css
   Header set Cache-Control "public, max-age=31536000, immutable"
 </FilesMatch>
 
-# SPA Fallback
+# API Rewrite Rules
 RewriteEngine On
+RewriteRule ^api/contact$ /supabase/functions/contact [P,L]
+
+# SPA Fallback
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.html [L]

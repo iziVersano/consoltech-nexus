@@ -9,8 +9,6 @@ const droneImg = '/lovable-uploads/07ba8bc0-8d14-4d62-a534-659913ac5f99.png';
 
 const smartTvImg = '/lovable-uploads/6df37998-af04-426e-b749-365ffeb66787.png';
 import { cn } from '@/lib/utils';
-import gamingAccessoriesImg from '@/assets/gaming-accessories.jpg';
-import smartHomeElectronicsImg from '@/assets/smart-home-electronics.jpg';
 
 const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -80,7 +78,7 @@ const Products = () => {
       name: 'Gaming Accessories',
       category: 'Gaming',
       description: 'Premium gaming peripherals including controllers, headsets, and racing wheels from top brands.',
-      image: gamingAccessoriesImg,
+      image: playstationImg,
       features: ['Wireless', 'Low Latency', 'Ergonomic', 'RGB Lighting'],
       price: 'Contact for pricing'
     },
@@ -89,7 +87,7 @@ const Products = () => {
       name: 'Smart Home Electronics',
       category: 'Electronics',
       description: 'Connected home devices including smart speakers, security cameras, and automation systems.',
-      image: smartHomeElectronicsImg,
+      image: smartTvImg,
       features: ['Voice Control', 'App Integration', 'Security', 'Energy Efficient'],
       price: 'Contact for pricing'
     },

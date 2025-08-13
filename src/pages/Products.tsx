@@ -99,8 +99,6 @@ const Products = () => {
                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-  // Deduplicate by product name to avoid duplicates when filtering
-  const uniqueProducts = Array.from(new Map(filteredProducts.map(p => [p.name, p])).values());
 
   return (
     <div className="min-h-screen">
@@ -155,7 +153,7 @@ const Products = () => {
       <section className="pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {uniqueProducts.map((product) => (
+            {filteredProducts.map((product) => (
               <div key={product.id} className="product-card group">
                 <div className="relative overflow-hidden rounded-lg mb-4">
                   <img 
@@ -208,7 +206,7 @@ const Products = () => {
           </div>
 
           {/* No Results */}
-          {uniqueProducts.length === 0 && (
+          {filteredProducts.length === 0 && (
             <div className="text-center py-16">
               <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
                 <Search className="h-12 w-12 text-muted-foreground" />

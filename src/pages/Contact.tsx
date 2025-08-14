@@ -77,7 +77,7 @@ const Contact = () => {
         message: formData.message,
         recaptchaToken: token,
         honeypot: hpValue,
-        pageUrl: window.location.href,
+        page_url: window.location.href,
         timestamp: new Date().toISOString()
       };
 
@@ -103,7 +103,7 @@ const Contact = () => {
       const responseData = await res.json();
 
       if (responseData.ok) {
-        toast({ title: "Your message has been sent.", description: "We will get back to you shortly." });
+        toast({ title: "Thank you! Your message has been sent.", description: "We will get back to you shortly." });
         setFormData({ name: '', email: '', company: '', subject: '', message: '' });
       } else {
         let message = responseData.error || "Something went wrong. Please try again.";

@@ -16,7 +16,7 @@ interface ContactRequest {
   message: string
   recaptchaToken?: string
   honeypot?: string
-  pageUrl?: string
+  page_url?: string
   timestamp?: string
 }
 
@@ -35,7 +35,11 @@ serve(async (req) => {
       JSON.stringify({ ok: false, error: 'Method not allowed' }),
       { 
         status: 405,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'Allow': 'POST, OPTIONS'
+        }
       }
     )
   }
@@ -50,10 +54,11 @@ serve(async (req) => {
     // Get request data as JSON
     const data: ContactRequest = await req.json()
 
-    // Get client IP for rate limiting
+    // Get client IP and User Agent
     const clientIP = req.headers.get('x-forwarded-for') || 
                     req.headers.get('x-real-ip') || 
                     'unknown'
+    const userAgent = req.headers.get('user-agent') || 'unknown'
 
     // Honeypot spam check
     if (data.honeypot) {
@@ -131,16 +136,24 @@ serve(async (req) => {
       }
     }
 
-    // Store submission in database
+    // Generate unique ID for this message
+    const messageId = crypto.randomUUID()
+
+    // Store submission in database first - return success immediately
     const { error: dbError } = await supabaseClient
       .from('contact_messages')
       .insert({
+        id: messageId,
         name: data.name,
         email: data.email,
         company: data.company,
         subject: data.subject,
         message: data.message,
+        page_url: data.page_url || '',
+        ua: userAgent,
         ip_address: clientIP,
+        status: 'queued',
+        attempts: 0,
         created_at: new Date().toISOString()
       })
 
@@ -155,77 +168,9 @@ serve(async (req) => {
       )
     }
 
-    // Send email using Resend
-    const resendApiKey = Deno.env.get('RESEND_API_KEY')
-    
-    if (resendApiKey) {
-      const emailData = {
-        from: 'no-reply@consoltech.shop',
-        to: ['sales@consoltech.shop'],
-        reply_to: data.email,
-        subject: `New Contact Form: ${data.subject}`,
-        html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${data.name}</p>
-          <p><strong>Email:</strong> ${data.email}</p>
-          <p><strong>Company:</strong> ${data.company || 'Not provided'}</p>
-          <p><strong>Subject:</strong> ${data.subject}</p>
-          <p><strong>Message:</strong></p>
-          <p>${data.message.replace(/\n/g, '<br>')}</p>
-          <hr>
-          <p><small>Submitted at: ${new Date().toISOString()}</small></p>
-        `
-      }
-
-      const emailResponse = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(emailData)
-      })
-
-      if (!emailResponse.ok) {
-        console.error('Email sending failed:', await emailResponse.text())
-      }
-
-      // Send auto-response to user
-      const autoResponseData = {
-        from: 'no-reply@consoltech.shop',
-        to: [data.email],
-        subject: 'We received your message – Consoltech',
-        html: `
-          <h2>Thank you for contacting Consoltech!</h2>
-          <p>Hi ${data.name},</p>
-          <p>We have received your message regarding "${data.subject}" and will get back to you shortly.</p>
-          
-          <h3>Your Message Details:</h3>
-          <p><strong>Subject:</strong> ${data.subject}</p>
-          <p><strong>Message:</strong> ${data.message}</p>
-          
-          <p>Our team typically responds within 24 hours during business days.</p>
-          
-          <p>Best regards,<br>
-          The Consoltech Team</p>
-          
-          <hr>
-          <p><small>This is an automated message. Please do not reply to this email.</small></p>
-        `
-      }
-
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(autoResponseData)
-      })
-    }
-
+    // Return success immediately after storing
     return new Response(
-      JSON.stringify({ ok: true, message: 'Message sent successfully' }),
+      JSON.stringify({ ok: true, id: messageId }),
       { 
         status: 200,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }

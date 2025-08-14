@@ -29,21 +29,28 @@ RewriteRule ^src/ - [F,L]
 
 # API Rewrite Rules (continue RewriteEngine from above)
 
-# Enable proxy module
+# Enable proxy module  
 <IfModule mod_proxy.c>
     ProxyPreserveHost On
     ProxyRequests Off
     
-    # Handle preflight OPTIONS request
+    # Handle preflight OPTIONS request for contact
     RewriteCond %{REQUEST_METHOD} OPTIONS
     RewriteRule ^api/contact$ https://jqnbbwzbzgspwwlnackt.functions.supabase.co/contact [P,L]
     
-    # Handle POST request
+    # Handle POST request for contact
+    RewriteCond %{REQUEST_METHOD} POST
     RewriteRule ^api/contact$ https://jqnbbwzbzgspwwlnackt.functions.supabase.co/contact [P,L]
 </IfModule>
 
 # Fallback if mod_proxy not available - use redirect
 <IfModule !mod_proxy.c>
+    # Handle preflight OPTIONS request
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^api/contact$ https://jqnbbwzbzgspwwlnackt.functions.supabase.co/contact [R=307,L]
+    
+    # Handle POST request
+    RewriteCond %{REQUEST_METHOD} POST  
     RewriteRule ^api/contact$ https://jqnbbwzbzgspwwlnackt.functions.supabase.co/contact [R=307,L]
 </IfModule>
 

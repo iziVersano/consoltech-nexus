@@ -35,11 +35,7 @@ serve(async (req) => {
       JSON.stringify({ ok: false, error: 'Method not allowed' }),
       { 
         status: 405,
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json',
-          'Allow': 'POST, OPTIONS'
-        }
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     )
   }

@@ -90,9 +90,19 @@ const Contact = () => {
         body: JSON.stringify(requestBody),
       });
 
+      const contentType = res.headers.get('content-type') || '';
+      
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      
+      if (!contentType.includes('application/json')) {
+        throw new Error('Non-JSON response received');
+      }
+
       const responseData = await res.json();
 
-      if (res.ok && responseData.ok) {
+      if (responseData.ok) {
         toast({ title: "Your message has been sent.", description: "We will get back to you shortly." });
         setFormData({ name: '', email: '', company: '', subject: '', message: '' });
       } else {

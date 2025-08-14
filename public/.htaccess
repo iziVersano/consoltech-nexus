@@ -13,11 +13,12 @@ AddType text/css .css
 
 # API Rewrite Rules
 RewriteEngine On
-RewriteRule ^api/contact$ /supabase/functions/contact [P,L]
+RewriteRule ^api/contact$ https://jqnbbwzbzgspwwlnackt.functions.supabase.co/contact [P,L]
 
 # SPA Fallback
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/
 RewriteRule . /index.html [L]
 
 # Security Headers

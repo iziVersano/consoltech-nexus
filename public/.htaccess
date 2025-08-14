@@ -13,7 +13,24 @@ AddType text/css .css
 
 # API Rewrite Rules
 RewriteEngine On
-RewriteRule ^api/contact$ https://jqnbbwzbzgspwwlnackt.functions.supabase.co/contact [P,L]
+
+# Enable proxy module
+<IfModule mod_proxy.c>
+    ProxyPreserveHost On
+    ProxyRequests Off
+    
+    # Handle preflight OPTIONS request
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^api/contact$ https://jqnbbwzbzgspwwlnackt.functions.supabase.co/contact [P,L]
+    
+    # Handle POST request
+    RewriteRule ^api/contact$ https://jqnbbwzbzgspwwlnackt.functions.supabase.co/contact [P,L]
+</IfModule>
+
+# Fallback if mod_proxy not available - use redirect
+<IfModule !mod_proxy.c>
+    RewriteRule ^api/contact$ https://jqnbbwzbzgspwwlnackt.functions.supabase.co/contact [R=307,L]
+</IfModule>
 
 # SPA Fallback
 RewriteCond %{REQUEST_FILENAME} !-f

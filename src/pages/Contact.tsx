@@ -81,7 +81,7 @@ const Contact = () => {
         timestamp: new Date().toISOString()
       };
 
-      const res = await fetch(CONTACT_ENDPOINT, {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

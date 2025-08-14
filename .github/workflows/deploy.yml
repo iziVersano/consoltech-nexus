@@ -38,29 +38,43 @@ jobs:
 
       - name: Verify build output
         run: |
-          echo "Checking dist/index.html for proper asset references..."
-          test -f dist/index.html || { echo "ERROR: dist/index.html missing"; exit 1; }
+          echo "=== BUILD VERIFICATION ==="
           
-          # Check for source file references
+          # 1. Check dist folder exists
+          test -f dist/index.html || { echo "❌ ERROR: dist/index.html missing"; exit 1; }
+          echo "✅ dist/index.html exists"
+          
+          # 2. CRITICAL: Fail hard if source file references found
           if grep -E "\.tsx?\b|/src/" dist/index.html; then
-            echo "ERROR: Source files referenced in index.html:"
+            echo "❌ CRITICAL ERROR: Source files referenced in built index.html:"
             grep -E "\.tsx?\b|/src/" dist/index.html
+            echo "This will cause MIME type errors in production!"
             exit 1
           fi
+          echo "✅ No source file references in index.html"
           
-          # Ensure compiled assets exist
+          # 3. Ensure compiled JS assets exist
           if ! ls dist/assets/*.js >/dev/null 2>&1; then
-            echo "ERROR: No compiled JS assets found in dist/assets/"
+            echo "❌ ERROR: No compiled JS assets found in dist/assets/"
+            ls -la dist/assets/ || echo "dist/assets/ doesn't exist"
             exit 1
           fi
+          echo "✅ Compiled JS assets found: $(ls dist/assets/*.js | wc -l) files"
           
-          # Verify index.html references compiled assets
+          # 4. Verify index.html references only compiled assets
           if ! grep -q "/assets/.*\.js" dist/index.html; then
-            echo "ERROR: index.html doesn't reference compiled assets"
+            echo "❌ ERROR: index.html doesn't reference compiled assets"
+            echo "Contents of index.html:"
+            cat dist/index.html
             exit 1
           fi
+          echo "✅ index.html references compiled assets correctly"
           
-          echo "✓ Build verification passed - using compiled assets only"
+          # 5. Show what we're actually deploying
+          echo "📋 Final asset list:"
+          find dist -name "*.js" -o -name "*.css" | head -10
+          
+          echo "🎉 BUILD VERIFICATION PASSED - Ready for deployment"
 
       - name: Add CNAME
         run: |

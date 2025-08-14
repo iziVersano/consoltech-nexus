@@ -69,26 +69,34 @@ const Contact = () => {
         setRecaptchaToken(token);
       }
 
-      const fd = new FormData(formEl);
-      fd.append('page_url', window.location.href);
-      fd.append('timestamp', new Date().toISOString());
-      fd.append('_subject', `New website inquiry – ${formData.subject || 'General'}`);
-      if (token) {
-        fd.set('g-recaptcha-response', token);
-      }
+      const requestBody = {
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        subject: formData.subject,
+        message: formData.message,
+        recaptchaToken: token,
+        honeypot: hpValue,
+        pageUrl: window.location.href,
+        timestamp: new Date().toISOString()
+      };
 
       const res = await fetch(CONTACT_ENDPOINT, {
         method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: fd,
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json' 
+        },
+        body: JSON.stringify(requestBody),
       });
 
-      if (res.ok) {
+      const responseData = await res.json();
+
+      if (res.ok && responseData.ok) {
         toast({ title: "Your message has been sent.", description: "We will get back to you shortly." });
         setFormData({ name: '', email: '', company: '', subject: '', message: '' });
       } else {
-        const errorData = await res.json();
-        let message = errorData.error || "Something went wrong. Please try again.";
+        let message = responseData.error || "Something went wrong. Please try again.";
         if (res.status === 429) message = "Rate limit reached. Please try again in a while.";
         if (res.status === 400) message = "Validation failed. Please check your inputs.";
         toast({ variant: "destructive", title: "Failed to send", description: message });

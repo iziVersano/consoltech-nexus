@@ -3,6 +3,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
@@ -12,14 +13,19 @@ interface ContactRequest {
   company?: string
   subject: string
   message: string
-  'g-recaptcha-response'?: string
-  _gotcha?: string
+  recaptchaToken?: string
+  honeypot?: string
+  pageUrl?: string
+  timestamp?: string
 }
 
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
+    return new Response(null, { 
+      status: 204,
+      headers: corsHeaders 
+    })
   }
 
   try {
@@ -29,17 +35,8 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_ANON_KEY') ?? ''
     )
 
-    // Get request data
-    const formData = await req.formData()
-    const data: ContactRequest = {
-      name: formData.get('name') as string,
-      email: formData.get('email') as string,
-      company: formData.get('company') as string || '',
-      subject: formData.get('subject') as string,
-      message: formData.get('message') as string,
-      'g-recaptcha-response': formData.get('g-recaptcha-response') as string,
-      _gotcha: formData.get('_gotcha') as string || formData.get('website') as string
-    }
+    // Get request data as JSON
+    const data: ContactRequest = await req.json()
 
     // Get client IP for rate limiting
     const clientIP = req.headers.get('x-forwarded-for') || 
@@ -47,9 +44,9 @@ serve(async (req) => {
                     'unknown'
 
     // Honeypot spam check
-    if (data._gotcha) {
+    if (data.honeypot) {
       return new Response(
-        JSON.stringify({ error: 'Spam detected' }),
+        JSON.stringify({ ok: false, error: 'Spam detected' }),
         { 
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -60,7 +57,7 @@ serve(async (req) => {
     // Validate required fields
     if (!data.name || !data.email || !data.subject || !data.message) {
       return new Response(
-        JSON.stringify({ error: 'Missing required fields' }),
+        JSON.stringify({ ok: false, error: 'Missing required fields' }),
         { 
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -72,7 +69,7 @@ serve(async (req) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(data.email)) {
       return new Response(
-        JSON.stringify({ error: 'Invalid email format' }),
+        JSON.stringify({ ok: false, error: 'Invalid email format' }),
         { 
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -90,7 +87,7 @@ serve(async (req) => {
 
     if (count && count >= 5) {
       return new Response(
-        JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
+        JSON.stringify({ ok: false, error: 'Rate limit exceeded. Please try again later.' }),
         { 
           status: 429,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -99,7 +96,7 @@ serve(async (req) => {
     }
 
     // Verify reCAPTCHA if token provided
-    const recaptchaToken = data['g-recaptcha-response']
+    const recaptchaToken = data.recaptchaToken
     const recaptchaSecret = Deno.env.get('RECAPTCHA_SECRET_KEY')
     
     if (recaptchaToken && recaptchaSecret) {
@@ -113,7 +110,7 @@ serve(async (req) => {
       
       if (!recaptchaResult.success || recaptchaResult.score < 0.5) {
         return new Response(
-          JSON.stringify({ error: 'reCAPTCHA verification failed' }),
+          JSON.stringify({ ok: false, error: 'reCAPTCHA verification failed' }),
           { 
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -138,7 +135,7 @@ serve(async (req) => {
     if (dbError) {
       console.error('Database error:', dbError)
       return new Response(
-        JSON.stringify({ error: 'Failed to store message' }),
+        JSON.stringify({ ok: false, error: 'Failed to store message' }),
         { 
           status: 500,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -216,7 +213,7 @@ serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ message: 'Message sent successfully' }),
+      JSON.stringify({ ok: true, message: 'Message sent successfully' }),
       { 
         status: 200,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -226,7 +223,7 @@ serve(async (req) => {
   } catch (error) {
     console.error('Contact form error:', error)
     return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
+      JSON.stringify({ ok: false, error: 'Internal server error' }),
       { 
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }

@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, Clock, Send, Loader2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import { getContactEndpoint } from '@/lib/supabase';
 
-const CONTACT_ENDPOINT = getContactEndpoint();
-const RECAPTCHA_SITE_KEY = "6LfXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; // Replace with actual site key
+const FORM_ENDPOINT = "https://formspree.io/f/mkgnlgnp"; // Formspree endpoint for iziversano@gmail.com
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -18,102 +16,61 @@ const Contact = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState('');
   const { toast } = useToast();
-
-  useEffect(() => {
-    if (!RECAPTCHA_SITE_KEY || RECAPTCHA_SITE_KEY.includes('XXXX')) return;
-    if (document.getElementById('recaptcha-script')) return;
-    const script = document.createElement('script');
-    script.id = 'recaptcha-script';
-    script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
-    script.async = true;
-    document.body.appendChild(script);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitting) return;
 
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+
     // Basic validation
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-      toast({ variant: "destructive", title: "Please fill in all required fields." });
+    if (!data.name || !data.email || !/^\S+@\S+\.\S+$/.test(data.email as string) || !data.message) {
+      toast({ variant: "destructive", title: "Please complete all required fields." });
       return;
     }
 
-    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
-    if (!emailValid) {
-      toast({ variant: "destructive", title: "Please enter a valid email address." });
-      return;
-    }
-
-    const formEl = e.currentTarget;
     // Honeypot check
-    const hpValue = (formEl.querySelector('input[name="_gotcha"]') as HTMLInputElement)?.value;
+    const hpValue = data._gotcha as string;
     if (hpValue) {
       // Silently ignore spam
       return;
     }
 
+    const btn = form.querySelector('button[type="submit"]');
+    btn?.setAttribute("disabled", "true");
     setIsSubmitting(true);
 
     try {
-      let token = '';
-      const grecaptcha = (window as any).grecaptcha;
-      if (RECAPTCHA_SITE_KEY && !RECAPTCHA_SITE_KEY.includes('XXXX') && grecaptcha?.ready) {
-        token = await new Promise<string>((resolve, reject) => {
-          grecaptcha.ready(() => {
-            grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact' }).then(resolve).catch(reject);
-          });
-        });
-        setRecaptchaToken(token);
-      }
-
-      const requestBody = {
-        name: formData.name,
-        email: formData.email,
-        company: formData.company,
-        subject: formData.subject,
-        message: formData.message,
-        recaptchaToken: token,
-        honeypot: hpValue,
-        page_url: window.location.href,
-        timestamp: new Date().toISOString()
-      };
-
-      const res = await fetch('/api/contact', {
-        method: 'POST',
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
         headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json' 
+          "Accept": "application/json", 
+          "Content-Type": "application/json" 
         },
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify(data)
       });
 
-      const contentType = res.headers.get('content-type') || '';
-      
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-      }
-      
-      if (!contentType.includes('application/json')) {
-        throw new Error('Non-JSON response received');
+      // MIME/type guard to prevent parsing errors
+      const ct = res.headers.get("Content-Type") || "";
+      if (!res.ok || !ct.includes("application/json")) {
+        throw new Error("Invalid response");
       }
 
-      const responseData = await res.json();
-
-      if (responseData.ok) {
+      const json = await res.json();
+      if (json.ok === true || json.success === true) {
         toast({ title: "Thank you! Your message has been sent.", description: "We will get back to you shortly." });
+        form.reset();
         setFormData({ name: '', email: '', company: '', subject: '', message: '' });
       } else {
-        let message = responseData.error || "Something went wrong. Please try again.";
-        if (res.status === 429) message = "Rate limit reached. Please try again in a while.";
-        if (res.status === 400) message = "Validation failed. Please check your inputs.";
-        toast({ variant: "destructive", title: "Failed to send", description: message });
+        throw new Error(json.error || "Submission failed");
       }
-    } catch (error) {
+    } catch (err) {
+      console.error(err);
       toast({ variant: "destructive", title: "Network error", description: "Please try again." });
     } finally {
+      btn?.removeAttribute("disabled");
       setIsSubmitting(false);
     }
   };
@@ -189,13 +146,9 @@ const Contact = () => {
             {/* Contact Form */}
             <div className="product-card">
               <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-                <form onSubmit={handleSubmit} method="POST" className="space-y-6" noValidate>
+                <form id="contactForm" onSubmit={handleSubmit} method="POST" className="space-y-6" noValidate>
                   {/* Honeypot field */}
-                  <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
-                  {/* reCAPTCHA token (v3) */}
-                  <input type="hidden" name="g-recaptcha-response" value={recaptchaToken} />
-                  {/* Ensure replies go to the user */}
-                  <input type="hidden" name="_replyto" value={formData.email} />
+                  <input type="text" name="_gotcha" style={{display:'none'}} tabIndex={-1} autoComplete="off" aria-hidden="true" />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium mb-2">Full Name *</label>

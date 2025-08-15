@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, Clock, Send, Loader2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
-const FORM_ENDPOINT = "https://formspree.io/f/mkgnlgnp"; // Formspree endpoint for iziversano@gmail.com
+const FORM_ENDPOINT = "https://formspree.io/f/xyzpvaeg";
 
 const Contact = () => {
   const [formData, setFormData] = useState({

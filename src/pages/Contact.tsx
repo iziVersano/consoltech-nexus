@@ -106,7 +106,7 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Call Us',
-      details: ['+972-52-2768607 (Mobile / WhatsApp)'],
+      details: ['+972-52-2768607'],
       description: '24/7 support for urgent matters'
     },
     {
@@ -263,19 +263,45 @@ const Contact = () => {
                         </div>
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
-                          <div className="space-y-1">
-                            {info.details.map((detail, idx) => {
-                              if (info.title === 'Call Us') {
-                                return (
-                                  <a
-                                    key={idx}
-                                    href={`tel:+972522768607`}
-                                    className="text-accent font-medium underline"
-                                  >
-                                    {detail}
-                                  </a>
-                                );
-                              }
+                           <div className="space-y-1">
+                             {info.details.map((detail, idx) => {
+                               if (info.title === 'Call Us') {
+                                 return (
+                                   <div key={idx} className="contact-block flex flex-col gap-1">
+                                     <a
+                                       href="tel:+972522768607"
+                                       className="contact-link contact-link--phone text-accent font-medium underline"
+                                       aria-label="Call us on mobile at +972-52-2768607"
+                                     >
+                                       {detail} (Mobile)
+                                     </a>
+                                     <button
+                                       id="whatsappLink"
+                                       className="contact-link contact-link--whatsapp mt-1 inline-flex items-center gap-2 bg-transparent text-green-600 border-0 p-0 cursor-pointer font-semibold hover:opacity-90 transition-opacity"
+                                       aria-label="Message us on WhatsApp"
+                                     >
+                                       <svg 
+                                         width="18" 
+                                         height="18" 
+                                         viewBox="0 0 32 32" 
+                                         aria-hidden="true" 
+                                         focusable="false"
+                                         className="wa-icon"
+                                       >
+                                         <path 
+                                           fill="currentColor"
+                                           d="M19.1 17.5c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-1 1.3-.4.2-.7.1c-2-1-3.3-2.6-3.8-3-.4-.4-.8-1-.5-1.5s.6-.9.8-1.2.2-.4 0-.7c-.1-.2-.7-1.8-.9-2.4s-.5-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.6 0 1.5 1.1 3 1.3 3.2.2.3 2.1 3.2 5 4.5.7.3 1.2.5 1.6.6.7.2 1.4.2 1.9.1.6-.1 1.8-.8 2-1.6.3-.8.3-1.4.2-1.6-.1-.2-.3-.2-.6-.3z"
+                                         />
+                                         <path 
+                                           fill="currentColor"
+                                           d="M27.1 4.9C24.3 2.1 20.7.6 16.9.6S9.6 2.1 6.8 4.9C1 10.8 1 20 6.8 25.9c2.8 2.8 6.4 4.3 10.2 4.3h.1c2.5 0 4.9-.6 7-1.8l4.6 1.2-1.3-4.5c1.3-2.2 2-4.7 2-7.2 0-3.7-1.5-7.3-4.3-10zM25 24.6l.2.2 0 .2.6 2-2- .5-.2-.1h-.2c-2 1.2-4.3 1.9-6.6 1.9-3.3 0-6.4-1.3-8.8-3.6C5 22.4 3.7 19.2 3.7 16S5 9.6 7.4 7.2c2.4-2.4 5.5-3.7 8.8-3.7s6.4 1.3 8.8 3.7c2.4 2.4 3.7 5.5 3.7 8.8 0 2.4-.7 4.7-2.1 6.6z"
+                                         />
+                                       </svg>
+                                       <span>WhatsApp</span>
+                                     </button>
+                                   </div>
+                                 );
+                               }
                               if (info.title === 'Visit Us') {
                                 const mapsQuery = encodeURIComponent(detail);
                                 return (
@@ -386,6 +412,38 @@ const Contact = () => {
           </div>
         </div>
       </section>
+      
+      {/* WhatsApp Integration Script */}
+      <script dangerouslySetInnerHTML={{
+        __html: `
+        (function(){
+          const WA_NUMBER = "972522768607";
+
+          function buildWhatsAppMessage() {
+            const title = document.title?.trim() || "your website";
+            const url = location.href;
+            return "Hello CONSOLTECH team,\\n" +
+                   "I'd like to speak with someone regarding your products/services.\\n" +
+                   "Page: " + title + "\\n" +
+                   "URL: " + url + "\\n\\n" +
+                   "Please let me know the best time to connect.\\nThank you.";
+          }
+
+          function openWhatsApp() {
+            const text = encodeURIComponent(buildWhatsAppMessage());
+            const url = "https://wa.me/" + WA_NUMBER + "?text=" + text;
+            window.open(url, "_blank", "noopener");
+          }
+
+          document.addEventListener('DOMContentLoaded', function() {
+            const whatsappLink = document.getElementById("whatsappLink");
+            if (whatsappLink) {
+              whatsappLink.addEventListener("click", openWhatsApp);
+            }
+          });
+        })();
+        `
+      }} />
     </div>
   );
 };

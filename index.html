@@ -27,5 +27,81 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Product Inquiry Script -->
+    <script>
+    (function () {
+      // 1) Config — WhatsApp number (international format, no +, no spaces)
+      const WHATSAPP_NUMBER = "972522768607";
+
+      // 2) Simple mobile detection
+      function isMobile() {
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        const mobileUA = /android|iphone|ipad|ipod|iemobile|blackberry|opera mini/i.test(ua);
+        const narrow = window.matchMedia && window.matchMedia("(max-width: 820px)").matches;
+        return mobileUA || narrow;
+      }
+
+      // 3) Build URLs
+      function buildWhatsAppURL(product, sku) {
+        const msg = `Hi! I'm interested in "${product}"${sku ? ` (SKU: ${sku})` : ""}. Please share availability & pricing.`;
+        const text = encodeURIComponent(msg + " https://consoltech.shop");
+        return `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+      }
+
+      function buildContactURL(product, sku) {
+        const subject = encodeURIComponent(`Product Inquiry: ${product}`);
+        const message = encodeURIComponent(
+          `Hi! I'm interested in "${product}"${sku ? ` (SKU: ${sku})` : ""}. Please share availability & pricing.`
+        );
+        return `/contact?subject=${subject}&message=${message}`;
+      }
+
+      // 4) Click handler
+      function onInquiryClick(e) {
+        const el = e.currentTarget;
+        const product = el.getAttribute("data-product") || "Product";
+        const sku = el.getAttribute("data-sku") || "";
+
+        const url = isMobile() ? buildWhatsAppURL(product, sku) : buildContactURL(product, sku);
+
+        // Analytics hook (optional)
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: 'product_inquiry',
+            product: product,
+            device: isMobile() ? 'mobile' : 'desktop'
+          });
+        }
+
+        // On mobile, open WhatsApp in a new tab
+        if (isMobile()) {
+          window.open(url, "_blank", "noopener");
+        } else {
+          window.location.href = url;
+        }
+      }
+
+      // 5) Bind to all buttons
+      function bindInquiryButtons() {
+        document.querySelectorAll(".btn-inquiry").forEach(btn => {
+          btn.removeEventListener("click", onInquiryClick);
+          btn.addEventListener("click", onInquiryClick);
+        });
+      }
+
+      // 6) Initialize and handle dynamic content
+      document.addEventListener("DOMContentLoaded", bindInquiryButtons);
+      
+      // Also bind when content changes (for SPAs)
+      const observer = new MutationObserver(() => {
+        bindInquiryButtons();
+      });
+      
+      if (document.body) {
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+    })();
+    </script>
   </body>
 </html>

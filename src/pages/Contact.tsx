@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, Clock, Send, Loader2 } from 'lucide-react';
@@ -14,6 +14,21 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+
+  // Prefill form from URL params
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const subject = params.get("subject");
+    const message = params.get("message");
+
+    if (subject || message) {
+      setFormData(prev => ({
+        ...prev,
+        ...(subject && { subject }),
+        ...(message && { message })
+      }));
+    }
+  }, []);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();

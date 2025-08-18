@@ -309,20 +309,20 @@ const Contact = () => {
                                    </a>
                                  );
                                }
-                               if (info.title === 'WhatsApp') {
-                                 return (
-                                   <a
-                                     key={idx}
-                                     href="https://wa.me/972522768607?text=Hello,%20I'm%20interested%20in%20your%20products%20and%20would%20like%20to%20know%20more."
-                                     target="_blank"
-                                     rel="noopener noreferrer"
-                                     className="text-accent font-medium underline"
-                                     aria-label="Message us on WhatsApp"
-                                   >
-                                     {detail}
-                                   </a>
-                                 );
-                               }
+                                if (info.title === 'WhatsApp') {
+                                  return (
+                                    <a
+                                      key={idx}
+                                      href="https://wa.me/972522768607?text=Hello,%20I'm%20interested%20in%20your%20products%20and%20would%20like%20to%20know%20more."
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-accent font-medium underline"
+                                      aria-label="Message us on WhatsApp"
+                                    >
+                                      {detail}
+                                    </a>
+                                  );
+                                }
                                if (info.title === 'Visit Us') {
                                  const mapsQuery = encodeURIComponent(detail);
                                  return (

@@ -5,13 +5,13 @@ import { Mail, Phone, MapPin, Clock, Send, Loader2, LucideIcon } from 'lucide-re
 import { useToast } from '@/components/ui/use-toast';
 
 // WhatsApp Icon Component
-const WhatsAppIcon = () => (
+const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg 
-    width="24" 
-    height="24" 
+    className={className}
     viewBox="0 0 24 24" 
     aria-hidden="true" 
     focusable="false"
+    fill="none"
   >
     <circle 
       cx="12" 
@@ -288,7 +288,7 @@ const Contact = () => {
                       <div className="flex items-start space-x-4">
                         <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
                           {info.title === 'WhatsApp' ? (
-                            <WhatsAppIcon />
+                            <WhatsAppIcon className="h-6 w-6" />
                           ) : (
                             React.createElement(info.icon as any, { className: "h-6 w-6 text-white" })
                           )}

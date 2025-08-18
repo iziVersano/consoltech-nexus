@@ -420,13 +420,7 @@ const Contact = () => {
           const WA_NUMBER = "972522768607";
 
           function buildWhatsAppMessage() {
-            const title = document.title?.trim() || "your website";
-            const url = location.href;
-            return "Hello CONSOLTECH team,\\n" +
-                   "I'd like to speak with someone regarding your products/services.\\n" +
-                   "Page: " + title + "\\n" +
-                   "URL: " + url + "\\n\\n" +
-                   "Please let me know the best time to connect.\\nThank you.";
+            return "Hello, I'm interested in your products and would like to know more.";
           }
 
           function openWhatsApp() {

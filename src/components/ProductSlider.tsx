@@ -185,22 +185,12 @@ const ProductSlider = () => {
                       <span className="text-primary font-semibold">
                         {product.price}
                       </span>
-                      <div className="flex gap-2">
-                        <button 
-                          className="btn-inquiry inline-flex items-center gap-2 px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
-                          data-product={product.name}
-                          data-sku={`${product.category.toUpperCase()}-${product.id}`}
-                          aria-label={`Inquiry about ${product.name}`}
-                        >
-                          <span>Inquiry now</span>
-                        </button>
-                        <Link to={`/products?q=${encodeURIComponent(product.name)}`}>
-                          <Button className="btn-accent-small">
-                            <ArrowRight className="h-4 w-4" />
-                            <span>Learn More</span>
-                          </Button>
-                        </Link>
-                      </div>
+                      <Link to={`/products?q=${encodeURIComponent(product.name)}`}>
+                        <Button className="btn-accent-small">
+                          <ArrowRight className="h-4 w-4" />
+                          <span>Learn More</span>
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </motion.div>

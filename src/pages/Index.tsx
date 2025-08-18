@@ -119,13 +119,13 @@ const Index = () => {
       </section>
 
       {/* About Consoltech Section */}
-      <section id="about-home" className="py-12 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="about-home" className="block w-full py-10 px-4 sm:px-6 mt-12 mb-8">
+        <div className="max-w-7xl mx-auto">
           {/* About Card */}
           <div className="product-card p-8 mb-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="flex flex-col gap-6 md:grid md:grid-cols-12 md:gap-8">
               {/* Left Column */}
-              <div className="space-y-6">
+              <div className="md:col-span-7 space-y-6">
                 <h2 className="text-4xl md:text-5xl font-bold">
                   About <span className="gradient-text">Consoltech</span>
                 </h2>
@@ -151,7 +151,7 @@ const Index = () => {
               </div>
 
               {/* Right Column */}
-              <div className="space-y-6">
+              <div className="md:col-span-5 space-y-6">
                 {/* Check-list bullets */}
                 <div className="space-y-3">
                   {[

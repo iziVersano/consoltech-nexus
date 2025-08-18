@@ -286,11 +286,13 @@ const Contact = () => {
                   {contactInfo.map((info, index) => (
                     <div key={index} className="product-card p-6">
                       <div className="flex items-start space-x-4">
-                        <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-lg flex items-center justify-center">
                           {info.title === 'WhatsApp' ? (
-                            <WhatsAppIcon className="h-6 w-6" />
+                            <WhatsAppIcon className="w-12 h-12" />
                           ) : (
-                            React.createElement(info.icon as any, { className: "h-6 w-6 text-white" })
+                            <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
+                              {React.createElement(info.icon as any, { className: "h-6 w-6 text-white" })}
+                            </div>
                           )}
                         </div>
                         <div className="flex-1">

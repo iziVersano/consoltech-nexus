@@ -1,8 +1,30 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
-import { Mail, Phone, MapPin, Clock, Send, Loader2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, Loader2, LucideIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+
+// WhatsApp Icon Component
+const WhatsAppIcon = () => (
+  <svg 
+    width="24" 
+    height="24" 
+    viewBox="0 0 24 24" 
+    aria-hidden="true" 
+    focusable="false"
+  >
+    <circle 
+      cx="12" 
+      cy="12" 
+      r="12" 
+      fill="#25D366"
+    />
+    <path 
+      fill="white"
+      d="M12.04 6.42c-2.97 0-5.37 2.4-5.37 5.37 0 .95.25 1.87.71 2.68L6.3 17.58l3.24-1.05c.78.43 1.67.66 2.58.66 2.97 0 5.37-2.4 5.37-5.37s-2.4-5.37-5.37-5.37zm3.15 7.75c-.13.37-.77.68-1.07.72-.3.04-.7.04-1.13-.07-.26-.07-.6-.16-1.03-.31-1.85-.65-3.06-2.48-3.15-2.59-.09-.11-.74-.98-.74-1.87s.47-1.33.63-1.51c.16-.18.35-.23.47-.23s.23 0 .33.01c.11 0 .25-.04.39.3.16.35.53 1.29.57 1.38.04.09.07.19.01.31-.05.12-.09.19-.18.29-.09.1-.19.22-.27.29-.09.08-.18.17-.08.33.1.16.45.74 1.03 1.2.75.59 1.38.77 1.57.86.19.09.3.08.41-.05.11-.13.47-.54.59-.73.12-.19.24-.16.4-.09.16.07 1.03.48 1.21.57.18.09.3.13.34.21.05.08.05.47-.08.84z"
+    />
+  </svg>
+);
 
 const FORM_ENDPOINT = "https://formspree.io/f/xyzpvaeg";
 
@@ -108,6 +130,12 @@ const Contact = () => {
       title: 'Call Us',
       details: ['+972-52-2768607'],
       description: '24/7 support for urgent matters'
+    },
+    {
+      icon: WhatsAppIcon,
+      title: 'WhatsApp',
+      details: ['Message us instantly'],
+      description: 'Quick responses via WhatsApp'
     },
     {
       icon: MapPin,
@@ -259,7 +287,11 @@ const Contact = () => {
                     <div key={index} className="product-card p-6">
                       <div className="flex items-start space-x-4">
                         <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
-                          <info.icon className="h-6 w-6 text-white" />
+                          {info.title === 'WhatsApp' ? (
+                            <WhatsAppIcon />
+                          ) : (
+                            React.createElement(info.icon as any, { className: "h-6 w-6 text-white" })
+                          )}
                         </div>
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
@@ -267,63 +299,50 @@ const Contact = () => {
                              {info.details.map((detail, idx) => {
                                if (info.title === 'Call Us') {
                                  return (
-                                   <div key={idx} className="contact-block flex flex-col gap-1">
-                                     <a
-                                       href="tel:+972522768607"
-                                       className="contact-link contact-link--phone text-accent font-medium underline"
-                                       aria-label="Call us on mobile at +972-52-2768607"
-                                     >
-                                       {detail} (Mobile)
-                                     </a>
-                                     <button
-                                       id="whatsappLink"
-                                       className="contact-link contact-link--whatsapp mt-1 inline-flex items-center gap-2 bg-transparent text-green-600 border-0 p-0 cursor-pointer font-semibold hover:opacity-90 transition-opacity"
-                                       aria-label="Message us on WhatsApp"
-                                     >
-                                        <svg 
-                                          width="18" 
-                                          height="18" 
-                                          viewBox="0 0 24 24" 
-                                          aria-hidden="true" 
-                                          focusable="false"
-                                          className="wa-icon"
-                                        >
-                                          <circle 
-                                            cx="12" 
-                                            cy="12" 
-                                            r="12" 
-                                            fill="#25D366"
-                                          />
-                                          <path 
-                                            fill="white"
-                                            d="M12.04 6.42c-2.97 0-5.37 2.4-5.37 5.37 0 .95.25 1.87.71 2.68L6.3 17.58l3.24-1.05c.78.43 1.67.66 2.58.66 2.97 0 5.37-2.4 5.37-5.37s-2.4-5.37-5.37-5.37zm3.15 7.75c-.13.37-.77.68-1.07.72-.3.04-.7.04-1.13-.07-.26-.07-.6-.16-1.03-.31-1.85-.65-3.06-2.48-3.15-2.59-.09-.11-.74-.98-.74-1.87s.47-1.33.63-1.51c.16-.18.35-.23.47-.23s.23 0 .33.01c.11 0 .25-.04.39.3.16.35.53 1.29.57 1.38.04.09.07.19.01.31-.05.12-.09.19-.18.29-.09.1-.19.22-.27.29-.09.08-.18.17-.08.33.1.16.45.74 1.03 1.2.75.59 1.38.77 1.57.86.19.09.3.08.41-.05.11-.13.47-.54.59-.73.12-.19.24-.16.4-.09.16.07 1.03.48 1.21.57.18.09.3.13.34.21.05.08.05.47-.08.84z"
-                                          />
-                                        </svg>
-                                       <span>WhatsApp</span>
-                                     </button>
-                                   </div>
+                                   <a
+                                     key={idx}
+                                     href="tel:+972522768607"
+                                     className="text-accent font-medium underline"
+                                     aria-label="Call us on mobile at +972-52-2768607"
+                                   >
+                                     {detail} (Mobile)
+                                   </a>
                                  );
                                }
-                              if (info.title === 'Visit Us') {
-                                const mapsQuery = encodeURIComponent(detail);
-                                return (
-                                  <a
-                                    key={idx}
-                                    href={`https://www.google.com/maps?q=${mapsQuery}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-accent font-medium underline"
-                                  >
-                                    {detail}
-                                  </a>
-                                );
-                              }
-                              return (
-                                <p key={idx} className="text-accent font-medium">{detail}</p>
-                              );
-                            })}
-                          </div>
-                          <p className="text-muted-foreground text-sm mt-2">{info.description}</p>
+                               if (info.title === 'WhatsApp') {
+                                 return (
+                                   <a
+                                     key={idx}
+                                     href="https://wa.me/972522768607?text=Hello,%20I'm%20interested%20in%20your%20products%20and%20would%20like%20to%20know%20more."
+                                     target="_blank"
+                                     rel="noopener noreferrer"
+                                     className="text-accent font-medium underline"
+                                     aria-label="Message us on WhatsApp"
+                                   >
+                                     {detail}
+                                   </a>
+                                 );
+                               }
+                               if (info.title === 'Visit Us') {
+                                 const mapsQuery = encodeURIComponent(detail);
+                                 return (
+                                   <a
+                                     key={idx}
+                                     href={`https://www.google.com/maps?q=${mapsQuery}`}
+                                     target="_blank"
+                                     rel="noopener noreferrer"
+                                     className="text-accent font-medium underline"
+                                   >
+                                     {detail}
+                                   </a>
+                                 );
+                               }
+                               return (
+                                 <p key={idx} className="text-accent font-medium">{detail}</p>
+                               );
+                             })}
+                           </div>
+                           <p className="text-muted-foreground text-sm mt-2">{info.description}</p>
                         </div>
                       </div>
                     </div>
@@ -415,31 +434,6 @@ const Contact = () => {
         </div>
       </section>
       
-      {/* WhatsApp Integration Script */}
-      <script dangerouslySetInnerHTML={{
-        __html: `
-        (function(){
-          const WA_NUMBER = "972522768607";
-
-          function buildWhatsAppMessage() {
-            return "Hello, I'm interested in your products and would like to know more.";
-          }
-
-          function openWhatsApp() {
-            const text = encodeURIComponent(buildWhatsAppMessage());
-            const url = "https://wa.me/" + WA_NUMBER + "?text=" + text;
-            window.open(url, "_blank", "noopener");
-          }
-
-          document.addEventListener('DOMContentLoaded', function() {
-            const whatsappLink = document.getElementById("whatsappLink");
-            if (whatsappLink) {
-              whatsappLink.addEventListener("click", openWhatsApp);
-            }
-          });
-        })();
-        `
-      }} />
     </div>
   );
 };

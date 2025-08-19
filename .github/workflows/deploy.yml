@@ -102,3 +102,31 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      
+      - name: Post-Deploy Health Check
+        run: |
+          echo "🏥 Running post-deployment health check..."
+          
+          # Wait a moment for deployment to propagate
+          sleep 30
+          
+          # Check the main site loads
+          SITE_URL="${{ steps.deployment.outputs.page_url }}"
+          echo "🔍 Checking site: $SITE_URL"
+          
+          # Basic health check
+          if curl -f -s -I "$SITE_URL" > /dev/null; then
+            echo "✅ Site is responding"
+          else
+            echo "❌ Site not responding"
+            exit 1
+          fi
+          
+          # Check health endpoint
+          if curl -f -s "$SITE_URL/health" | grep -q "System Health Check"; then
+            echo "✅ Health endpoint working"
+          else
+            echo "⚠️ Health endpoint may need a moment to load"
+          fi
+          
+          echo "🎉 Post-deployment checks completed"

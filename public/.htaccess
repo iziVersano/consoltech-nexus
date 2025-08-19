@@ -1,15 +1,17 @@
-# CRITICAL: Force correct MIME types for JS/CSS (prevents application/octet-stream)
+# CRITICAL: Force correct MIME types (prevents application/octet-stream)
+AddType text/javascript .js .mjs
+AddType text/css .css
+AddType application/wasm .wasm
+AddType image/svg+xml .svg
+AddDefaultCharset utf-8
+
 <FilesMatch "\.(js|mjs)$">
-  ForceType application/javascript
-  Header always set Content-Type "application/javascript"
-  Header always unset X-Content-Type-Options
+  Header always set Content-Type "text/javascript; charset=utf-8"
   Header always set X-Content-Type-Options nosniff
 </FilesMatch>
 
 <FilesMatch "\.css$">
-  ForceType text/css
-  Header always set Content-Type "text/css"
-  Header always unset X-Content-Type-Options
+  Header always set Content-Type "text/css; charset=utf-8"
   Header always set X-Content-Type-Options nosniff
 </FilesMatch>
 
@@ -28,19 +30,20 @@ RewriteRule \.(ts|tsx)$ - [F,L]
 
 # CRITICAL: Cache Control (prevents stale MIME-typed assets)
 <FilesMatch "\.(html)$">
-  Header always set Cache-Control "no-store, must-revalidate"
+  Header always set Cache-Control "no-store"
   Header always set Pragma "no-cache"
   Header always set Expires "0"
 </FilesMatch>
 
-<FilesMatch "\.(js|mjs|css|png|jpg|jpeg|gif|svg|ico|woff|woff2)$">
-  Header always set Cache-Control "public, max-age=31536000, immutable"
+# Long-term cache for content-hashed assets only
+<FilesMatch "\.(js|mjs|css|woff2|png|jpg|jpeg|gif|svg|ico|woff)$">
+  <If "%{REQUEST_URI} =~ m#\/assets\/#">
+    Header always set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  <Else>
+    Header always set Cache-Control "public, max-age=3600"
+  </Else>
 </FilesMatch>
-
-# Ensure assets directory gets aggressive caching
-<Directory "*/assets">
-  Header always set Cache-Control "public, max-age=31536000, immutable"
-</Directory>
 
 # API Rewrite Rules (continue RewriteEngine from above)
 
@@ -69,12 +72,15 @@ RewriteRule \.(ts|tsx)$ - [F,L]
     RewriteRule ^api/contact$ https://jqnbbwzbzgspwwlnackt.functions.supabase.co/contact [R=307,L]
 </IfModule>
 
-# SPA Fallback - Exclude API routes completely
+# SPA Fallback - Assets must never hit SPA fallback
+RewriteCond %{REQUEST_URI} ^/assets/ [OR]
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^ - [L]
+
+# Send non-file requests to index.html (SPA routing)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/api/
-RewriteCond %{REQUEST_URI} !^/assets/
-RewriteRule . /index.html [L]
+RewriteRule ^ /index.html [L]
 
 # Security Headers
 Header always set X-Content-Type-Options nosniff

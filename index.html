@@ -26,6 +26,7 @@
 
   <body>
     <div id="root"></div>
+    <link rel="modulepreload" href="/src/main.tsx" crossorigin>
     <script type="module" src="/src/main.tsx"></script>
     
     <!-- Product Inquiry Script -->
@@ -90,12 +91,22 @@
         });
       }
 
-      // 6) Initialize and handle dynamic content
-      document.addEventListener("DOMContentLoaded", bindInquiryButtons);
+      // 6) Initialize and handle dynamic content with safety guards
+      document.addEventListener("DOMContentLoaded", () => {
+        try {
+          bindInquiryButtons();
+        } catch (e) {
+          console.warn('Inquiry buttons binding failed:', e);
+        }
+      });
       
-      // Also bind when content changes (for SPAs)
+      // Also bind when content changes (for SPAs) with error handling
       const observer = new MutationObserver(() => {
-        bindInquiryButtons();
+        try {
+          bindInquiryButtons();
+        } catch (e) {
+          console.warn('Dynamic inquiry buttons binding failed:', e);
+        }
       });
       
       if (document.body) {

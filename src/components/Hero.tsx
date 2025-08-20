@@ -1,18 +1,44 @@
 import { Button } from '@/components/ui/button';
 import { Grid3X3, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import heroImage from '@/assets/hero-tech.jpg';
 
 const Hero = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setImageLoaded(true);
+    img.src = heroImage;
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 pb-8 md:pt-24 md:pb-16">
-      {/* Background Image */}
+      {/* Background Image with LQIP */}
       <div className="absolute inset-0 z-0">
+        {/* Low Quality Placeholder - heavily blurred */}
+        <div 
+          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ease-in-out ${
+            imageLoaded ? 'opacity-0' : 'opacity-30'
+          }`}
+          style={{
+            backgroundImage: `url(${heroImage})`,
+            filter: 'blur(20px)',
+            transform: 'scale(1.1)', // Slight scale to hide blur edges
+          }}
+        />
+        
+        {/* High Quality Image */}
         <img 
           src={heroImage} 
           alt="High-tech electronics and gaming devices" 
-          className="w-full h-full object-cover opacity-30"
+          className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+            imageLoaded ? 'opacity-30' : 'opacity-0'
+          }`}
+          onLoad={() => setImageLoaded(true)}
         />
+        
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
       </div>
 

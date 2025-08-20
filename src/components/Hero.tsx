@@ -17,15 +17,13 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center pt-20 pb-8 md:pt-24 md:pb-16">
       {/* Background Image with LQIP */}
       <div className="absolute inset-0 z-0">
-        {/* Low Quality Placeholder - heavily blurred */}
+        {/* Instant placeholder with tech-themed gradient */}
         <div 
-          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ease-in-out ${
-            imageLoaded ? 'opacity-0' : 'opacity-30'
+          className={`absolute inset-0 transition-opacity duration-500 ease-out ${
+            imageLoaded ? 'opacity-0' : 'opacity-100'
           }`}
           style={{
-            backgroundImage: `url(${heroImage})`,
-            filter: 'blur(20px)',
-            transform: 'scale(1.1)', // Slight scale to hide blur edges
+            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)',
           }}
         />
         
@@ -33,7 +31,7 @@ const Hero = () => {
         <img 
           src={heroImage} 
           alt="High-tech electronics and gaming devices" 
-          className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+          className={`w-full h-full object-cover transition-opacity duration-500 ease-out ${
             imageLoaded ? 'opacity-30' : 'opacity-0'
           }`}
           onLoad={() => setImageLoaded(true)}

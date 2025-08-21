@@ -1,11 +1,17 @@
 # CRITICAL: Force correct MIME types (prevents application/octet-stream)
-AddType text/javascript .js .mjs
+AddType application/javascript .js
+AddType text/javascript .mjs
 AddType text/css .css
 AddType application/wasm .wasm
 AddType image/svg+xml .svg
 AddDefaultCharset utf-8
 
-<FilesMatch "\.(js|mjs)$">
+<FilesMatch "\.js$">
+  Header always set Content-Type "application/javascript; charset=utf-8"
+  Header always set X-Content-Type-Options nosniff
+</FilesMatch>
+
+<FilesMatch "\.mjs$">
   Header always set Content-Type "text/javascript; charset=utf-8"
   Header always set X-Content-Type-Options nosniff
 </FilesMatch>

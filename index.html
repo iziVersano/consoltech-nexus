@@ -10,7 +10,7 @@
     <!-- Modern Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Heebo:wght@300;400;500;600;700;800;900&family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <meta property="og:title" content="CONSOLTECH - Global Import & Distribution" />
     <meta property="og:description" content="Premier global distributor of electronics, gaming consoles, drones, e-bikes, and smart technology." />
@@ -22,10 +22,6 @@
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
     <link rel="canonical" href="https://consoltech.shop/" />
     <meta name="x-build" content="redeploy-2025-08-12" />
-    
-    <!-- Favicons -->
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   </head>
 
   <body>
@@ -87,31 +83,16 @@
         }
       }
 
-      // 5) Bind to all buttons with proper DOM checks
+      // 5) Bind to all buttons
       function bindInquiryButtons() {
-        try {
-          const buttons = document.querySelectorAll(".btn-inquiry");
-          buttons.forEach(btn => {
-            if (btn instanceof Element) {
-              btn.removeEventListener("click", onInquiryClick);
-              btn.addEventListener("click", onInquiryClick);
-            }
-          });
-        } catch (e) {
-          console.warn('Error binding inquiry buttons:', e);
-        }
+        document.querySelectorAll(".btn-inquiry").forEach(btn => {
+          btn.removeEventListener("click", onInquiryClick);
+          btn.addEventListener("click", onInquiryClick);
+        });
       }
 
       // 6) Initialize and handle dynamic content with safety guards
-      function domReady(cb) {
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', cb, { once: true });
-        } else {
-          cb();
-        }
-      }
-
-      domReady(() => {
+      document.addEventListener("DOMContentLoaded", () => {
         try {
           bindInquiryButtons();
         } catch (e) {
@@ -120,23 +101,17 @@
       });
       
       // Also bind when content changes (for SPAs) with error handling
-      domReady(() => {
+      const observer = new MutationObserver(() => {
         try {
-          const observer = new MutationObserver(() => {
-            try {
-              bindInquiryButtons();
-            } catch (e) {
-              console.warn('Dynamic inquiry buttons binding failed:', e);
-            }
-          });
-          
-          if (document.body instanceof Node) {
-            observer.observe(document.body, { childList: true, subtree: true });
-          }
+          bindInquiryButtons();
         } catch (e) {
-          console.warn('MutationObserver setup failed:', e);
+          console.warn('Dynamic inquiry buttons binding failed:', e);
         }
       });
+      
+      if (document.body) {
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
     })();
     </script>
   </body>

@@ -30,9 +30,9 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-full z-50 nav-glass">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <nav className="header fixed top-0 w-full z-50 nav-glass">
+      <div className="max-w-7xl mx-auto">
+        <div className="navbar flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
             <div className="relative">
@@ -45,12 +45,12 @@ const Navigation = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="nav-actions hidden md:flex items-center space-x-6">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`transition-all duration-300 hover:text-accent ${
+                className={`nav-link transition-all duration-300 hover:text-accent ${
                   isActive(item.href) 
                     ? 'text-accent border-b-2 border-accent' 
                     : 'text-foreground hover:text-accent'
@@ -65,7 +65,7 @@ const Navigation = () => {
             {/* Language Toggle */}
             <button
               onClick={handleLanguageToggle}
-              className="btn-lang-toggle"
+              className="lang-toggle btn-lang-toggle"
               aria-label="Toggle language"
             >
               <Globe className="h-4 w-4" />
@@ -81,52 +81,63 @@ const Navigation = () => {
           {/* Mobile menu button */}
           <div className="md:hidden">
             <Button
-              variant="mobile-menu"
+              variant="ghost"
               size="icon"
               onClick={() => setIsOpen(!isOpen)}
+              className="burger"
+              aria-label="Toggle mobile menu"
             >
-              <Menu size={24} />
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </Button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden border-t border-border animate-fade-in">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`block px-3 py-2 rounded-md transition-colors ${
-                    isActive(item.href)
-                      ? 'text-accent bg-accent/10'
-                      : 'text-foreground hover:text-accent hover:bg-accent/5'
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                  data-i18n={item.key}
-                  data-i18n-ns="nav"
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <div className="px-3 pt-2 space-y-2">
-                {/* Mobile Language Toggle */}
-                <button
-                  onClick={handleLanguageToggle}
-                  className="btn-lang-toggle w-full justify-center"
-                >
-                  <Globe className="h-4 w-4" />
-                  <span data-i18n="language" data-i18n-ns="nav">EN | עִבְרִית</span>
-                </button>
-                
-                <Button className="btn-nav w-full">
-                  <MessageSquare className="h-4 w-4" />
-                  <span data-i18n="quote" data-i18n-ns="nav">Get Quote</span>
-                </Button>
-              </div>
+        {/* Mobile Navigation Drawer */}
+        <div className={`drawer md:hidden ${isOpen ? 'open' : ''}`}>
+          <div className="space-y-4">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`nav-link block px-3 py-2 rounded-md transition-colors ${
+                  isActive(item.href)
+                    ? 'text-accent bg-accent/10'
+                    : 'text-foreground hover:text-accent hover:bg-accent/5'
+                }`}
+                onClick={() => setIsOpen(false)}
+                data-i18n={item.key}
+                data-i18n-ns="nav"
+              >
+                {item.name}
+              </Link>
+            ))}
+            <div className="pt-4 space-y-3 border-t border-border">
+              {/* Mobile Language Toggle */}
+              <button
+                onClick={() => {
+                  handleLanguageToggle();
+                  setIsOpen(false);
+                }}
+                className="lang-toggle btn-lang-toggle w-full justify-center"
+              >
+                <Globe className="h-4 w-4" />
+                <span data-i18n="language" data-i18n-ns="nav">EN | עִבְרִית</span>
+              </button>
+              
+              <Button className="btn-nav w-full" onClick={() => setIsOpen(false)}>
+                <MessageSquare className="h-4 w-4" />
+                <span data-i18n="quote" data-i18n-ns="nav">Get Quote</span>
+              </Button>
             </div>
           </div>
+        </div>
+
+        {/* Mobile Overlay */}
+        {isOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            onClick={() => setIsOpen(false)}
+          />
         )}
       </div>
     </nav>

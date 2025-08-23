@@ -103,27 +103,27 @@ const Hero = () => {
           
           {/* Main Headline */}
           <div className="space-y-3 md:space-y-4">
-            <h1 className="text-center text-3xl md:text-4xl lg:text-6xl leading-snug lg:leading-tight font-bold break-normal whitespace-normal" data-i18n="hero.title" data-i18n-ns="home">
+            <h1 className="hero-title text-center text-3xl md:text-4xl lg:text-6xl leading-snug lg:leading-tight font-bold break-normal whitespace-normal" data-i18n="hero.title" data-i18n-ns="home">
               Your Gateway to Gaming, Gadgets & Innovation
             </h1>
             
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed" data-i18n="hero.subtitle" data-i18n-ns="home">
+            <p className="hero-lead text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed" data-i18n="hero.subtitle" data-i18n-ns="home">
               Import & distribution across EMEA: consoles, TVs, e‑bikes, drones and more.
             </p>
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0 justify-center items-center pt-8">
-            <Link to="/products">
-              <Button className="btn-hero-square group">
+          <div className="hero-ctas flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0 justify-center items-center pt-8">
+            <Link to="/products" className="w-full sm:w-auto">
+              <Button className="btn-hero-square group w-full sm:w-auto">
                 <Grid3X3 className="h-5 w-5 md:h-6 md:w-6" />
                 <span data-i18n="cta.explore" data-i18n-ns="common">Explore Products</span>
               </Button>
             </Link>
             
-            <Link to="/contact">
-              <Button className="btn-neon-square group">
-                <Send className="h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:translate-x-1" />
+            <Link to="/contact" className="w-full sm:w-auto">
+              <Button className="btn-neon-square group w-full sm:w-auto">
+                <Send className="h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
                 <span data-i18n="cta.contact" data-i18n-ns="common">Contact Us</span>
               </Button>
             </Link>

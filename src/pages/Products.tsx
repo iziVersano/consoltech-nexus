@@ -105,42 +105,45 @@ const Products = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="section pt-24 pb-12">
+        <div className="container max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <h1 className="hero-title text-4xl md:text-6xl font-bold mb-6" data-i18n="title" data-i18n-ns="products">
               Our <span className="gradient-text">Products</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="hero-lead text-xl text-muted-foreground max-w-3xl mx-auto" data-i18n="lead" data-i18n-ns="products">
               Discover our comprehensive catalog of cutting-edge technology products 
               from the world's leading brands
             </p>
           </div>
 
           {/* Search and Filter */}
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-12">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <div className="filters-row flex flex-col md:flex-row gap-4 items-center justify-between mb-12">
+            <div className="relative flex-1 max-w-md w-full">
+              <Search className="absolute rtl:right-3 ltr:left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <input
                 type="text"
                 placeholder="Search products..."
+                data-i18n-placeholder="search.placeholder"
+                data-i18n-ns="products"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-card rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="search-input w-full rtl:pr-10 rtl:pl-4 ltr:pl-10 ltr:pr-4 py-3 bg-card rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full md:w-auto">
               <Filter className="h-5 w-5 text-muted-foreground" />
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-2 flex-wrap w-full md:w-auto">
                 {categories.map((category) => (
                   <Button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
                     className={selectedCategory === category ? "btn-primary-small" : "btn-accent-small"}
+                    size="sm"
                   >
                     <Filter className="h-3 w-3" />
-                    <span>{category}</span>
+                    <span data-i18n={`filters.${category.toLowerCase()}`} data-i18n-ns="products">{category}</span>
                   </Button>
                 ))}
               </div>
@@ -150,9 +153,9 @@ const Products = () => {
       </section>
 
       {/* Products Grid */}
-      <section className="pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <section className="section pb-16">
+        <div className="container max-w-7xl mx-auto">
+          <div className="grid-products grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredProducts.map((product) => (
               <div key={product.id} className="product-card group">
                 <div className="relative overflow-hidden rounded-lg mb-4">
@@ -216,13 +219,13 @@ const Products = () => {
               <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
                 <Search className="h-12 w-12 text-muted-foreground" />
               </div>
-              <h3 className="text-2xl font-semibold mb-4">No products found</h3>
-              <p className="text-muted-foreground mb-6">
+              <h3 className="text-2xl font-semibold mb-4" data-i18n="empty.title" data-i18n-ns="products">No products found</h3>
+              <p className="text-muted-foreground mb-6" data-i18n="empty.subtitle" data-i18n-ns="products">
                 Try adjusting your search terms or category filter
               </p>
               <Button onClick={() => { setSearchTerm(''); setSelectedCategory('All'); }} className="btn-neon">
                 <RotateCcw className="h-5 w-5" />
-                <span>Clear Filters</span>
+                <span data-i18n="empty.clear" data-i18n-ns="products">Clear Filters</span>
               </Button>
             </div>
           )}
@@ -230,19 +233,19 @@ const Products = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-primary/10 to-accent/10">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+      <section className="section py-16 bg-gradient-to-r from-primary/10 to-accent/10">
+        <div className="container max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6" data-i18n="cta.title" data-i18n-ns="products">
             Need a <span className="gradient-text">Custom Solution</span>?
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-xl text-muted-foreground mb-8" data-i18n="cta.subtitle" data-i18n-ns="products">
             Can't find what you're looking for? Our team can source custom products 
             and create tailored distribution solutions for your business.
           </p>
-          <Button asChild className="btn-hero">
+          <Button asChild className="btn-hero w-full sm:w-auto">
             <Link to="/contact">
               <Phone className="h-5 w-5" />
-              <span>Contact Our Specialists</span>
+              <span data-i18n="cta.contact" data-i18n-ns="products">Contact Our Specialists</span>
             </Link>
           </Button>
         </div>

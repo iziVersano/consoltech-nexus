@@ -34,5 +34,12 @@
   "inquiry.subtitle": "קבל מידע על מחיר וזמינות",
   "inquiry.cta": "בקש הצעת מחיר",
   "breadcrumb.home": "דף הבית",
-  "breadcrumb.products": "מוצרים"
+  "breadcrumb.products": "מוצרים",
+  "search.placeholder": "חפש מוצרים...",
+  "empty.title": "לא נמצאו מוצרים",
+  "empty.subtitle": "נסה לשנות את מילות החיפוש או סינון הקטגוריות",
+  "empty.clear": "נקה סינונים",
+  "cta.title": "זקוק לפתרון מותאם אישית?",
+  "cta.subtitle": "לא מוצא את מה שאתה מחפש? הצוות שלנו יכול לספק מוצרים מותאמים ליצור פתרונות הפצה מותאמים לעסק שלך.",
+  "cta.contact": "צור קשר עם המומחים שלנו"
 }

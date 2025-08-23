@@ -34,5 +34,12 @@
   "inquiry.subtitle": "Get pricing and availability information",
   "inquiry.cta": "Request Quote",
   "breadcrumb.home": "Home",
-  "breadcrumb.products": "Products"
+  "breadcrumb.products": "Products",
+  "search.placeholder": "Search products...",
+  "empty.title": "No products found",
+  "empty.subtitle": "Try adjusting your search terms or category filter",
+  "empty.clear": "Clear Filters",
+  "cta.title": "Need a Custom Solution?",
+  "cta.subtitle": "Can't find what you're looking for? Our team can source custom products and create tailored distribution solutions for your business.",
+  "cta.contact": "Contact Our Specialists"
 }

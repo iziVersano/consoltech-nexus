@@ -22,6 +22,10 @@
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
     <link rel="canonical" href="https://consoltech.shop/" />
     <meta name="x-build" content="redeploy-2025-08-12" />
+    
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   </head>
 
   <body>
@@ -83,16 +87,31 @@
         }
       }
 
-      // 5) Bind to all buttons
+      // 5) Bind to all buttons with proper DOM checks
       function bindInquiryButtons() {
-        document.querySelectorAll(".btn-inquiry").forEach(btn => {
-          btn.removeEventListener("click", onInquiryClick);
-          btn.addEventListener("click", onInquiryClick);
-        });
+        try {
+          const buttons = document.querySelectorAll(".btn-inquiry");
+          buttons.forEach(btn => {
+            if (btn instanceof Element) {
+              btn.removeEventListener("click", onInquiryClick);
+              btn.addEventListener("click", onInquiryClick);
+            }
+          });
+        } catch (e) {
+          console.warn('Error binding inquiry buttons:', e);
+        }
       }
 
       // 6) Initialize and handle dynamic content with safety guards
-      document.addEventListener("DOMContentLoaded", () => {
+      function domReady(cb) {
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', cb, { once: true });
+        } else {
+          cb();
+        }
+      }
+
+      domReady(() => {
         try {
           bindInquiryButtons();
         } catch (e) {
@@ -101,17 +120,23 @@
       });
       
       // Also bind when content changes (for SPAs) with error handling
-      const observer = new MutationObserver(() => {
+      domReady(() => {
         try {
-          bindInquiryButtons();
+          const observer = new MutationObserver(() => {
+            try {
+              bindInquiryButtons();
+            } catch (e) {
+              console.warn('Dynamic inquiry buttons binding failed:', e);
+            }
+          });
+          
+          if (document.body instanceof Node) {
+            observer.observe(document.body, { childList: true, subtree: true });
+          }
         } catch (e) {
-          console.warn('Dynamic inquiry buttons binding failed:', e);
+          console.warn('MutationObserver setup failed:', e);
         }
       });
-      
-      if (document.body) {
-        observer.observe(document.body, { childList: true, subtree: true });
-      }
     })();
     </script>
   </body>

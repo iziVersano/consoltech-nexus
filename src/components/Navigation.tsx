@@ -1,18 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, MessageSquare, Gamepad2 } from 'lucide-react';
+import { Menu, X, MessageSquare, Gamepad2, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toggleLanguage, applyTranslations } from '@/lib/translations';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentLang, setCurrentLang] = useState('en');
   const location = useLocation();
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Products', href: '/products' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Home', href: '/', key: 'nav.home' },
+    { name: 'About', href: '/about', key: 'nav.about' },
+    { name: 'Products', href: '/products', key: 'nav.products' },
+    { name: 'Contact', href: '/contact', key: 'nav.contact' },
   ];
+
+  useEffect(() => {
+    const lang = document.documentElement.getAttribute('lang') || 'en';
+    setCurrentLang(lang);
+  }, []);
+
+  const handleLanguageToggle = () => {
+    toggleLanguage();
+    const newLang = document.documentElement.getAttribute('lang') || 'en';
+    setCurrentLang(newLang);
+  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -32,7 +45,7 @@ const Navigation = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -42,13 +55,25 @@ const Navigation = () => {
                     ? 'text-accent border-b-2 border-accent' 
                     : 'text-foreground hover:text-accent'
                 }`}
+                data-i18n={item.key}
               >
                 {item.name}
               </Link>
             ))}
+            
+            {/* Language Toggle */}
+            <button
+              onClick={handleLanguageToggle}
+              className="btn-lang-toggle"
+              aria-label="Toggle language"
+            >
+              <Globe className="h-4 w-4" />
+              <span data-i18n="nav.language">EN | עִבְרִית</span>
+            </button>
+
             <Button className="btn-nav">
               <MessageSquare className="h-4 w-4" />
-              <span>Get Quote</span>
+              <span data-i18n="nav.quote">Get Quote</span>
             </Button>
           </div>
 
@@ -78,14 +103,24 @@ const Navigation = () => {
                       : 'text-foreground hover:text-accent hover:bg-accent/5'
                   }`}
                   onClick={() => setIsOpen(false)}
+                  data-i18n={item.key}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="px-3 pt-2">
+              <div className="px-3 pt-2 space-y-2">
+                {/* Mobile Language Toggle */}
+                <button
+                  onClick={handleLanguageToggle}
+                  className="btn-lang-toggle w-full justify-center"
+                >
+                  <Globe className="h-4 w-4" />
+                  <span data-i18n="nav.language">EN | עִבְרִית</span>
+                </button>
+                
                 <Button className="btn-nav w-full">
                   <MessageSquare className="h-4 w-4" />
-                  <span>Get Quote</span>
+                  <span data-i18n="nav.quote">Get Quote</span>
                 </Button>
               </div>
             </div>

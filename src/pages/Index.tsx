@@ -68,8 +68,8 @@ const Index = () => {
       <section className="pt-4 md:pt-6 pb-12 md:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Why Choose <span className="gradient-text">CONSOLTECH</span>?
+            <h2 className="text-4xl md:text-5xl font-bold mb-6" data-i18n="features.title">
+              Why Choose CONSOLTECH?
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               We're more than just a distributor – we're your technology partner, 
@@ -94,19 +94,18 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-12 md:py-20 bg-gradient-to-r from-primary/10 to-accent/10">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to <span className="gradient-text">Transform</span> Your Business?
-          </h2>
-          <p className="text-xl text-muted-foreground mb-6 md:mb-8">
-            Join thousands of successful businesses worldwide who trust CONSOLTECH 
-            for their technology distribution needs.
-          </p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6" data-i18n="cta.title">
+              Ready to Partner with CONSOLTECH?
+            </h2>
+            <p className="text-xl text-muted-foreground mb-6 md:mb-8" data-i18n="cta.subtitle">
+              Join thousands of retailers worldwide who trust us for their electronics distribution needs.
+            </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact">
-              <Button className="btn-hero">
-                <UserPlus className="h-5 w-5" />
-                <span>Start Partnership</span>
-              </Button>
+                <Button className="btn-hero">
+                  <UserPlus className="h-5 w-5" />
+                  <span data-i18n="cta.button">Start Partnership</span>
+                </Button>
             </Link>
             <Link to="/products">
               <Button className="btn-neon">
@@ -126,14 +125,11 @@ const Index = () => {
             <div className="flex flex-col gap-6 md:grid md:grid-cols-12 md:gap-8">
               {/* Left Column */}
               <div className="md:col-span-7 space-y-6">
-                <h2 className="text-4xl md:text-5xl font-bold">
-                  About <span className="gradient-text">Consoltech</span>
+                <h2 className="text-4xl md:text-5xl font-bold" data-i18n="about.title">
+                  About Consoltech
                 </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Founded in 2001 in Tel Aviv, Consoltech is a trusted importer, exporter, and distributor 
-                  delivering high-demand consumer electronics and gaming products to retailers, resellers, 
-                  and wholesale clients across global markets. As a VIP+ Handelot member, we prioritize 
-                  reliability, transparency, and fast, flexible logistics.
+                <p className="text-lg text-muted-foreground leading-relaxed" data-i18n="about.intro">
+                  At CONSOLTECH, we are more than just a distributor – we are your strategic partner in the dynamic world of consumer electronics and gaming technology.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link to="/about">
@@ -266,11 +262,10 @@ const Index = () => {
                 <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-sm">C</span>
                 </div>
-                <span className="text-2xl font-bold gradient-text">CONSOLTECH</span>
+                <span className="text-2xl font-bold gradient-text" data-i18n="footer.company">CONSOLTECH</span>
               </div>
-              <p className="text-muted-foreground">
-                Global leader in electronics and gaming distribution, 
-                connecting innovation with markets worldwide.
+              <p className="text-muted-foreground" data-i18n="footer.description">
+                Global distributor of electronics, gaming consoles, and innovative technology products.
               </p>
             </div>
             
@@ -283,7 +278,7 @@ const Index = () => {
                     <span className="text-accent font-semibold">Email:</span> sales@gamestation.co.il
                   </a>
                   <a href="tel:+972522768607" className="block hover:underline leading-relaxed break-words">
-                    <span className="text-accent font-semibold">Mobile / WhatsApp:</span> +972 52 276 8607
+                    <span className="text-accent font-semibold" data-i18n="footer.phone">Phone:</span> +972 52 276 8607
                   </a>
                   <a
                     href="https://www.google.com/maps?q=47%20Moshe%20Sneh%20St.,%20Tel%20Aviv%206930243,%20Israel"
@@ -298,7 +293,7 @@ const Index = () => {
           </div>
           
           <div className="border-t border-border mt-12 pt-8 text-center text-muted-foreground">
-            <p>&copy; 2024 CONSOLTECH. All rights reserved. | Global Import & Distribution Excellence</p>
+            <p data-i18n="footer.copyright">&copy; 2024 CONSOLTECH. All rights reserved.</p>
           </div>
         </div>
       </footer>

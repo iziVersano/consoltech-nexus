@@ -19,9 +19,10 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Inter', 'system-ui', 'sans-serif'],
+				sans: ['Inter', 'Heebo', 'Assistant', 'system-ui', 'sans-serif'],
 				mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'monospace'],
 				orbitron: ['Orbitron', 'system-ui', 'sans-serif'],
+				hebrew: ['Heebo', 'Assistant', 'system-ui', 'sans-serif'],
 			},
 			fontSize: {
 				'xs': ['0.75rem', { lineHeight: '1rem' }],

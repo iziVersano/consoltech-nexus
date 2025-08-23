@@ -1,0 +1,18 @@
+{
+  "home.title": "CONSOLTECH - Global Import & Distribution of Electronics, Gaming & Innovation",
+  "home.description": "Premier global distributor of electronics, gaming consoles, drones, e-bikes, and smart technology. Trusted by 50+ countries worldwide.",
+  "home.keywords": "electronics distribution, gaming consoles, import export, technology distributor, global electronics, gaming products",
+  "about.title": "About CONSOLTECH - Leading Global Electronics Distributor",
+  "about.description": "Learn about CONSOLTECH's 20+ years of experience in global electronics distribution, serving retailers across 50+ countries with premium technology products.",
+  "about.keywords": "about consoltech, electronics distributor, global distribution, technology import export, gaming distributor",
+  "products.title": "Products - Gaming Consoles, Electronics, Drones & Smart Technology | CONSOLTECH",
+  "products.description": "Browse our comprehensive catalog of gaming consoles, electronics, drones, e-bikes, and smart technology from leading global brands.",
+  "products.keywords": "gaming consoles, electronics catalog, drones, e-bikes, smart tv, technology products, wholesale electronics",
+  "contact.title": "Contact CONSOLTECH - Global Electronics Distribution Partner",
+  "contact.description": "Get in touch with CONSOLTECH for electronics distribution partnerships, product inquiries, and global technology sourcing solutions.",
+  "contact.keywords": "contact consoltech, electronics distributor contact, global distribution partner, technology sourcing",
+  "product.titleTemplate": "{{name}} - {{category}} | CONSOLTECH",
+  "product.descriptionTemplate": "{{name}} from {{brand}}. {{description}} Available for global distribution through CONSOLTECH.",
+  "organization.name": "CONSOLTECH",
+  "organization.description": "Global import, export, and distribution of consumer electronics and gaming since 2001."
+}

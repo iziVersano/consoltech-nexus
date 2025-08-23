@@ -10,10 +10,14 @@ import Products from "./pages/Products";
 import Contact from "./pages/Contact";
 import Health from "./pages/Health";
 import NotFound from "./pages/NotFound";
+import { initI18n } from "@/lib/i18n";
 
 import { useEffect } from "react";
 
 const queryClient = new QueryClient();
+
+// Initialize i18n on app start
+initI18n();
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -32,12 +36,21 @@ const App = () => (
         <BrowserRouter>
           <ScrollToTop />
           <Routes>
+            {/* English routes */}
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Products />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/health" element={<Health />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            
+            {/* Hebrew routes */}
+            <Route path="/he" element={<Index />} />
+            <Route path="/he/about" element={<About />} />
+            <Route path="/he/products" element={<Products />} />
+            <Route path="/he/contact" element={<Contact />} />
+            <Route path="/he/health" element={<Health />} />
+            
+            {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

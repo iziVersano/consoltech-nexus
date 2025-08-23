@@ -103,11 +103,11 @@ const Hero = () => {
           
           {/* Main Headline */}
           <div className="space-y-3 md:space-y-4">
-            <h1 className="text-center text-3xl md:text-4xl lg:text-6xl leading-snug lg:leading-tight font-bold break-normal whitespace-normal" data-i18n="hero.title">
+            <h1 className="text-center text-3xl md:text-4xl lg:text-6xl leading-snug lg:leading-tight font-bold break-normal whitespace-normal" data-i18n="hero.title" data-i18n-ns="home">
               Your Gateway to Gaming, Gadgets & Innovation
             </h1>
             
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed" data-i18n="hero.subtitle">
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed" data-i18n="hero.subtitle" data-i18n-ns="home">
               Import & distribution across EMEA: consoles, TVs, e‑bikes, drones and more.
             </p>
           </div>
@@ -117,14 +117,14 @@ const Hero = () => {
             <Link to="/products">
               <Button className="btn-hero-square group">
                 <Grid3X3 className="h-5 w-5 md:h-6 md:w-6" />
-                <span data-i18n="hero.cta.explore">Explore Products</span>
+                <span data-i18n="cta.explore" data-i18n-ns="common">Explore Products</span>
               </Button>
             </Link>
             
             <Link to="/contact">
               <Button className="btn-neon-square group">
                 <Send className="h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:translate-x-1" />
-                <span data-i18n="hero.cta.contact">Contact Us</span>
+                <span data-i18n="cta.contact" data-i18n-ns="common">Contact Us</span>
               </Button>
             </Link>
           </div>
@@ -133,19 +133,19 @@ const Hero = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-16">
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-accent">50+</div>
-              <div className="text-sm text-muted-foreground" data-i18n="stats.countries">Countries Served</div>
+              <div className="text-sm text-muted-foreground" data-i18n="stats.countries" data-i18n-ns="home">Countries Served</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-primary">1000+</div>
-              <div className="text-sm text-muted-foreground" data-i18n="stats.products">Products Available</div>
+              <div className="text-sm text-muted-foreground" data-i18n="stats.products" data-i18n-ns="home">Products Available</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-accent">24/7</div>
-              <div className="text-sm text-muted-foreground" data-i18n="stats.partners">Trusted Partners</div>
+              <div className="text-sm text-muted-foreground" data-i18n="stats.partners" data-i18n-ns="home">Trusted Partners</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-primary">15+</div>
-              <div className="text-sm text-muted-foreground" data-i18n="stats.experience">Years Experience</div>
+              <div className="text-sm text-muted-foreground" data-i18n="stats.experience" data-i18n-ns="home">Years Experience</div>
             </div>
           </div>
         </div>

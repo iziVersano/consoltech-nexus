@@ -31,15 +31,7 @@
 
   <body>
     <div id="root"></div>
-    <script type="module">
-      // Load entry for dev (Vite) vs production (static host)
-      const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-      if (isDev) {
-        import('/src/main.tsx');
-      } else {
-        import('/assets/main.js');
-      }
-    </script>
+    <script type="module" src="/src/main.tsx"></script>
     
     <!-- Product Inquiry Script -->
     <script>

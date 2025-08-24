@@ -20,4 +20,15 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/main.js',
+        chunkFileNames: 'assets/chunk-[name].js',
+        assetFileNames: 'assets/[name][extname]'
+      }
+    }
+  }
 }));

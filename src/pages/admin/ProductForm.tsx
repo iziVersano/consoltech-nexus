@@ -1,0 +1,263 @@
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import AdminLayout from '@/components/AdminLayout';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  getProduct,
+  createProduct,
+  updateProduct,
+  isAuthenticated,
+  type Product,
+} from '@/lib/api';
+import { toast } from 'sonner';
+import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+
+const categories = ['Gaming', 'Electronics', 'Drones', 'E-Bikes', 'TVs'];
+
+const ProductForm = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = !!id;
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    category: '',
+    imageUrl: '',
+    price: '',
+  });
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate('/admin/login');
+      return;
+    }
+
+    if (isEditMode) {
+      loadProduct();
+    }
+  }, [id, navigate]);
+
+  const loadProduct = async () => {
+    if (!id) return;
+
+    try {
+      setIsLoading(true);
+      const product = await getProduct(parseInt(id));
+      setFormData({
+        title: product.title,
+        description: product.description,
+        category: product.category,
+        imageUrl: product.imageUrl,
+        price: product.price.toString(),
+      });
+    } catch (error) {
+      toast.error('Failed to load product');
+      console.error('Error loading product:', error);
+      navigate('/admin/products');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+
+    try {
+      const productData = {
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        imageUrl: formData.imageUrl,
+        price: parseFloat(formData.price),
+      };
+
+      if (isEditMode && id) {
+        await updateProduct(parseInt(id), {
+          id: parseInt(id),
+          ...productData,
+        });
+        toast.success('Product updated successfully');
+      } else {
+        await createProduct(productData);
+        toast.success('Product created successfully');
+      }
+
+      navigate('/admin/products');
+    } catch (error) {
+      toast.error(`Failed to ${isEditMode ? 'update' : 'create'} product`);
+      console.error('Error saving product:', error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  if (isLoading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </AdminLayout>
+    );
+  }
+
+  return (
+    <AdminLayout>
+      <div className="max-w-2xl mx-auto space-y-6">
+        <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate('/admin/products')}
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back</span>
+          </Button>
+          <div>
+            <h1 className="text-3xl font-bold">
+              {isEditMode ? 'Edit Product' : 'New Product'}
+            </h1>
+            <p className="text-muted-foreground">
+              {isEditMode ? 'Update product details' : 'Add a new product to your catalog'}
+            </p>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="title">Title *</Label>
+            <Input
+              id="title"
+              value={formData.title}
+              onChange={(e) => handleChange('title', e.target.value)}
+              placeholder="Product title"
+              required
+              disabled={isSaving}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description">Description *</Label>
+            <Textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => handleChange('description', e.target.value)}
+              placeholder="Product description"
+              rows={4}
+              required
+              disabled={isSaving}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="category">Category *</Label>
+            <Select
+              value={formData.category}
+              onValueChange={(value) => handleChange('category', value)}
+              disabled={isSaving}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="imageUrl">Image URL *</Label>
+            <Input
+              id="imageUrl"
+              value={formData.imageUrl}
+              onChange={(e) => handleChange('imageUrl', e.target.value)}
+              placeholder="/lovable-uploads/..."
+              required
+              disabled={isSaving}
+            />
+            {formData.imageUrl && (
+              <div className="mt-2">
+                <img
+                  src={formData.imageUrl}
+                  alt="Preview"
+                  className="w-32 h-32 object-cover rounded border border-border"
+                  onError={(e) => {
+                    e.currentTarget.src = '/placeholder.svg';
+                  }}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="price">Price (USD) *</Label>
+            <Input
+              id="price"
+              type="number"
+              step="0.01"
+              min="0"
+              value={formData.price}
+              onChange={(e) => handleChange('price', e.target.value)}
+              placeholder="0.00"
+              required
+              disabled={isSaving}
+            />
+          </div>
+
+          <div className="flex items-center gap-4 pt-4">
+            <Button
+              type="submit"
+              className="btn-primary"
+              disabled={isSaving}
+            >
+              {isSaving ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Saving...</span>
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4" />
+                  <span>{isEditMode ? 'Update Product' : 'Create Product'}</span>
+                </>
+              )}
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => navigate('/admin/products')}
+              disabled={isSaving}
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </div>
+    </AdminLayout>
+  );
+};
+
+export default ProductForm;
+

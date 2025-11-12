@@ -1,23 +1,57 @@
-
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-const playstationImg = '/lovable-uploads/bd80e124-a5e2-4d34-9c82-ebc0dbd6a697.png';
-const xboxImg = '/lovable-uploads/78a95f48-606e-44b6-950e-af0555a3f04f.png';
-const droneImg = '/lovable-uploads/07ba8bc0-8d14-4d62-a534-659913ac5f99.png';
-
-const smartTvImg = '/lovable-uploads/6df37998-af04-426e-b749-365ffeb66787.png';
 import { cn } from '@/lib/utils';
+import { getProducts, type Product as ApiProduct } from '@/lib/api';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  image: string;
+  price: string;
+}
+
 const ProductSlider = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  const loadProducts = async () => {
+    try {
+      setIsLoading(true);
+      const apiProducts = await getProducts();
+      // Transform and take first 5 products for the slider
+      const transformedProducts: Product[] = apiProducts.slice(0, 5).map((p: ApiProduct) => ({
+        id: p.id,
+        name: p.title,
+        category: p.category,
+        description: p.description,
+        image: p.imageUrl,
+        price: p.price > 0 ? `$${p.price.toFixed(2)}` : 'Contact for pricing'
+      }));
+      setProducts(transformedProducts);
+    } catch (error) {
+      console.error('Error loading products:', error);
+      // Fallback to empty array if API fails
+      setProducts([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   // Animation variants for staggered effect
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -47,48 +81,21 @@ const ProductSlider = () => {
     },
   };
 
-  const products = [
-    {
-      id: 1,
-      name: 'PlayStation 5',
-      category: 'Gaming',
-      description: 'Next-gen gaming console with 4K graphics and ultra-fast SSD',
-      image: playstationImg,
-      price: 'Contact for pricing'
-    },
-    {
-      id: 2,
-      name: 'Xbox Series X',
-      category: 'Gaming',
-      description: 'Powerful gaming console with 120fps gaming capabilities',
-      image: xboxImg,
-      price: 'Contact for pricing'
-    },
-    {
-      id: 3,
-      name: 'Professional Drones',
-      category: 'Drones',
-      description: 'High-performance drones for commercial and recreational use',
-      image: droneImg,
-      price: 'Contact for pricing'
-    },
-    {
-      id: 4,
-      name: 'Smart E-Bikes',
-      category: 'E-Bikes',
-      description: 'Electric bikes with smart connectivity and long-range batteries',
-      image: '/lovable-uploads/a0bd3ab6-05d5-4312-b6ec-f0e256d7a63a.png',
-      price: 'Contact for pricing'
-    },
-    {
-      id: 5,
-      name: 'Smart TVs',
-      category: 'Electronics',
-      description: '4K and 8K smart TVs with AI-powered features',
-      image: smartTvImg,
-      price: 'Contact for pricing'
-    }
-  ];
+  if (isLoading) {
+    return (
+      <section className="pt-12 pb-6 md:pt-16 md:pb-8 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center h-64">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (products.length === 0) {
+    return null; // Don't show the slider if no products
+  }
 
   return (
     <section className="pt-12 pb-6 md:pt-16 md:pb-8 relative">

@@ -10,6 +10,9 @@ import Products from "./pages/Products";
 import Contact from "./pages/Contact";
 import Health from "./pages/Health";
 import NotFound from "./pages/NotFound";
+import AdminLogin from "./pages/admin/Login";
+import AdminProducts from "./pages/admin/Products";
+import AdminProductForm from "./pages/admin/ProductForm";
 
 import { useEffect } from "react";
 
@@ -37,6 +40,11 @@ const App = () => (
             <Route path="/products" element={<Products />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/health" element={<Health />} />
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/admin/products/new" element={<AdminProductForm />} />
+            <Route path="/admin/products/edit/:id" element={<AdminProductForm />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

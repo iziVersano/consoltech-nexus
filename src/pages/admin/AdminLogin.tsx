@@ -10,15 +10,17 @@ export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, user, isAdmin } = useAuth();
+  const { signIn, user, isAdmin, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
   // Redirect if already logged in as admin
   useEffect(() => {
-    if (user && isAdmin) {
+    console.log('Auth state changed - user:', user, 'isAdmin:', isAdmin, 'authLoading:', authLoading);
+    if (user && isAdmin && !authLoading) {
+      console.log('Redirecting to admin products');
       navigate('/admin/products');
     }
-  }, [user, isAdmin, navigate]);
+  }, [user, isAdmin, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,10 +29,10 @@ export default function AdminLogin() {
     try {
       await signIn(email, password);
       toast.success('Logged in successfully');
-      navigate('/admin/products');
+      // Navigation will happen automatically via useEffect once auth state updates
     } catch (error: any) {
+      console.error('Sign in error:', error);
       toast.error(error.message || 'Failed to log in');
-    } finally {
       setLoading(false);
     }
   };

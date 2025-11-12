@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, MessageSquare, Gamepad2 } from 'lucide-react';
+import { Menu, X, MessageSquare, Gamepad2, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
@@ -46,6 +46,17 @@ const Navigation = () => {
                 {item.name}
               </Link>
             ))}
+            <Link
+              to="/admin/login"
+              className={`transition-all duration-300 hover:text-accent flex items-center gap-1 ${
+                location.pathname.startsWith('/admin') 
+                  ? 'text-accent border-b-2 border-accent' 
+                  : 'text-foreground hover:text-accent'
+              }`}
+            >
+              <ShieldCheck className="h-4 w-4" />
+              <span>Admin</span>
+            </Link>
             <Button className="btn-nav">
               <MessageSquare className="h-4 w-4" />
               <span>Get Quote</span>
@@ -82,6 +93,18 @@ const Navigation = () => {
                   {item.name}
                 </Link>
               ))}
+              <Link
+                to="/admin/login"
+                className={`block px-3 py-2 rounded-md transition-colors flex items-center gap-2 ${
+                  location.pathname.startsWith('/admin')
+                    ? 'text-accent bg-accent/10'
+                    : 'text-foreground hover:text-accent hover:bg-accent/5'
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                <ShieldCheck className="h-4 w-4" />
+                <span>Admin</span>
+              </Link>
               <div className="px-3 pt-2">
                 <Button className="btn-nav w-full">
                   <MessageSquare className="h-4 w-4" />

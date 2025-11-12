@@ -13,6 +13,7 @@ import Contact from "./pages/Contact";
 import Health from "./pages/Health";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
+import AdminSignup from "./pages/admin/AdminSignup";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminProductForm from "./pages/admin/AdminProductForm";
 
@@ -44,6 +45,7 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/health" element={<Health />} />
               <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/signup" element={<AdminSignup />} />
               <Route
                 path="/admin/products"
                 element={

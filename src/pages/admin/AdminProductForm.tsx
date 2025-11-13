@@ -73,25 +73,44 @@ export default function AdminProductForm() {
         features: formData.features.split('\n').filter(f => f.trim()),
       };
 
+      console.log('Submitting product data:', productData);
+      console.log('Is edit mode:', isEdit, 'Product ID:', id);
+
       if (isEdit && id) {
-        const { error } = await supabase
+        console.log('Attempting to update product...');
+        const { data, error } = await supabase
           .from('products')
           .update(productData)
-          .eq('id', id);
+          .eq('id', id)
+          .select();
 
-        if (error) throw error;
+        console.log('Update response:', { data, error });
+        
+        if (error) {
+          console.error('Update error details:', error);
+          throw error;
+        }
         toast.success('Product updated successfully');
       } else {
-        const { error } = await supabase.from('products').insert([productData]);
+        console.log('Attempting to insert product...');
+        const { data, error } = await supabase
+          .from('products')
+          .insert([productData])
+          .select();
 
-        if (error) throw error;
+        console.log('Insert response:', { data, error });
+        
+        if (error) {
+          console.error('Insert error details:', error);
+          throw error;
+        }
         toast.success('Product created successfully');
       }
 
       navigate('/admin/products');
     } catch (error: any) {
+      console.error('Form submission error:', error);
       toast.error(error.message || 'Failed to save product');
-      console.error(error);
     } finally {
       setLoading(false);
     }

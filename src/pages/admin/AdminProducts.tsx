@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Pencil, Trash2, Plus } from 'lucide-react';
+import Navigation from '@/components/Navigation';
 
 interface Product {
   id: string;
@@ -58,24 +59,26 @@ export default function AdminProducts() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Product Management</h1>
-          <div className="flex gap-4">
-            <Button asChild>
-              <Link to="/admin/products/new">
-                <Plus className="mr-2 h-4 w-4" />
-                Add Product
-              </Link>
-            </Button>
-            <Button variant="outline" onClick={signOut}>
-              Sign Out
-            </Button>
+      <Navigation />
+      
+      <div className="pt-24 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold">Product Management</h1>
+            <div className="flex gap-4">
+              <Button asChild>
+                <Link to="/admin/products/new">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Product
+                </Link>
+              </Button>
+              <Button variant="outline" onClick={signOut}>
+                Sign Out
+              </Button>
+            </div>
           </div>
-        </div>
-      </header>
 
-      <main className="container mx-auto px-4 py-8">
+          <main>
         {loading ? (
           <div className="text-center">Loading products...</div>
         ) : (
@@ -113,7 +116,9 @@ export default function AdminProducts() {
             ))}
           </div>
         )}
-      </main>
+          </main>
+        </div>
+      </div>
     </div>
   );
 }

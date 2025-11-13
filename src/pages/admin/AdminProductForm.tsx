@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
+import Navigation from '@/components/Navigation';
 
 export default function AdminProductForm() {
   const { id } = useParams();
@@ -92,15 +93,15 @@ export default function AdminProductForm() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold">
+      <Navigation />
+      
+      <div className="pt-24 pb-16">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold mb-8">
             {isEdit ? 'Edit Product' : 'New Product'}
           </h1>
-        </div>
-      </header>
 
-      <main className="container mx-auto px-4 py-8 max-w-2xl">
+          <main>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="title">Title</Label>
@@ -180,7 +181,9 @@ export default function AdminProductForm() {
             </Button>
           </div>
         </form>
-      </main>
+          </main>
+        </div>
+      </div>
     </div>
   );
 }

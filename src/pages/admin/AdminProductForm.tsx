@@ -35,9 +35,15 @@ export default function AdminProductForm() {
         .from('products')
         .select('*')
         .eq('id', productId)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
+      
+      if (!data) {
+        toast.error('Product not found');
+        navigate('/admin/products');
+        return;
+      }
 
       setFormData({
         title: data.title,

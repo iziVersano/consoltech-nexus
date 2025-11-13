@@ -109,7 +109,6 @@ export default function AdminProductForm() {
               id="title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              required
             />
           </div>
 
@@ -119,7 +118,6 @@ export default function AdminProductForm() {
               id="description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              required
               rows={4}
             />
           </div>
@@ -132,7 +130,6 @@ export default function AdminProductForm() {
               step="0.01"
               value={formData.price}
               onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              required
             />
           </div>
 
@@ -142,7 +139,6 @@ export default function AdminProductForm() {
               id="category"
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              required
             />
           </div>
 
@@ -153,7 +149,6 @@ export default function AdminProductForm() {
               type="text"
               value={formData.image_url}
               onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-              required
             />
           </div>
 

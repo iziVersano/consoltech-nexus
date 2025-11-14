@@ -133,6 +133,40 @@ The API uses JWT tokens for authentication. Token settings are in `appsettings.j
 - **Audience**: `Consoltech.Frontend`
 - **Expiration**: 8 hours
 
+#### Deploying the Backend API to Production
+
+⚠️ **Important**: The admin area will NOT work on the production website (https://consoltech.shop) until you deploy the backend API to a cloud service.
+
+**Recommended Hosting Options:**
+
+1. **Azure App Service** (Recommended for .NET)
+   - Create an Azure account at https://azure.microsoft.com
+   - Create a new App Service (Web App)
+   - Deploy using Visual Studio, VS Code, or Azure CLI
+   - Configure CORS to allow your domain: `https://consoltech.shop`
+   - Update connection string for production database
+   - Set environment variables for JWT secret
+
+2. **Railway.app** (Easy deployment)
+   - Sign up at https://railway.app
+   - Connect your GitHub repository
+   - Select the backend folder
+   - Railway will auto-detect .NET and deploy
+   - Add environment variables in Railway dashboard
+
+3. **Render.com** (Free tier available)
+   - Sign up at https://render.com
+   - Create a new Web Service
+   - Connect your GitHub repository
+   - Set build command: `cd backend/Consoltech.AdminApi && dotnet publish -c Release -o out`
+   - Set start command: `cd backend/Consoltech.AdminApi/out && ./Consoltech.AdminApi`
+
+**After Deployment:**
+1. Get your deployed API URL (e.g., `https://your-app.azurewebsites.net`)
+2. Update `.env` file: `VITE_API_URL=https://your-app.azurewebsites.net/api`
+3. Rebuild and redeploy the frontend: `yarn build` then push to GitHub
+4. Update CORS settings in `Program.cs` to include your production domain
+
 ### Frontend Setup
 
 #### Environment Variables

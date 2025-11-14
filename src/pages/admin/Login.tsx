@@ -23,8 +23,16 @@ const Login = () => {
       toast.success('Login successful!');
       navigate('/admin/products');
     } catch (error) {
-      toast.error('Invalid email or password');
       console.error('Login error:', error);
+
+      // Check if it's a network error (backend not available)
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        toast.error('Backend API is not available. Please ensure the API server is running.');
+      } else if (error instanceof Error && error.message.includes('API Error')) {
+        toast.error('Invalid email or password');
+      } else {
+        toast.error('Login failed. Please check your credentials and try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -86,6 +94,16 @@ const Login = () => {
               Password: Admin123!
             </p>
           </div>
+
+          {window.location.hostname !== 'localhost' && (
+            <div className="mt-4 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-md">
+              <p className="text-sm text-yellow-600 dark:text-yellow-400 text-center">
+                <strong>⚠️ Backend API Required:</strong><br />
+                The admin area requires a deployed backend API.<br />
+                Currently configured for: {import.meta.env.VITE_API_URL || 'localhost'}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

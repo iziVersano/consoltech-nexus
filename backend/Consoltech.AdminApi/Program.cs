@@ -6,6 +6,14 @@ using Consoltech.AdminApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure for Azure App Service
+// Azure automatically handles port binding, but we can configure URLs if needed
+if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME")))
+{
+    // Running on Azure App Service
+    builder.WebHost.UseUrls("http://0.0.0.0:8080");
+}
+
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -52,7 +60,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:8080", "http://localhost:5173", "https://consoltech.com")
+        policy.WithOrigins(
+                "http://localhost:8080",
+                "http://localhost:5173",
+                "https://consoltech.shop",
+                "https://www.consoltech.shop",
+                "https://consoltech.com",
+                "https://www.consoltech.com"
+              )
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();

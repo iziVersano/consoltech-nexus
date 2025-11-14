@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Consoltech.AdminApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+322580ddc592cfaf1916dd13e6fdbe263cda4757")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8910970b3a7a1363fbef167016cd732f68366ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("Consoltech.AdminApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Consoltech.AdminApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

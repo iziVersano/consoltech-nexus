@@ -16,7 +16,8 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install dependencies (Admin UI)
+        working-directory: ./src
         run: |
           if [ -f yarn.lock ]; then
             yarn install --frozen-lockfile
@@ -25,6 +26,7 @@ jobs:
           fi
 
       - name: Build Admin UI
+        working-directory: ./src
         run: |
           if [ -f yarn.lock ]; then
             yarn build
@@ -32,14 +34,12 @@ jobs:
             npm run build
           fi
 
-      # Upload the built dist folder
-      - name: Upload artifact
+      - name: Upload dist artifact
         uses: actions/upload-artifact@v4
         with:
           name: admin-ui
-          path: dist
+          path: src/dist
 
-      # Download the artifact again for Azure deploy
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:

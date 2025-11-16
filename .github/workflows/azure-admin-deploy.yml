@@ -16,8 +16,7 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies (Admin UI)
-        working-directory: ./src
+      - name: Install dependencies
         run: |
           if [ -f yarn.lock ]; then
             yarn install --frozen-lockfile
@@ -26,7 +25,6 @@ jobs:
           fi
 
       - name: Build Admin UI
-        working-directory: ./src
         run: |
           if [ -f yarn.lock ]; then
             yarn build
@@ -38,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: admin-ui
-          path: src/dist
+          path: dist
 
       - name: Download artifact
         uses: actions/download-artifact@v4

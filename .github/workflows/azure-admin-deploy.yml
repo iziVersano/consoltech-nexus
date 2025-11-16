@@ -22,19 +22,18 @@ jobs:
       - name: Build Vite app
         run: npm run build
 
-      - name: Prepare Azure deployment package
+      - name: Verify web.config in dist
         run: |
-          mkdir -p azure-deploy
-          cp -r dist azure-deploy/
-          cp server.js azure-deploy/
-          cp azure-package.json azure-deploy/package.json
-          cd azure-deploy
-          npm install --production
+          if [ ! -f dist/web.config ]; then
+            echo "ERROR: web.config not found in dist/"
+            exit 1
+          fi
+          echo "✅ web.config found in dist/"
 
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v3
         with:
           app-name: "consoltech-admin"
           publish-profile: ${{ secrets.AZURE_ADMIN_PUBLISH_PROFILE }}
-          package: "./azure-deploy"
+          package: "./dist"
 

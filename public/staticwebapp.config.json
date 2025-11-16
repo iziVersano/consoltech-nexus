@@ -1,18 +1,7 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/brands/*", "/lovable-uploads/*", "*.{css,scss,js,png,gif,ico,jpg,svg,woff,woff2}"]
-  },
-  "routes": [
-    {
-      "route": "/admin/*",
-      "rewrite": "/index.html"
-    }
-  ],
-  "mimeTypes": {
-    ".json": "application/json",
-    ".woff": "application/font-woff",
-    ".woff2": "application/font-woff2"
+    "exclude": ["/assets/*"]
   }
 }
 

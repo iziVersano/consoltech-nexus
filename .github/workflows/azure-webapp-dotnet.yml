@@ -1,0 +1,35 @@
+name: Deploy .NET Backend to Azure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ./backend/Consoltech.AdminApi/Consoltech.AdminApi.csproj
+
+    - name: Build
+      run: dotnet build --configuration Release ./backend/Consoltech.AdminApi/Consoltech.AdminApi.csproj
+
+    - name: Publish
+      run: dotnet publish -c Release -o publish_output ./backend/Consoltech.AdminApi/Consoltech.AdminApi.csproj
+
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: "consoltech-api"
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: publish_output

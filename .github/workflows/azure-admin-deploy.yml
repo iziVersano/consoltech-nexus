@@ -9,38 +9,47 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          if [ -f yarn.lock ]; then
+            yarn install --frozen-lockfile
+          else
+            npm install
+          fi
 
       - name: Build Admin UI
-        run: npm run build
+        run: |
+          if [ -f yarn.lock ]; then
+            yarn build
+          else
+            npm run build
+          fi
 
+      # Upload the built dist folder
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: admin-ui
           path: dist
 
-      # ----------------------------
-      # DEPLOY TO AZURE APP SERVICE
-      # ----------------------------
+      # Download the artifact again for Azure deploy
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: admin-ui
           path: dist
 
       - name: Deploy to Azure WebApp
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: "consoltech-admin"
-          package: "./dist"
           publish-profile: ${{ secrets.AZURE_ADMIN_PUBLISH_PROFILE }}
+          package: "./dist"
 

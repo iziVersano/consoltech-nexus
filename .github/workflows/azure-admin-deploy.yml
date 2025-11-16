@@ -19,21 +19,40 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Vite app
+      - name: Build Admin UI
         run: npm run build
 
-      - name: Verify web.config in dist
+      - name: Prepare Azure deployment folder
         run: |
-          if [ ! -f dist/web.config ]; then
-            echo "ERROR: web.config not found in dist/"
+          # Create azure-admin/dist if it doesn't exist
+          mkdir -p azure-admin/dist
+
+          # Copy built React app to azure-admin/dist
+          cp -r dist/* azure-admin/dist/
+
+          # Copy web.config to azure-admin/dist
+          cp azure-admin/web.config azure-admin/dist/
+
+          echo "✅ Azure admin deployment folder prepared"
+
+      - name: Verify deployment package
+        run: |
+          if [ ! -f azure-admin/dist/index.html ]; then
+            echo "❌ ERROR: index.html not found in azure-admin/dist/"
             exit 1
           fi
-          echo "✅ web.config found in dist/"
+          if [ ! -f azure-admin/dist/web.config ]; then
+            echo "❌ ERROR: web.config not found in azure-admin/dist/"
+            exit 1
+          fi
+          echo "✅ Deployment package verified"
+          echo "📦 Contents of azure-admin/dist:"
+          ls -la azure-admin/dist/
 
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v3
         with:
           app-name: "consoltech-admin"
           publish-profile: ${{ secrets.AZURE_ADMIN_PUBLISH_PROFILE }}
-          package: "./dist"
+          package: "./azure-admin/dist"
 

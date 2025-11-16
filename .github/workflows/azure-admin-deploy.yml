@@ -15,44 +15,55 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: 'yarn'
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install --frozen-lockfile
 
-      - name: Build Admin UI
-        run: npm run build
+      - name: Build React app (includes admin pages)
+        run: yarn build
 
-      - name: Prepare Azure deployment folder
-        run: |
-          # Create azure-admin/dist if it doesn't exist
-          mkdir -p azure-admin/dist
-
-          # Copy built React app to azure-admin/dist
-          cp -r dist/* azure-admin/dist/
-
-          # Copy web.config to azure-admin/dist
-          cp azure-admin/web.config azure-admin/dist/
-
-          echo "✅ Azure admin deployment folder prepared"
+      - name: Add web.config to dist
+        run: cp azure-admin/web.config dist/web.config
 
       - name: Verify deployment package
         run: |
-          if [ ! -f azure-admin/dist/index.html ]; then
-            echo "❌ ERROR: index.html not found in azure-admin/dist/"
+          echo "=== DEPLOYMENT VERIFICATION ==="
+
+          if [ ! -f dist/index.html ]; then
+            echo "❌ ERROR: index.html not found in dist/"
             exit 1
           fi
-          if [ ! -f azure-admin/dist/web.config ]; then
-            echo "❌ ERROR: web.config not found in azure-admin/dist/"
+          echo "✅ index.html found"
+
+          if [ ! -f dist/web.config ]; then
+            echo "❌ ERROR: web.config not found in dist/"
             exit 1
           fi
-          echo "✅ Deployment package verified"
-          echo "📦 Contents of azure-admin/dist:"
-          ls -la azure-admin/dist/
+          echo "✅ web.config found"
+
+          if [ ! -d dist/assets ]; then
+            echo "❌ ERROR: assets folder not found in dist/"
+            exit 1
+          fi
+          echo "✅ assets folder found"
+
+          echo ""
+          echo "📦 Contents of dist/ (top level):"
+          ls -lah dist/
+
+          echo ""
+          echo "📦 Assets folder:"
+          ls -lah dist/assets/ | head -10
+
+          echo ""
+          echo "✅ Deployment package ready"
 
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v3
         with:
           app-name: "consoltech-admin"
           publish-profile: ${{ secrets.AZURE_ADMIN_PUBLISH_PROFILE }}
-          package: "./azure-admin/dist"
+          package: "./dist"
+          clean: true
 

@@ -7,11 +7,17 @@ using Consoltech.AdminApi.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure for Azure App Service
-// Azure automatically handles port binding, but we can configure URLs if needed
+// Azure automatically handles port binding via PORT environment variable
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME")))
 {
     // Running on Azure App Service
-    builder.WebHost.UseUrls("http://0.0.0.0:8080");
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
+else
+{
+    // Local development
+    builder.WebHost.UseUrls($"http://localhost:{port}");
 }
 
 // Add services to the container
@@ -61,18 +67,19 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-                "http://localhost:8080",
-                "http://localhost:5173",
-                "https://consoltech.shop",
-                "https://www.consoltech.shop",
-                "https://consoltech.com",
-                "https://www.consoltech.com"
-              )
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+            "https://consoltech-admin-windows-fbcphwasbuddgpas.westeurope-01.azurewebsites.net",
+            "https://consoltech-admin.azurewebsites.net",
+            "https://consoltech.shop",
+            "https://www.consoltech.shop",
+            "http://localhost:5173",
+            "https://localhost:5173"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
     });
 });
+
 
 var app = builder.Build();
 

@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: consoletech-api-d0aacba3exdqh5df
+  AZURE_WEBAPP_NAME: consoletech-api
   AZURE_WEBAPP_PACKAGE_PATH: 'backend/Consoltech.AdminApi'
   DOTNET_VERSION: '9.0.x'
 

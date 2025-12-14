@@ -91,7 +91,53 @@ const Products = () => {
           </Button>
         </div>
 
-        <div className="bg-card border border-border rounded-lg overflow-hidden">
+        {/* Mobile Card View */}
+        <div className="md:hidden space-y-4">
+          {products.length === 0 ? (
+            <div className="bg-card border border-border rounded-lg p-8 text-center text-muted-foreground">
+              No products found. Add your first product to get started.
+            </div>
+          ) : (
+            products.map((product) => (
+              <div key={product.id} className="bg-card border border-border rounded-lg p-4">
+                <div className="flex gap-4">
+                  <img
+                    src={product.imageUrl}
+                    alt={product.title}
+                    className="w-20 h-20 object-cover rounded flex-shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium truncate">{product.title}</h3>
+                    <span className="bg-accent text-accent-foreground px-2 py-0.5 rounded-full text-xs inline-block mt-1">
+                      {product.category}
+                    </span>
+                    <p className="text-lg font-bold mt-1">${product.price.toFixed(2)}</p>
+                  </div>
+                </div>
+                <div className="flex gap-2 mt-3 pt-3 border-t border-border">
+                  <Button asChild variant="outline" size="sm" className="flex-1">
+                    <Link to={`/admin/products/edit/${product.id}`}>
+                      <Edit className="h-4 w-4 mr-2" />
+                      Edit
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1 text-destructive border-destructive hover:bg-destructive/10"
+                    onClick={() => setDeleteId(product.id)}
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop Table View */}
+        <div className="hidden md:block bg-card border border-border rounded-lg overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>

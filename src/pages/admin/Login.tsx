@@ -1,17 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { login, setAuthToken } from '@/lib/api';
 import { toast } from 'sonner';
-import { LogIn } from 'lucide-react';
+import { LogIn, Unlock } from 'lucide-react';
+
+// ============================================
+// TEMPORARY AUTH BYPASS - Set to false to require credentials again
+// ============================================
+const ALLOW_BYPASS_LOGIN = true;
+// ============================================
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Auto-redirect if bypass is enabled and we're already "logged in"
+  useEffect(() => {
+    if (ALLOW_BYPASS_LOGIN) {
+      const bypassToken = localStorage.getItem('adminToken');
+      if (bypassToken === 'BYPASS_TOKEN_DEV_MODE') {
+        navigate('/admin/products');
+      }
+    }
+  }, [navigate]);
+
+  const handleBypassLogin = () => {
+    // Set a fake token for bypass mode
+    setAuthToken('BYPASS_TOKEN_DEV_MODE');
+    toast.success('Dev mode: Login bypassed!');
+    navigate('/admin/products');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,15 +110,35 @@ const Login = () => {
             </Button>
           </form>
 
-          <div className="mt-6 p-4 bg-muted rounded-md">
-            <p className="text-sm text-muted-foreground text-center">
-              <strong>Demo Credentials:</strong><br />
-              Email: admin@consoltech.com<br />
-              Password: Admin123!
-            </p>
-          </div>
+          {/* BYPASS LOGIN BUTTON - Only shown when ALLOW_BYPASS_LOGIN is true */}
+          {ALLOW_BYPASS_LOGIN && (
+            <div className="mt-4">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full border-green-500 text-green-600 hover:bg-green-500/10"
+                onClick={handleBypassLogin}
+              >
+                <Unlock className="h-4 w-4" />
+                <span>Enter Admin (No Login Required)</span>
+              </Button>
+              <p className="text-xs text-muted-foreground text-center mt-2">
+                ⚠️ Temporary dev mode - credentials disabled
+              </p>
+            </div>
+          )}
 
-          {window.location.hostname !== 'localhost' && (
+          {!ALLOW_BYPASS_LOGIN && (
+            <div className="mt-6 p-4 bg-muted rounded-md">
+              <p className="text-sm text-muted-foreground text-center">
+                <strong>Demo Credentials:</strong><br />
+                Email: admin@consoltech.com<br />
+                Password: Admin123!
+              </p>
+            </div>
+          )}
+
+          {!ALLOW_BYPASS_LOGIN && window.location.hostname !== 'localhost' && (
             <div className="mt-4 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-md">
               <p className="text-sm text-yellow-600 dark:text-yellow-400 text-center">
                 <strong>⚠️ Backend API Required:</strong><br />

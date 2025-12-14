@@ -299,6 +299,9 @@ const Index = () => {
           
           <div className="border-t border-border mt-12 pt-8 text-center text-muted-foreground">
             <p>&copy; 2024 CONSOLTECH. All rights reserved. | Global Import & Distribution Excellence</p>
+            <Link to="/admin/login" className="text-xs text-muted-foreground/50 hover:text-accent mt-2 inline-block">
+              Admin
+            </Link>
           </div>
         </div>
       </footer>

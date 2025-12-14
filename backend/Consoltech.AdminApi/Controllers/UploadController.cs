@@ -16,7 +16,7 @@ public class UploadController : ControllerBase
 
     // POST: api/upload/image
     [HttpPost("image")]
-    [Authorize]
+    // [Authorize] - Temporarily disabled for bypass login mode
     public async Task<IActionResult> UploadImage(IFormFile file)
     {
         if (file == null || file.Length == 0)

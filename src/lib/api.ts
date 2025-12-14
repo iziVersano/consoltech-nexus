@@ -139,9 +139,13 @@ export const getImageUrl = (imageUrl: string): string => {
   if (!imageUrl) return '/placeholder.svg';
   if (imageUrl.startsWith('http')) return imageUrl;
   if (imageUrl.startsWith('/uploads/')) {
-    // Image uploaded to our backend
+    // Image uploaded to our backend API
     const baseUrl = API_BASE_URL.replace('/api', '');
     return `${baseUrl}${imageUrl}`;
+  }
+  if (imageUrl.startsWith('/lovable-uploads/')) {
+    // Legacy images from frontend's public folder
+    return imageUrl;
   }
   return imageUrl;
 };

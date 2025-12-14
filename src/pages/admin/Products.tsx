@@ -91,61 +91,15 @@ const Products = () => {
           </Button>
         </div>
 
-        {/* Mobile Card View */}
-        <div className="md:hidden space-y-4">
-          {products.length === 0 ? (
-            <div className="bg-card border border-border rounded-lg p-8 text-center text-muted-foreground">
-              No products found. Add your first product to get started.
-            </div>
-          ) : (
-            products.map((product) => (
-              <div key={product.id} className="bg-card border border-border rounded-lg p-4">
-                <div className="flex gap-4">
-                  <img
-                    src={product.imageUrl}
-                    alt={product.title}
-                    className="w-20 h-20 object-cover rounded flex-shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium truncate">{product.title}</h3>
-                    <span className="bg-accent text-accent-foreground px-2 py-0.5 rounded-full text-xs inline-block mt-1">
-                      {product.category}
-                    </span>
-                    <p className="text-lg font-bold mt-1">${product.price.toFixed(2)}</p>
-                  </div>
-                </div>
-                <div className="flex gap-2 mt-3 pt-3 border-t border-border">
-                  <Button asChild variant="outline" size="sm" className="flex-1">
-                    <Link to={`/admin/products/edit/${product.id}`}>
-                      <Edit className="h-4 w-4 mr-2" />
-                      Edit
-                    </Link>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1 text-destructive border-destructive hover:bg-destructive/10"
-                    onClick={() => setDeleteId(product.id)}
-                  >
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Delete
-                  </Button>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-
-        {/* Desktop Table View */}
-        <div className="hidden md:block bg-card border border-border rounded-lg overflow-hidden">
-          <Table>
+        <div className="bg-card border border-border rounded-lg overflow-hidden">
+          <Table className="table-fixed">
             <TableHeader>
               <TableRow>
-                <TableHead>Image</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="w-12 p-1 md:p-2">Img</TableHead>
+                <TableHead className="p-1 md:p-2">Title</TableHead>
+                <TableHead className="w-16 p-1 md:p-2">Price</TableHead>
+                <TableHead className="w-12 p-1 md:p-2">Edit</TableHead>
+                <TableHead className="w-12 p-1 md:p-2">Del</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -158,39 +112,38 @@ const Products = () => {
               ) : (
                 products.map((product) => (
                   <TableRow key={product.id}>
-                    <TableCell>
+                    <TableCell className="p-1 md:p-2">
                       <img
                         src={product.imageUrl}
                         alt={product.title}
-                        className="w-16 h-16 object-cover rounded"
+                        className="w-10 h-10 md:w-14 md:h-14 object-cover rounded"
                       />
                     </TableCell>
-                    <TableCell className="font-medium">{product.title}</TableCell>
-                    <TableCell>
-                      <span className="bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs">
-                        {product.category}
-                      </span>
+                    <TableCell className="p-1 md:p-2 font-medium text-xs md:text-sm truncate max-w-[100px] md:max-w-none">
+                      {product.title}
                     </TableCell>
-                    <TableCell>${product.price.toFixed(2)}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Button
-                          asChild
-                          variant="ghost"
-                          size="sm"
-                        >
-                          <Link to={`/admin/products/edit/${product.id}`}>
-                            <Edit className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setDeleteId(product.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </div>
+                    <TableCell className="p-1 md:p-2 text-xs md:text-sm">${product.price.toFixed(0)}</TableCell>
+                    <TableCell className="p-1 md:p-2">
+                      <Button
+                        asChild
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                      >
+                        <Link to={`/admin/products/edit/${product.id}`}>
+                          <Edit className="h-4 w-4 text-primary" />
+                        </Link>
+                      </Button>
+                    </TableCell>
+                    <TableCell className="p-1 md:p-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                        onClick={() => setDeleteId(product.id)}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))

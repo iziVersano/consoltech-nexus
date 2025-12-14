@@ -12,6 +12,7 @@ const Navigation = () => {
     { name: 'About', href: '/about' },
     { name: 'Products', href: '/products' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Admin', href: '/admin/login', isAdmin: true },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -38,9 +39,11 @@ const Navigation = () => {
                 key={item.name}
                 to={item.href}
                 className={`transition-all duration-300 hover:text-accent ${
-                  isActive(item.href) 
-                    ? 'text-accent border-b-2 border-accent' 
-                    : 'text-foreground hover:text-accent'
+                  item.isAdmin
+                    ? 'animate-pulse bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-bold'
+                    : isActive(item.href)
+                      ? 'text-accent border-b-2 border-accent'
+                      : 'text-foreground hover:text-accent'
                 }`}
               >
                 {item.name}
@@ -73,9 +76,11 @@ const Navigation = () => {
                   key={item.name}
                   to={item.href}
                   className={`block px-3 py-2 rounded-md transition-colors ${
-                    isActive(item.href)
-                      ? 'text-accent bg-accent/10'
-                      : 'text-foreground hover:text-accent hover:bg-accent/5'
+                    item.isAdmin
+                      ? 'animate-pulse bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-bold'
+                      : isActive(item.href)
+                        ? 'text-accent bg-accent/10'
+                        : 'text-foreground hover:text-accent hover:bg-accent/5'
                   }`}
                   onClick={() => setIsOpen(false)}
                 >

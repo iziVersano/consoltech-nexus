@@ -108,3 +108,41 @@ export const deleteProduct = async (id: number): Promise<void> => {
   });
 };
 
+// Upload API
+export const uploadImage = async (file: File): Promise<{ imageUrl: string }> => {
+  const token = getAuthToken();
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`${API_BASE_URL}/upload/image`, {
+    method: 'POST',
+    headers: {
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      removeAuthToken();
+      window.location.href = '/admin/login';
+    }
+    const error = await response.json().catch(() => ({ message: 'Upload failed' }));
+    throw new Error(error.message || 'Upload failed');
+  }
+
+  return response.json();
+};
+
+// Get full image URL (handles both relative and absolute URLs)
+export const getImageUrl = (imageUrl: string): string => {
+  if (!imageUrl) return '/placeholder.svg';
+  if (imageUrl.startsWith('http')) return imageUrl;
+  if (imageUrl.startsWith('/uploads/')) {
+    // Image uploaded to our backend
+    const baseUrl = API_BASE_URL.replace('/api', '');
+    return `${baseUrl}${imageUrl}`;
+  }
+  return imageUrl;
+};
+

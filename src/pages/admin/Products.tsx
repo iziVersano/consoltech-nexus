@@ -20,7 +20,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { getProducts, deleteProduct, isAuthenticated, type Product } from '@/lib/api';
+import { getProducts, deleteProduct, isAuthenticated, getImageUrl, type Product } from '@/lib/api';
 import { toast } from 'sonner';
 import { Plus, Edit, Trash2, Loader2 } from 'lucide-react';
 
@@ -114,7 +114,7 @@ const Products = () => {
                   <TableRow key={product.id}>
                     <TableCell className="p-1 md:p-2">
                       <img
-                        src={product.imageUrl}
+                        src={getImageUrl(product.imageUrl)}
                         alt={product.title}
                         className="w-10 h-10 md:w-14 md:h-14 object-cover rounded"
                       />

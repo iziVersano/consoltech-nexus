@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AdminLayout from '@/components/AdminLayout';
 import { Button } from '@/components/ui/button';
@@ -16,11 +16,13 @@ import {
   getProduct,
   createProduct,
   updateProduct,
+  uploadImage,
+  getImageUrl,
   isAuthenticated,
   type Product,
 } from '@/lib/api';
 import { toast } from 'sonner';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Upload, Image } from 'lucide-react';
 
 const categories = ['Gaming', 'Electronics', 'Drones', 'E-Bikes', 'TVs'];
 
@@ -28,9 +30,11 @@ const ProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const isEditMode = !!id;
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -107,6 +111,40 @@ const ProductForm = () => {
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error('Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.');
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size exceeds 5MB limit');
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const result = await uploadImage(file);
+      setFormData((prev) => ({ ...prev, imageUrl: result.imageUrl }));
+      toast.success('Image uploaded successfully!');
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to upload image');
+    } finally {
+      setIsUploading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
   };
 
   if (isLoading) {
@@ -188,19 +226,58 @@ const ProductForm = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="imageUrl">Image URL *</Label>
+            <Label>Product Image *</Label>
+
+            {/* Upload Button */}
+            <div className="flex gap-2">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                accept="image/jpeg,image/png,image/gif,image/webp"
+                className="hidden"
+                disabled={isSaving || isUploading}
+              />
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isSaving || isUploading}
+                className="flex-1"
+              >
+                {isUploading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span>Uploading...</span>
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-4 w-4" />
+                    <span>Upload Image</span>
+                  </>
+                )}
+              </Button>
+            </div>
+
+            {/* Or enter URL manually */}
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span>Or enter URL manually:</span>
+            </div>
             <Input
               id="imageUrl"
               value={formData.imageUrl}
               onChange={(e) => handleChange('imageUrl', e.target.value)}
-              placeholder="/lovable-uploads/..."
+              placeholder="https://example.com/image.jpg"
               required
-              disabled={isSaving}
+              disabled={isSaving || isUploading}
             />
+
+            {/* Image Preview */}
             {formData.imageUrl && (
-              <div className="mt-2">
+              <div className="mt-2 p-2 border border-border rounded-lg bg-muted/50">
+                <p className="text-xs text-muted-foreground mb-2">Preview:</p>
                 <img
-                  src={formData.imageUrl}
+                  src={getImageUrl(formData.imageUrl)}
                   alt="Preview"
                   className="w-32 h-32 object-cover rounded border border-border"
                   onError={(e) => {

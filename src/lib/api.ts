@@ -143,6 +143,11 @@ export const getImageUrl = (imageUrl: string): string => {
     const baseUrl = API_BASE_URL.replace('/api', '');
     return `${baseUrl}${imageUrl}`;
   }
+  if (imageUrl.startsWith('/lovable-uploads/')) {
+    // Legacy lovable-uploads path - map to /images/ folder
+    const filename = imageUrl.replace('/lovable-uploads/', '');
+    return `/images/${filename}`;
+  }
   if (imageUrl.startsWith('/images/')) {
     // Images from frontend's public/images folder
     return imageUrl;

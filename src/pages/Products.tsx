@@ -4,7 +4,7 @@ import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Filter, Search, Phone, RotateCcw, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { getProducts, type Product as ApiProduct } from '@/lib/api';
+import { getProducts, getImageUrl, type Product as ApiProduct } from '@/lib/api';
 import { toast } from 'sonner';
 
 interface Product {
@@ -147,8 +147,8 @@ const Products = () => {
             {filteredProducts.map((product) => (
               <div key={product.id} className="product-card group">
                 <div className="relative overflow-hidden rounded-lg mb-4">
-                  <img 
-                    src={product.image} 
+                  <img
+                    src={getImageUrl(product.image)}
                     alt={product.name}
                     className={cn(
                       "w-full h-48 transition-transform duration-500 object-cover group-hover:scale-110"

@@ -4,7 +4,9 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Upload, CheckCircle } from 'lucide-react';
 
-const FORM_ENDPOINT = "https://formspree.io/f/xyzpvaeg"; // Using same Formspree endpoint
+// Use Azure backend API
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const WARRANTY_ENDPOINT = `${API_BASE_URL}/warranty/register`;
 
 const Warranty = () => {
   const [formData, setFormData] = useState({
@@ -62,22 +64,22 @@ const Warranty = () => {
 
     try {
       const submitData = new FormData();
-      submitData.append('_subject', 'Warranty Registration – Nintendo Switch 2');
-      submitData.append('שם מלא', formData.fullName);
-      submitData.append('אימייל', formData.email);
-      submitData.append('טלפון', formData.phone);
-      submitData.append('דגם המוצר', formData.productModel);
-      submitData.append('מספר סידורי', formData.serialNumber);
-      submitData.append('תאריך רכישה', formData.purchaseDate);
-      submitData.append('חשבונית', file);
+      submitData.append('fullName', formData.fullName);
+      submitData.append('email', formData.email);
+      submitData.append('phone', formData.phone);
+      submitData.append('productModel', formData.productModel);
+      submitData.append('serialNumber', formData.serialNumber);
+      submitData.append('purchaseDate', formData.purchaseDate);
+      submitData.append('invoice', file);
 
-      const res = await fetch(FORM_ENDPOINT, {
+      const res = await fetch(WARRANTY_ENDPOINT, {
         method: "POST",
         body: submitData,
-        headers: { "Accept": "application/json" }
       });
 
-      if (res.ok) {
+      const data = await res.json();
+
+      if (res.ok && data.success) {
         setIsSuccess(true);
         setFormData({
           fullName: '',
@@ -89,9 +91,10 @@ const Warranty = () => {
         });
         setFile(null);
       } else {
-        throw new Error("Submission failed");
+        throw new Error(data.message || "Submission failed");
       }
     } catch (error) {
+      console.error('Warranty submission error:', error);
       toast({ variant: "destructive", title: "אירעה שגיאה בשליחת הטופס", description: "אנא נסו שנית" });
     } finally {
       setIsSubmitting(false);

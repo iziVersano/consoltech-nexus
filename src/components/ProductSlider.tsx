@@ -6,7 +6,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { getProducts, type Product as ApiProduct } from '@/lib/api';
+import { getProducts, getImageUrl, type Product as ApiProduct } from '@/lib/api';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -165,8 +165,8 @@ const ProductSlider = () => {
                   custom={index}
                 >
                   <div className="relative overflow-hidden rounded-lg mb-4 flex-shrink-0">
-                    <img 
-                      src={product.image} 
+                    <img
+                      src={getImageUrl(product.image)}
                       alt={product.name}
                       className={cn(
                         "w-full h-48 sm:h-56 md:h-64 transition-transform duration-500",

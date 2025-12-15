@@ -9,6 +9,7 @@ import About from "./pages/About";
 import Products from "./pages/Products";
 import Contact from "./pages/Contact";
 import Health from "./pages/Health";
+import Warranty from "./pages/Warranty";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/Login";
 import AdminProducts from "./pages/admin/Products";
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/products" element={<Products />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/health" element={<Health />} />
+            <Route path="/warranty" element={<Warranty />} />
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/products" element={<AdminProducts />} />

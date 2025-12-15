@@ -109,13 +109,16 @@ const Warranty = () => {
         <html lang="he" />
       </Helmet>
 
-      <div className="max-w-2xl mx-auto px-4 py-12 sm:py-20">
+      <div className="max-w-2xl mx-auto px-4 py-8 sm:py-16">
         {/* Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4 gradient-text">
-            טופס רישום אחריות – Nintendo Switch 2
+        <div className="text-center mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 gradient-text leading-tight">
+            טופס רישום אחריות
           </h1>
-          <p className="text-muted-foreground text-lg">
+          <h2 className="text-xl sm:text-2xl font-semibold text-primary mb-4">
+            Nintendo Switch 2
+          </h2>
+          <p className="text-muted-foreground text-base sm:text-lg px-2">
             אנא מלאו את הפרטים הבאים וצרפו חשבונית רכישה לצורך הפעלת האחריות.
           </p>
         </div>

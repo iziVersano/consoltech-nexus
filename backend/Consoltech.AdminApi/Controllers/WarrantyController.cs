@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Net.Mail;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 
 namespace Consoltech.AdminApi.Controllers;
 
@@ -8,18 +9,17 @@ namespace Consoltech.AdminApi.Controllers;
 [Route("api/[controller]")]
 public class WarrantyController : ControllerBase
 {
-    private readonly IWebHostEnvironment _environment;
     private readonly IConfiguration _configuration;
     private readonly ILogger<WarrantyController> _logger;
+    private readonly HttpClient _httpClient;
 
     public WarrantyController(
-        IWebHostEnvironment environment, 
         IConfiguration configuration,
         ILogger<WarrantyController> logger)
     {
-        _environment = environment;
         _configuration = configuration;
         _logger = logger;
+        _httpClient = new HttpClient();
     }
 
     [HttpPost("register")]
@@ -61,24 +61,16 @@ public class WarrantyController : ControllerBase
 
         try
         {
-            // Save file to warranty-uploads folder
-            var uploadsFolder = Path.Combine(_environment.ContentRootPath, "wwwroot", "warranty-uploads");
-            if (!Directory.Exists(uploadsFolder))
+            // Read file into memory for email attachment
+            byte[] fileBytes;
+            using (var memoryStream = new MemoryStream())
             {
-                Directory.CreateDirectory(uploadsFolder);
+                await invoice.CopyToAsync(memoryStream);
+                fileBytes = memoryStream.ToArray();
             }
 
-            var fileExtension = Path.GetExtension(invoice.FileName);
-            var uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await invoice.CopyToAsync(stream);
-            }
-
-            // Send email notification
-            await SendWarrantyEmail(fullName, email, phone, productModel, serialNumber, purchaseDate, filePath, invoice.FileName);
+            // Send email with Resend
+            await SendWarrantyEmailWithResend(fullName, email, phone, productModel, serialNumber, purchaseDate, fileBytes, invoice.FileName);
 
             _logger.LogInformation("Warranty registration submitted: {Email}, {SerialNumber}", email, serialNumber);
 
@@ -91,53 +83,66 @@ public class WarrantyController : ControllerBase
         }
     }
 
-    private async Task SendWarrantyEmail(
-        string fullName, string email, string phone, 
+    private async Task SendWarrantyEmailWithResend(
+        string fullName, string email, string phone,
         string productModel, string serialNumber, string purchaseDate,
-        string attachmentPath, string originalFileName)
+        byte[] attachmentBytes, string originalFileName)
     {
-        var smtpHost = _configuration["Email:SmtpHost"] ?? "smtp.gmail.com";
-        var smtpPort = int.Parse(_configuration["Email:SmtpPort"] ?? "587");
-        var smtpUser = _configuration["Email:SmtpUser"];
-        var smtpPass = _configuration["Email:SmtpPassword"];
-        var toEmail = _configuration["Email:WarrantyRecipient"] ?? "support@consoltech.shop";
+        var resendApiKey = _configuration["Resend:ApiKey"];
+        var toEmail = _configuration["Resend:WarrantyRecipient"] ?? "support@consoltech.shop";
+        var fromEmail = _configuration["Resend:FromEmail"] ?? "no-reply@consoltech.shop";
 
-        if (string.IsNullOrEmpty(smtpUser) || string.IsNullOrEmpty(smtpPass))
+        if (string.IsNullOrEmpty(resendApiKey))
         {
-            _logger.LogWarning("SMTP not configured, skipping email send");
+            _logger.LogWarning("Resend API key not configured, skipping email send");
             return;
         }
 
-        using var client = new SmtpClient(smtpHost, smtpPort)
+        var emailBody = $@"
+            <h2>רישום אחריות חדש / New Warranty Registration</h2>
+            <table style='border-collapse: collapse; direction: rtl;'>
+                <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>שם מלא:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{fullName}</td></tr>
+                <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>אימייל:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{email}</td></tr>
+                <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>טלפון:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{phone}</td></tr>
+                <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>דגם המוצר:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{productModel}</td></tr>
+                <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>מספר סידורי:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{serialNumber}</td></tr>
+                <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>תאריך רכישה:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{purchaseDate}</td></tr>
+            </table>
+            <p><strong>החשבונית מצורפת למייל זה.</strong></p>
+        ";
+
+        var payload = new
         {
-            Credentials = new NetworkCredential(smtpUser, smtpPass),
-            EnableSsl = true
+            from = fromEmail,
+            to = new[] { toEmail },
+            subject = $"Warranty Registration – {productModel}",
+            html = emailBody,
+            reply_to = email,
+            attachments = new[]
+            {
+                new
+                {
+                    filename = originalFileName,
+                    content = Convert.ToBase64String(attachmentBytes)
+                }
+            }
         };
 
-        var mailMessage = new MailMessage
+        var json = JsonSerializer.Serialize(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", resendApiKey);
+
+        var response = await _httpClient.PostAsync("https://api.resend.com/emails", content);
+
+        if (!response.IsSuccessStatusCode)
         {
-            From = new MailAddress(smtpUser, "Consoltech Warranty"),
-            Subject = "Warranty Registration – Nintendo Switch 2",
-            IsBodyHtml = true,
-            Body = $@"
-                <h2>רישום אחריות חדש</h2>
-                <table style='border-collapse: collapse;'>
-                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>שם מלא:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{fullName}</td></tr>
-                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>אימייל:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{email}</td></tr>
-                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>טלפון:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{phone}</td></tr>
-                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>דגם המוצר:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{productModel}</td></tr>
-                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>מספר סידורי:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{serialNumber}</td></tr>
-                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>תאריך רכישה:</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{purchaseDate}</td></tr>
-                </table>
-                <p>החשבונית מצורפת למייל זה.</p>
-            "
-        };
+            var errorBody = await response.Content.ReadAsStringAsync();
+            _logger.LogError("Resend API error: {StatusCode} - {Error}", response.StatusCode, errorBody);
+            throw new Exception($"Failed to send email: {response.StatusCode}");
+        }
 
-        mailMessage.To.Add(toEmail);
-        mailMessage.ReplyToList.Add(new MailAddress(email));
-        mailMessage.Attachments.Add(new Attachment(attachmentPath) { Name = originalFileName });
-
-        await client.SendMailAsync(mailMessage);
+        _logger.LogInformation("Warranty email sent to {ToEmail}", toEmail);
     }
 }
 

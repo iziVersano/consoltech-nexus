@@ -1,1 +1,2 @@
-# Admin is now part of main app - no redirect needed
+# SPA routing - all routes should fallback to index.html
+/*    /index.html   200

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Consoltech.AdminApi.Data;
+using Consoltech.AdminApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,12 @@ if (!Directory.Exists(dbDirectory))
 
 builder.Services.AddDbContext<ProductsDbContext>(options =>
     options.UseSqlite($"Data Source={dbPath}"));
+
+// Register Azure Blob Storage service
+builder.Services.AddSingleton<BlobStorageService>();
+
+// Register Azure Table Storage service
+builder.Services.AddSingleton<TableStorageService>();
 
 // Configure JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");

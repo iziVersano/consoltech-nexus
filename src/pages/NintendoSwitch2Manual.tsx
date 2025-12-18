@@ -1,7 +1,7 @@
 import Navigation from '@/components/Navigation';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Shield, AlertTriangle, Phone, Gamepad, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // Manual step data
@@ -24,13 +24,13 @@ const steps = [
   {
     id: 'step-3',
     title: 'שלב 3: בחירת שפה ואזור',
-    images: [],
+    images: [{ src: '/manual-images/language-region-selection.svg', alt: 'בחירת שפה ואזור - בחרו עברית ואזור ישראל מתפריט ההגדרות', caption: 'בחרו את השפה והאזור המתאימים לכם' }],
     text: ['כעת, הגיע הזמן לבחור את השפה המועדפת עליכם. תוכלו לעשות זאת על ידי נגיעה במסך או שימוש בבקר על ידי לחיצה על כפתור A.', 'לאחר מכן, בחרו את האזור הנכון. לדוגמה, אם אתם בישראל, בחרו את האזור המתאים מהאפשרויות המוצגות.']
   },
   {
     id: 'step-4',
     title: 'שלב 4: עיון ואישור הסכם המשתמש',
-    images: [],
+    images: [{ src: '/manual-images/user-agreement-screen.svg', alt: 'מסך הסכם משתמש - סמנו את תיבת האישור ולחצו המשך', caption: 'קראו ואשרו את תנאי השימוש' }],
     text: ['לפני שתמשיכו, תתבקשו לעיין בהסכם רישיון למשתמש קצה.', "לאחר שקראתם והסכמתם לתנאים, לחצו על 'המשך' כדי להתקדם."]
   },
   {
@@ -42,7 +42,7 @@ const steps = [
   {
     id: 'step-6',
     title: 'שלב 6: עדכון מערכת',
-    images: [],
+    images: [{ src: '/manual-images/wi-fi-connection-screen.jpg', alt: 'מסך עדכון מערכת הפעלה', caption: 'אשרו את התקנת עדכוני המערכת' }],
     text: ['לאחר ההתחברות לאינטרנט, המערכת תבקש מכם להוריד ולהתקין עדכונים זמינים.', 'תהליך זה ישפר את ביצועי המערכת ואת האבטחה שלה. לחצו על הבא כדי להתחיל את העדכון.']
   },
   {
@@ -66,7 +66,7 @@ const steps = [
   {
     id: 'step-10',
     title: 'שלב 10: חיבור לטלוויזיה (אופציונלי)',
-    images: [],
+    images: [{ src: '/manual-images/nintendo-switch-2-kickstand.jpg', alt: 'חיבור Nintendo Switch 2 לטלוויזיה באמצעות תחנת עגינה', caption: 'חברו את הקונסולה לטלוויזיה דרך תחנת העגינה' }],
     text: ['אם תרצו לשחק משחקים על מסך גדול יותר, ה-Nintendo Switch 2 יכול להתחבר לטלוויזיה באמצעות תחנת העגינה שלו.', 'תוכלו לבחור להגדיר זאת מאוחר יותר אם תעדיפו.']
   },
   {
@@ -108,6 +108,15 @@ const tocItems = steps.map((step, index) => ({
   number: index + 1
 }));
 
+// Additional sections for table of contents
+const additionalTocItems = [
+  { id: 'post-setup', title: '🎮 המשך שימוש – טעינת משחקים והכנסת כרטיס' },
+  { id: 'game-loaded', title: '✅ אימות טעינת המשחק' },
+  { id: 'parental-controls', title: '🔒 בקרת הורים' },
+  { id: 'safety-warnings', title: '⚠️ אזהרות בטיחות' },
+  { id: 'importer-service', title: '🛠️ פרטי שירות היבואן – CONSOLTECH' },
+];
+
 const NintendoSwitch2Manual = () => {
   const canonicalUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/nintendo-switch-2`
@@ -141,8 +150,8 @@ const NintendoSwitch2Manual = () => {
           <ol className="space-y-2 pr-4">
             {tocItems.map((item) => (
               <li key={item.id}>
-                <a 
-                  href={`#${item.id}`} 
+                <a
+                  href={`#${item.id}`}
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   {item.title}
@@ -150,6 +159,21 @@ const NintendoSwitch2Manual = () => {
               </li>
             ))}
           </ol>
+          <div className="mt-6 pt-4 border-t border-border/50">
+            <h3 className="text-lg font-semibold mb-3 text-primary">מידע נוסף</h3>
+            <ul className="space-y-2 pr-4">
+              {additionalTocItems.map((item) => (
+                <li key={item.id}>
+                  <a
+                    href={`#${item.id}`}
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {item.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </nav>
 
         {/* Steps */}
@@ -190,6 +214,254 @@ const NintendoSwitch2Manual = () => {
             </section>
           ))}
         </div>
+
+        {/* Post-Setup Instructions Section */}
+        <section id="post-setup" className="max-w-3xl mx-auto mt-16 scroll-mt-24 p-6 rounded-2xl bg-card/30 border border-border/50">
+          <div className="flex items-center gap-3 mb-6 pr-4 border-r-4 border-accent">
+            <Gamepad className="h-7 w-7 text-accent" />
+            <h2 className="text-xl md:text-2xl font-bold text-foreground">
+              המשך שימוש – טעינת משחקים והכנסת כרטיס
+            </h2>
+          </div>
+
+          {/* How to load a game */}
+          <div className="mb-8 p-4 rounded-xl bg-muted/30">
+            <h3 className="text-lg font-semibold mb-4 text-primary flex items-center gap-2">
+              <span>🎮</span> איך לטעון משחק
+            </h3>
+            <ul className="space-y-3 text-foreground">
+              <li className="flex gap-2">
+                <span className="text-accent font-bold">•</span>
+                <span><strong>הפעלת משחק מהתפריט הראשי:</strong> בחרו את סמל המשחק מהמסך הראשי ולחצו על כפתור A.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-accent font-bold">•</span>
+                <span><strong>לאחר הכנסת כרטיס משחק:</strong> המשחק יופיע אוטומטית בתפריט הראשי. בחרו בו להתחלת המשחק.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-accent font-bold">•</span>
+                <span><strong>הבדל בין משחק דיגיטלי לפיזי:</strong> משחק דיגיטלי נשמר בזיכרון הקונסולה וזמין תמיד. משחק פיזי דורש הכנסת כרטיס בכל שימוש.</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* How to insert game card */}
+          <div className="p-4 rounded-xl bg-muted/30">
+            <h3 className="text-lg font-semibold mb-4 text-primary flex items-center gap-2">
+              <CreditCard className="h-5 w-5" />
+              <span>איך להכניס כרטיס משחק נכון</span>
+            </h3>
+
+            <figure className="text-center mb-6">
+              <img
+                src="/manual-images/nintendo-switch-2-game-console.jpg"
+                alt="הכנסת כרטיס משחק לקונסולת Nintendo Switch 2 בכיוון הנכון"
+                className="mx-auto rounded-xl shadow-lg max-w-full h-auto border border-border"
+                loading="lazy"
+              />
+              <figcaption className="mt-3 text-sm text-muted-foreground italic">
+                כיוון נכון להכנסת כרטיס משחק
+              </figcaption>
+            </figure>
+
+            <ul className="space-y-3 text-foreground mb-6">
+              <li className="flex gap-2">
+                <span className="text-accent font-bold">•</span>
+                <span><strong>איך להחזיק את הכרטיס:</strong> החזיקו את הכרטיס בעדינות בין האצבעות, עם התווית כלפי מעלה.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-accent font-bold">•</span>
+                <span><strong>כיוון נכון להכנסה:</strong> ודאו שצד המגעים החשמליים פונה כלפי המסך, והחלק המעוגל פונה כלפי מטה.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-accent font-bold">•</span>
+                <span><strong>לא להפעיל כוח:</strong> הכניסו את הכרטיס בעדינות עד שתשמעו קליק קל. אל תדחפו בכוח!</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-accent font-bold">•</span>
+                <span><strong>מה עלול להיפגע:</strong> הכנסה לא נכונה עלולה לגרום נזק לחריץ הכרטיס, למגעים החשמליים, או לכרטיס המשחק עצמו.</span>
+              </li>
+            </ul>
+
+            <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/30">
+              <p className="text-destructive font-medium flex items-start gap-2">
+                <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                <span>הכנסה לא נכונה של כרטיס המשחק עלולה לגרום נזק לחריץ הכרטיס בקונסולה.</span>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Game Loaded Successfully Section */}
+        <section id="game-loaded" className="max-w-3xl mx-auto mt-12 scroll-mt-24 p-6 rounded-2xl bg-card/30 border border-border/50">
+          <div className="flex items-center gap-3 mb-6 pr-4 border-r-4 border-green-500">
+            <span className="text-2xl">✅</span>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground">
+              אימות טעינת המשחק
+            </h2>
+          </div>
+
+          <div className="p-4 rounded-xl bg-muted/30 space-y-4">
+            <p className="text-foreground leading-relaxed">
+              לאחר הכנסת כרטיס המשחק בהצלחה, כך תוודאו שהמשחק נטען כראוי:
+            </p>
+
+            <ul className="space-y-3 text-foreground">
+              <li className="flex gap-2">
+                <span className="text-green-500 font-bold">1.</span>
+                <span><strong>עברו למסך הבית:</strong> לחצו על כפתור הבית בבקר ה-Joy-Con הימני.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-green-500 font-bold">2.</span>
+                <span><strong>חפשו את אייקון המשחק:</strong> בצד שמאל של המסך הראשי יופיע אייקון המשחק שהכנסתם.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-green-500 font-bold">3.</span>
+                <span><strong>אישור טעינה:</strong> אם האייקון מופיע – המשחק נטען בהצלחה ומוכן להפעלה!</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-green-500 font-bold">4.</span>
+                <span><strong>התחלת המשחק:</strong> בחרו באייקון המשחק ולחצו על כפתור A להתחלה.</span>
+              </li>
+            </ul>
+
+            <div className="mt-4 p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+              <p className="text-sm text-muted-foreground">
+                💡 <strong>טיפ:</strong> אם האייקון לא מופיע, נסו להוציא ולהכניס מחדש את כרטיס המשחק. ודאו שהכיוון נכון.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Parental Controls Section */}
+        <section id="parental-controls" className="max-w-3xl mx-auto mt-12 scroll-mt-24 p-6 rounded-2xl bg-card/30 border border-border/50">
+          <div className="flex items-center gap-3 mb-6 pr-4 border-r-4 border-primary">
+            <Shield className="h-7 w-7 text-primary" />
+            <h2 className="text-xl md:text-2xl font-bold text-foreground">
+              🔒 בקרת הורים
+            </h2>
+          </div>
+
+          <div className="p-4 rounded-xl bg-muted/30 space-y-4">
+            <p className="text-foreground leading-relaxed">
+              <strong>בקרת הורים מיועדת להגנה על ילדים</strong> ומאפשרת לכם לשלוט בחוויית המשחק שלהם.
+            </p>
+
+            <ul className="space-y-3 text-foreground">
+              <li className="flex gap-2">
+                <span className="text-primary font-bold">•</span>
+                <span><strong>הגבלת זמן משחק:</strong> קבעו מגבלות זמן יומיות למשחק. כשהזמן נגמר, תופיע התראה על המסך.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-primary font-bold">•</span>
+                <span><strong>חסימת תכנים לפי גיל:</strong> הגבילו גישה למשחקים ותכנים לפי דירוג גיל מתאים.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-primary font-bold">•</span>
+                <span><strong>שליטה מרחוק דרך אפליקציה:</strong> השתמשו באפליקציית Nintendo Switch Parental Controls בטלפון שלכם לניהול ומעקב מרחוק.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-primary font-bold">•</span>
+                <span><strong>הגבלת תקשורת:</strong> שלטו ביכולת הילדים לתקשר עם שחקנים אחרים באינטרנט.</span>
+              </li>
+            </ul>
+
+            <div className="mt-4 p-3 rounded-lg bg-primary/10 border border-primary/30">
+              <p className="text-sm text-muted-foreground">
+                💡 <strong>טיפ:</strong> ניתן להגדיר בקרת הורים בכל עת דרך הגדרות המערכת או באמצעות האפליקציה הייעודית.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Safety Warnings Section */}
+        <section id="safety-warnings" className="max-w-3xl mx-auto mt-12 scroll-mt-24 p-6 rounded-2xl bg-card/30 border border-destructive/50">
+          <div className="flex items-center gap-3 mb-6 pr-4 border-r-4 border-destructive">
+            <AlertTriangle className="h-7 w-7 text-destructive" />
+            <h2 className="text-xl md:text-2xl font-bold text-foreground">
+              ⚠️ אזהרות בטיחות
+            </h2>
+          </div>
+
+          <div className="p-4 rounded-xl bg-destructive/5 space-y-4">
+            <p className="text-foreground leading-relaxed font-medium">
+              לשמירה על בטיחותכם ועל תקינות המכשיר, אנא הקפידו על ההנחיות הבאות:
+            </p>
+
+            <ul className="space-y-3 text-foreground">
+              <li className="flex gap-2">
+                <span className="text-destructive font-bold">⚠️</span>
+                <span><strong>לא להכניס כרטיס משחק בכוח:</strong> אם הכרטיס לא נכנס בקלות, בדקו את הכיוון. הכנסה בכוח עלולה לגרום נזק לחריץ ולכרטיס.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-destructive font-bold">⚠️</span>
+                <span><strong>לא לחבר/לנתק Joy-Con באלימות:</strong> החליקו את הבקרים בעדינות. משיכה או דחיפה בכוח עלולים לשבור את מנגנון הנעילה.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-destructive font-bold">⚠️</span>
+                <span><strong>לא לחסום פתחי אוורור:</strong> ודאו שפתחי האוורור בקונסולה פתוחים ולא חסומים. חסימתם עלולה לגרום להתחממות יתר ונזק למערכת.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-destructive font-bold">⚠️</span>
+                <span><strong>שימוש במטען מקורי בלבד:</strong> השתמשו רק במטען ובאביזרים מקוריים של Nintendo. שימוש במטענים לא מאושרים עלול לגרום נזק או סכנת שריפה.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-destructive font-bold">⚠️</span>
+                <span><strong>לא לחשוף לחום או מים:</strong> הרחיקו את הקונסולה ממקורות חום ישירים ומנוזלים. טמפרטורה גבוהה או רטיבות עלולים לגרום נזק בלתי הפיך.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-destructive font-bold">⚠️</span>
+                <span><strong>להרחיק מהישג ידם של ילדים קטנים:</strong> חלקים קטנים כמו כרטיסי משחק עלולים להוות סכנת חנק לילדים מתחת לגיל 3.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        {/* Importer Service Details Section */}
+        <section id="importer-service" className="max-w-3xl mx-auto mt-12 scroll-mt-24 p-6 rounded-2xl bg-card/30 border border-border/50">
+          <div className="flex items-center gap-3 mb-6 pr-4 border-r-4 border-accent">
+            <Phone className="h-7 w-7 text-accent" />
+            <h2 className="text-xl md:text-2xl font-bold text-foreground">
+              🛠️ פרטי שירות היבואן – CONSOLTECH
+            </h2>
+          </div>
+
+          <div className="p-4 rounded-xl bg-muted/30">
+            <p className="text-foreground leading-relaxed mb-6">
+              לשירות, תמיכה טכנית ומימוש אחריות, אנא פנו ליבואן הרשמי:
+            </p>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="p-4 rounded-lg bg-card/50 border border-border/50">
+                <p className="text-sm text-muted-foreground mb-1">שם היבואן</p>
+                <p className="font-bold text-primary text-lg">CONSOLTECH</p>
+              </div>
+              <div className="p-4 rounded-lg bg-card/50 border border-border/50">
+                <p className="text-sm text-muted-foreground mb-1">טלפון שירות לקוחות</p>
+                <p className="font-medium text-foreground" dir="ltr">050-123-4567</p>
+              </div>
+              <div className="p-4 rounded-lg bg-card/50 border border-border/50 sm:col-span-2">
+                <p className="text-sm text-muted-foreground mb-1">אימייל שירות</p>
+                <p className="font-medium text-foreground">support@consoltech.co.il</p>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 rounded-lg bg-accent/10 border border-accent/30">
+              <p className="text-foreground mb-2">
+                📋 <strong>רישום אחריות:</strong> לצורך מימוש האחריות, יש לרשום את המוצר באתר שלנו.
+              </p>
+              <Link to="/warranty" className="text-accent hover:underline font-medium">
+                לחצו כאן לטופס רישום אחריות ←
+              </Link>
+            </div>
+
+            <div className="mt-4 p-3 rounded-lg bg-primary/10 border border-primary/30">
+              <p className="text-sm text-muted-foreground">
+                📞 <strong>לשירות מהיר יותר:</strong> הכינו מראש את מספר הסידורי של המוצר ואת פרטי הרכישה.
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* CTA Section */}
         <section className="max-w-3xl mx-auto mt-16 p-8 rounded-2xl bg-gradient-to-r from-primary/10 to-accent/10 border border-border text-center">

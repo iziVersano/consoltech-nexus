@@ -348,17 +348,27 @@ const Warranty = () => {
                       </button>
                     </PopoverTrigger>
                     <PopoverContent
-                      className="w-auto p-2"
+                      className="w-64 p-3"
                       side="top"
                       align="center"
                       sideOffset={8}
                     >
-                      <img
-                        src="/images/serial-number-guide.svg"
-                        alt="מיקום המספר הסידורי"
-                        className="w-48 h-auto"
-                        loading="lazy"
-                      />
+                      <div className="space-y-3">
+                        {/* Image placeholder */}
+                        <div className="w-full h-28 bg-muted/50 rounded-md flex items-center justify-center overflow-hidden">
+                          <img
+                            src="/images/serial-number-guide.svg"
+                            alt="מיקום המספר הסידורי"
+                            className="w-full h-full object-contain"
+                            loading="lazy"
+                          />
+                        </div>
+                        {/* Text explanation */}
+                        <div className="text-sm text-right space-y-1">
+                          <p>את המספר הסידורי ניתן למצוא בגב הקונסולה או באריזת המוצר.</p>
+                          <p className="text-muted-foreground text-xs">דוגמה לפורמט: XAW10000000000 או HAC-001(-01)</p>
+                        </div>
+                      </div>
                     </PopoverContent>
                   </Popover>
                 </div>

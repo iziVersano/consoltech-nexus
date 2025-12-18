@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,17 @@ import { Loader2, Upload, CheckCircle } from 'lucide-react';
 // Use Azure backend API
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const WARRANTY_ENDPOINT = `${API_BASE_URL}/warranty`;
+
+// Field error type
+interface FieldErrors {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  productModel?: string;
+  serialNumber?: string;
+  purchaseDate?: string;
+  file?: string;
+}
 
 const Warranty = () => {
   const navigate = useNavigate();
@@ -22,28 +33,112 @@ const Warranty = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const { toast } = useToast();
+
+  // Get today's date in YYYY-MM-DD format for max date validation
+  const today = useMemo(() => new Date().toISOString().split('T')[0], []);
+
+  // Validate a single field
+  const validateField = (name: string, value: string): string | undefined => {
+    switch (name) {
+      case 'fullName':
+        if (!value.trim()) return 'נא להזין שם מלא';
+        if (value.trim().length < 2) return 'השם חייב להכיל לפחות 2 תווים';
+        return undefined;
+      case 'email':
+        if (!value.trim()) return 'נא להזין כתובת אימייל';
+        if (!/^\S+@\S+\.\S+$/.test(value)) return 'כתובת אימייל לא תקינה';
+        return undefined;
+      case 'phone':
+        if (!value.trim()) return 'נא להזין מספר טלפון';
+        if (!/^0\d{1,2}[-]?\d{7}$/.test(value.replace(/\s/g, ''))) return 'מספר טלפון לא תקין';
+        return undefined;
+      case 'productModel':
+        if (!value.trim()) return 'נא לבחור דגם מוצר';
+        return undefined;
+      case 'serialNumber':
+        if (!value.trim()) return 'נא להזין מספר סידורי תקין';
+        if (value.trim().length < 4) return 'מספר סידורי חייב להכיל לפחות 4 תווים';
+        return undefined;
+      case 'purchaseDate':
+        if (!value) return 'נא לבחור תאריך רכישה';
+        if (new Date(value) > new Date()) return 'תאריך הרכישה לא יכול להיות בעתיד';
+        return undefined;
+      default:
+        return undefined;
+    }
+  };
+
+  // Validate file
+  const validateFile = (selectedFile: File | null): string | undefined => {
+    if (!selectedFile) return 'נא להעלות קובץ חשבונית';
+    const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (!validTypes.includes(selectedFile.type)) return 'סוג קובץ לא נתמך. אנא העלו קובץ PDF, JPG או PNG';
+    if (selectedFile.size > maxSize) return 'הקובץ גדול מדי. גודל מקסימלי: 5MB';
+    return undefined;
+  };
+
+  // Check if form is valid for submit button state
+  const isFormValid = useMemo(() => {
+    const allFieldsFilled =
+      formData.fullName.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      formData.phone.trim() !== '' &&
+      formData.productModel.trim() !== '' &&
+      formData.serialNumber.trim() !== '' &&
+      formData.purchaseDate !== '' &&
+      file !== null;
+
+    if (!allFieldsFilled) return false;
+
+    // Check for validation errors
+    const hasErrors = Object.keys(formData).some(key =>
+      validateField(key, formData[key as keyof typeof formData]) !== undefined
+    );
+    const fileError = validateFile(file);
+
+    return !hasErrors && !fileError;
+  }, [formData, file]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+
+    // Validate on change if field was touched
+    if (touched[name]) {
+      const error = validateField(name, value);
+      setErrors(prev => ({ ...prev, [name]: error }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    const error = validateField(name, value);
+    setErrors(prev => ({ ...prev, [name]: error }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
-      const maxSize = 5 * 1024 * 1024; // 5MB
+    const selectedFile = e.target.files?.[0] || null;
+    setTouched(prev => ({ ...prev, file: true }));
 
-      if (!validTypes.includes(selectedFile.type)) {
-        toast({ variant: "destructive", title: "סוג קובץ לא נתמך", description: "אנא העלו קובץ PDF, JPG או PNG" });
+    if (selectedFile) {
+      const error = validateFile(selectedFile);
+      if (error) {
+        setErrors(prev => ({ ...prev, file: error }));
+        setFile(null);
+        // Reset the input
+        e.target.value = '';
         return;
       }
-      if (selectedFile.size > maxSize) {
-        toast({ variant: "destructive", title: "הקובץ גדול מדי", description: "גודל מקסימלי: 5MB" });
-        return;
-      }
+      setErrors(prev => ({ ...prev, file: undefined }));
       setFile(selectedFile);
+    } else {
+      setFile(null);
+      setErrors(prev => ({ ...prev, file: 'נא להעלות קובץ חשבונית' }));
     }
   };
 
@@ -51,14 +146,32 @@ const Warranty = () => {
     e.preventDefault();
     if (isSubmitting) return;
 
-    // Validation
-    if (!formData.fullName || !formData.email || !formData.phone || !formData.serialNumber || !formData.purchaseDate || !file) {
-      toast({ variant: "destructive", title: "אנא מלאו את כל השדות הנדרשים" });
-      return;
-    }
+    // Mark all fields as touched
+    const allTouched = {
+      fullName: true,
+      email: true,
+      phone: true,
+      productModel: true,
+      serialNumber: true,
+      purchaseDate: true,
+      file: true,
+    };
+    setTouched(allTouched);
 
-    if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-      toast({ variant: "destructive", title: "כתובת אימייל לא תקינה" });
+    // Validate all fields
+    const newErrors: FieldErrors = {};
+    Object.keys(formData).forEach(key => {
+      const error = validateField(key, formData[key as keyof typeof formData]);
+      if (error) newErrors[key as keyof FieldErrors] = error;
+    });
+    const fileError = validateFile(file);
+    if (fileError) newErrors.file = fileError;
+
+    setErrors(newErrors);
+
+    // Check if there are any errors
+    if (Object.values(newErrors).some(error => error !== undefined)) {
+      toast({ variant: "destructive", title: "אנא תקנו את השגיאות בטופס" });
       return;
     }
 
@@ -70,7 +183,7 @@ const Warranty = () => {
       submitData.append('email', formData.email);
       submitData.append('product', formData.productModel);
       submitData.append('serialNumber', formData.serialNumber);
-      submitData.append('invoice', file);
+      submitData.append('invoice', file!);
 
       const res = await fetch(WARRANTY_ENDPOINT, {
         method: "POST",
@@ -95,7 +208,10 @@ const Warranty = () => {
   };
 
   const inputClass = "w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-right";
+  const inputErrorClass = "w-full px-4 py-3 bg-input rounded-lg border border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-right";
   const labelClass = "block text-sm font-medium mb-2 text-right";
+  const errorClass = "text-sm text-red-500 mt-1.5 text-right break-words";
+  const helperClass = "text-sm text-primary mt-1.5 text-right break-words";
 
   return (
     <div dir="rtl" className="min-h-screen bg-background">
@@ -137,7 +253,7 @@ const Warranty = () => {
         ) : (
           /* Form */
           <div className="product-card">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               {/* Full Name */}
               <div>
                 <label className={labelClass}>שם מלא *</label>
@@ -146,10 +262,13 @@ const Warranty = () => {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  required
-                  className={inputClass}
+                  onBlur={handleBlur}
+                  className={touched.fullName && errors.fullName ? inputErrorClass : inputClass}
                   placeholder="הזינו את שמכם המלא"
                 />
+                {touched.fullName && errors.fullName && (
+                  <p className={errorClass}>{errors.fullName}</p>
+                )}
               </div>
 
               {/* Email */}
@@ -160,12 +279,15 @@ const Warranty = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
-                  className={inputClass}
+                  onBlur={handleBlur}
+                  className={touched.email && errors.email ? inputErrorClass : inputClass}
                   placeholder="example@email.com"
                   dir="ltr"
                   style={{ textAlign: 'left' }}
                 />
+                {touched.email && errors.email && (
+                  <p className={errorClass}>{errors.email}</p>
+                )}
               </div>
 
               {/* Phone */}
@@ -176,12 +298,15 @@ const Warranty = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  required
-                  className={inputClass}
+                  onBlur={handleBlur}
+                  className={touched.phone && errors.phone ? inputErrorClass : inputClass}
                   placeholder="050-1234567"
                   dir="ltr"
                   style={{ textAlign: 'left' }}
                 />
+                {touched.phone && errors.phone && (
+                  <p className={errorClass}>{errors.phone}</p>
+                )}
               </div>
 
               {/* Product Model */}
@@ -192,10 +317,13 @@ const Warranty = () => {
                   name="productModel"
                   value={formData.productModel}
                   onChange={handleChange}
-                  required
-                  className={inputClass}
+                  onBlur={handleBlur}
+                  className={touched.productModel && errors.productModel ? inputErrorClass : inputClass}
                   placeholder="Nintendo Switch 2"
                 />
+                {touched.productModel && errors.productModel && (
+                  <p className={errorClass}>{errors.productModel}</p>
+                )}
               </div>
 
               {/* Serial Number */}
@@ -206,12 +334,19 @@ const Warranty = () => {
                   name="serialNumber"
                   value={formData.serialNumber}
                   onChange={handleChange}
-                  required
-                  className={inputClass}
+                  onBlur={handleBlur}
+                  className={touched.serialNumber && errors.serialNumber ? inputErrorClass : inputClass}
                   placeholder="הזינו את המספר הסידורי"
                   dir="ltr"
                   style={{ textAlign: 'left' }}
                 />
+                {/* Helper text - always visible until valid S/N entered */}
+                {(!formData.serialNumber.trim() || formData.serialNumber.trim().length < 4) && !errors.serialNumber && (
+                  <p className={helperClass}>תמונה איך לאתר את המספר הסידורי</p>
+                )}
+                {touched.serialNumber && errors.serialNumber && (
+                  <p className={errorClass}>{errors.serialNumber}</p>
+                )}
               </div>
 
               {/* Purchase Date */}
@@ -222,9 +357,13 @@ const Warranty = () => {
                   name="purchaseDate"
                   value={formData.purchaseDate}
                   onChange={handleChange}
-                  required
-                  className={inputClass}
+                  onBlur={handleBlur}
+                  max={today}
+                  className={touched.purchaseDate && errors.purchaseDate ? inputErrorClass : inputClass}
                 />
+                {touched.purchaseDate && errors.purchaseDate && (
+                  <p className={errorClass}>{errors.purchaseDate}</p>
+                )}
               </div>
 
               {/* File Upload */}
@@ -240,24 +379,32 @@ const Warranty = () => {
                   />
                   <label
                     htmlFor="invoice-upload"
-                    className="flex items-center justify-center gap-3 w-full px-4 py-4 bg-input rounded-lg border-2 border-dashed border-border hover:border-primary cursor-pointer transition-colors"
+                    className={`flex items-center justify-center gap-3 w-full px-4 py-4 bg-input rounded-lg border-2 border-dashed cursor-pointer transition-colors ${
+                      touched.file && errors.file
+                        ? 'border-red-500 hover:border-red-400'
+                        : 'border-border hover:border-primary'
+                    }`}
                   >
-                    <Upload className="h-5 w-5 text-muted-foreground" />
-                    <span className="text-muted-foreground">
+                    <Upload className={`h-5 w-5 ${file ? 'text-green-500' : 'text-muted-foreground'}`} />
+                    <span className={`${file ? 'text-foreground' : 'text-muted-foreground'} break-all text-center`}>
                       {file ? file.name : 'בחרו קובץ (PDF, JPG, PNG)'}
                     </span>
                   </label>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2 text-right">
-                  גודל מקסימלי: 5MB
-                </p>
+                {touched.file && errors.file ? (
+                  <p className={errorClass}>{errors.file}</p>
+                ) : (
+                  <p className="text-xs text-muted-foreground mt-2 text-right">
+                    גודל מקסימלי: 5MB | פורמטים: PDF, JPG, PNG
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}
               <Button
                 type="submit"
                 className="btn-hero w-full"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isFormValid}
               >
                 {isSubmitting ? (
                   <>

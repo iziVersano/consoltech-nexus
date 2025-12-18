@@ -1,4 +1,5 @@
 using Azure.Storage.Blobs;
+using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
@@ -26,7 +27,18 @@ namespace Consoltech.AdminApi.Services
 
             await blobClient.UploadAsync(fileStream, overwrite: true);
 
-            return blobClient.Uri.ToString();
+            // Generate SAS URL with 24-hour expiry (read-only access)
+            var sasBuilder = new BlobSasBuilder
+            {
+                BlobContainerName = _containerClient.Name,
+                BlobName = uniqueFileName,
+                Resource = "b", // "b" = blob
+                ExpiresOn = DateTimeOffset.UtcNow.AddHours(24)
+            };
+            sasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+            var sasUri = blobClient.GenerateSasUri(sasBuilder);
+            return sasUri.ToString();
         }
     }
 }

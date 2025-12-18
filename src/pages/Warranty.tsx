@@ -2,8 +2,9 @@ import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Upload, CheckCircle } from 'lucide-react';
+import { Loader2, Upload, CheckCircle, HelpCircle } from 'lucide-react';
 
 // Use Azure backend API
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -218,7 +219,6 @@ const Warranty = () => {
   const inputErrorClass = "w-full px-4 py-3 bg-input rounded-lg border border-red-500 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/30 text-right box-border";
   const labelClass = "block text-sm font-medium mb-2 text-right";
   const errorClass = "text-sm text-red-500 mt-1.5 text-right break-words";
-  const helperClass = "text-sm text-muted-foreground mt-1.5 text-right break-words";
 
   return (
     <div dir="rtl" className="min-h-screen bg-background">
@@ -335,7 +335,31 @@ const Warranty = () => {
 
               {/* Serial Number */}
               <div>
-                <label className={labelClass}>מספר סידורי (S/N) *</label>
+                <div className="flex items-center gap-2 mb-2">
+                  <label className="text-sm font-medium text-right">מספר סידורי (S/N) *</label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-full w-5 h-5 bg-muted hover:bg-muted/80 transition-colors"
+                        aria-label="עזרה למציאת המספר הסידורי"
+                      >
+                        <HelpCircle className="w-3.5 h-3.5 text-muted-foreground" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="w-72 text-right"
+                      side="top"
+                      align="start"
+                      sideOffset={8}
+                    >
+                      <div className="space-y-2 text-sm">
+                        <p>את המספר הסידורי ניתן למצוא בגב הקונסולה או באריזת המוצר.</p>
+                        <p className="text-muted-foreground">דוגמה לפורמט: XAW10000000000 או HAC-001(-01)</p>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
                 <input
                   type="text"
                   name="serialNumber"
@@ -347,8 +371,6 @@ const Warranty = () => {
                   dir="ltr"
                   style={{ textAlign: 'left' }}
                 />
-                {/* Helper text - always visible (format example) */}
-                <p className={helperClass}>דוגמה לפורמט: XAW10000000000 או HAC-001(-01)</p>
                 {touched.serialNumber && errors.serialNumber && (
                   <p className={errorClass}>{errors.serialNumber}</p>
                 )}

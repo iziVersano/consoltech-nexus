@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -6,9 +7,10 @@ import { Loader2, Upload, CheckCircle } from 'lucide-react';
 
 // Use Azure backend API
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const WARRANTY_ENDPOINT = `${API_BASE_URL}/warranty/register`;
+const WARRANTY_ENDPOINT = `${API_BASE_URL}/warranty`;
 
 const Warranty = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -64,12 +66,10 @@ const Warranty = () => {
 
     try {
       const submitData = new FormData();
-      submitData.append('fullName', formData.fullName);
+      submitData.append('customerName', formData.fullName);
       submitData.append('email', formData.email);
-      submitData.append('phone', formData.phone);
-      submitData.append('productModel', formData.productModel);
+      submitData.append('product', formData.productModel);
       submitData.append('serialNumber', formData.serialNumber);
-      submitData.append('purchaseDate', formData.purchaseDate);
       submitData.append('invoice', file);
 
       const res = await fetch(WARRANTY_ENDPOINT, {
@@ -80,16 +80,9 @@ const Warranty = () => {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        setIsSuccess(true);
-        setFormData({
-          fullName: '',
-          email: '',
-          phone: '',
-          productModel: 'Nintendo Switch 2',
-          serialNumber: '',
-          purchaseDate: '',
-        });
-        setFile(null);
+        // Redirect to admin warranty records page after successful submission
+        navigate('/admin/warranty-records');
+        return;
       } else {
         throw new Error(data.message || "Submission failed");
       }

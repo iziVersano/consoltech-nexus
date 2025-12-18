@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Loader2, ExternalLink, CheckCircle } from 'lucide-react';
+import { Loader2, Eye, CheckCircle, X, Download } from 'lucide-react';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -14,10 +14,82 @@ interface WarrantyRecord {
   createdAt: string;
 }
 
+interface InvoiceModalProps {
+  invoiceUrl: string;
+  fileName: string;
+  onClose: () => void;
+}
+
+const InvoiceModal = ({ invoiceUrl, fileName, onClose }: InvoiceModalProps) => {
+  const isPdf = invoiceUrl.toLowerCase().includes('.pdf');
+  const isImage = /\.(jpg|jpeg|png|gif|webp)/i.test(invoiceUrl);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70" onClick={onClose}>
+      <div
+        className="bg-background border border-border rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-border">
+          <h3 className="font-semibold truncate">{fileName || 'Invoice Preview'}</h3>
+          <div className="flex items-center gap-2">
+            <a
+              href={invoiceUrl}
+              download={fileName}
+              className="px-3 py-1.5 text-sm bg-primary text-primary-foreground rounded hover:bg-primary/90 flex items-center gap-1"
+            >
+              <Download className="h-4 w-4" />
+              Download
+            </a>
+            <button
+              onClick={onClose}
+              className="p-1.5 hover:bg-muted rounded"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-auto p-4 min-h-[400px]">
+          {isPdf ? (
+            <iframe
+              src={invoiceUrl}
+              className="w-full h-[600px] border-0 rounded"
+              title="Invoice PDF Preview"
+            />
+          ) : isImage ? (
+            <div className="flex items-center justify-center">
+              <img
+                src={invoiceUrl}
+                alt="Invoice"
+                className="max-w-full max-h-[70vh] object-contain rounded"
+              />
+            </div>
+          ) : (
+            <div className="text-center py-12 text-muted-foreground">
+              <p>Preview not available for this file type.</p>
+              <a
+                href={invoiceUrl}
+                download={fileName}
+                className="mt-4 inline-block px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90"
+              >
+                Download File
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const WarrantyRecords = () => {
   const [records, setRecords] = useState<WarrantyRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedInvoice, setSelectedInvoice] = useState<{ url: string; fileName: string } | null>(null);
 
   useEffect(() => {
     const fetchRecords = async () => {
@@ -83,15 +155,13 @@ const WarrantyRecords = () => {
                     <td className="p-3 border border-border font-mono text-sm">{record.serialNumber}</td>
                     <td className="p-3 border border-border">
                       {record.invoiceUrl ? (
-                        <a
-                          href={record.invoiceUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <button
+                          onClick={() => setSelectedInvoice({ url: record.invoiceUrl, fileName: record.invoiceFileName })}
                           className="text-primary hover:underline flex items-center gap-1"
                         >
-                          {record.invoiceFileName || 'View Invoice'}
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
+                          <Eye className="h-4 w-4" />
+                          View Invoice
+                        </button>
                       ) : (
                         <span className="text-muted-foreground">N/A</span>
                       )}
@@ -106,6 +176,15 @@ const WarrantyRecords = () => {
           </div>
         )}
       </div>
+
+      {/* Invoice Preview Modal */}
+      {selectedInvoice && (
+        <InvoiceModal
+          invoiceUrl={selectedInvoice.url}
+          fileName={selectedInvoice.fileName}
+          onClose={() => setSelectedInvoice(null)}
+        />
+      )}
     </div>
   );
 };

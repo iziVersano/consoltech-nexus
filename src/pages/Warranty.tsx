@@ -17,6 +17,7 @@ interface FieldErrors {
   productModel?: string;
   serialNumber?: string;
   purchaseDate?: string;
+  storeName?: string;
   file?: string;
 }
 
@@ -29,6 +30,7 @@ const Warranty = () => {
     productModel: 'Nintendo Switch 2',
     serialNumber: '',
     purchaseDate: '',
+    storeName: '',
   });
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,6 +68,9 @@ const Warranty = () => {
         if (!value) return 'נא לבחור תאריך רכישה';
         if (new Date(value) > new Date()) return 'תאריך הרכישה לא יכול להיות בעתיד';
         return undefined;
+      case 'storeName':
+        if (!value.trim()) return 'נא להזין את שם החנות';
+        return undefined;
       default:
         return undefined;
     }
@@ -90,6 +95,7 @@ const Warranty = () => {
       formData.productModel.trim() !== '' &&
       formData.serialNumber.trim() !== '' &&
       formData.purchaseDate !== '' &&
+      formData.storeName.trim() !== '' &&
       file !== null;
 
     if (!allFieldsFilled) return false;
@@ -154,6 +160,7 @@ const Warranty = () => {
       productModel: true,
       serialNumber: true,
       purchaseDate: true,
+      storeName: true,
       file: true,
     };
     setTouched(allTouched);
@@ -207,11 +214,11 @@ const Warranty = () => {
     }
   };
 
-  const inputClass = "w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-right";
-  const inputErrorClass = "w-full px-4 py-3 bg-input rounded-lg border border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-right";
+  const inputClass = "w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 text-right box-border";
+  const inputErrorClass = "w-full px-4 py-3 bg-input rounded-lg border border-red-500 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/30 text-right box-border";
   const labelClass = "block text-sm font-medium mb-2 text-right";
   const errorClass = "text-sm text-red-500 mt-1.5 text-right break-words";
-  const helperClass = "text-sm text-primary mt-1.5 text-right break-words";
+  const helperClass = "text-sm text-muted-foreground mt-1.5 text-right break-words";
 
   return (
     <div dir="rtl" className="min-h-screen bg-background">
@@ -340,10 +347,8 @@ const Warranty = () => {
                   dir="ltr"
                   style={{ textAlign: 'left' }}
                 />
-                {/* Helper text - always visible until valid S/N entered */}
-                {(!formData.serialNumber.trim() || formData.serialNumber.trim().length < 4) && !errors.serialNumber && (
-                  <p className={helperClass}>תמונה איך לאתר את המספר הסידורי</p>
-                )}
+                {/* Helper text - always visible (format example) */}
+                <p className={helperClass}>דוגמה לפורמט: XAW10000000000 או HAC-001(-01)</p>
                 {touched.serialNumber && errors.serialNumber && (
                   <p className={errorClass}>{errors.serialNumber}</p>
                 )}
@@ -366,6 +371,23 @@ const Warranty = () => {
                 )}
               </div>
 
+              {/* Store Name */}
+              <div>
+                <label className={labelClass}>שם החנות בה נרכש המוצר *</label>
+                <input
+                  type="text"
+                  name="storeName"
+                  value={formData.storeName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={touched.storeName && errors.storeName ? inputErrorClass : inputClass}
+                  placeholder="הזינו את שם החנות"
+                />
+                {touched.storeName && errors.storeName && (
+                  <p className={errorClass}>{errors.storeName}</p>
+                )}
+              </div>
+
               {/* File Upload */}
               <div>
                 <label className={labelClass}>העלאת קובץ חשבונית *</label>
@@ -379,13 +401,13 @@ const Warranty = () => {
                   />
                   <label
                     htmlFor="invoice-upload"
-                    className={`flex items-center justify-center gap-3 w-full px-4 py-4 bg-input rounded-lg border-2 border-dashed cursor-pointer transition-colors ${
+                    className={`flex items-center justify-center gap-3 w-full px-4 py-4 bg-input rounded-lg border-2 border-dashed cursor-pointer transition-colors box-border ${
                       touched.file && errors.file
                         ? 'border-red-500 hover:border-red-400'
                         : 'border-border hover:border-primary'
                     }`}
                   >
-                    <Upload className={`h-5 w-5 ${file ? 'text-green-500' : 'text-muted-foreground'}`} />
+                    <Upload className={`h-5 w-5 flex-shrink-0 ${file ? 'text-green-500' : 'text-muted-foreground'}`} />
                     <span className={`${file ? 'text-foreground' : 'text-muted-foreground'} break-all text-center`}>
                       {file ? file.name : 'בחרו קובץ (PDF, JPG, PNG)'}
                     </span>

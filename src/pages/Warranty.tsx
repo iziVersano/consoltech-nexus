@@ -354,14 +354,37 @@ const Warranty = () => {
                       sideOffset={8}
                     >
                       <div className="space-y-3">
-                        {/* Image placeholder */}
-                        <div className="w-full h-28 bg-muted/50 rounded-md flex items-center justify-center overflow-hidden">
-                          <img
-                            src="/images/serial-number-guide.svg"
-                            alt="מיקום המספר הסידורי"
-                            className="w-full h-full object-contain"
-                            loading="lazy"
-                          />
+                        {/* Visual guide - inline SVG */}
+                        <div className="w-full h-28 bg-muted/30 rounded-md flex items-center justify-center overflow-hidden">
+                          <svg viewBox="0 0 200 100" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            {/* Console body */}
+                            <rect x="30" y="15" width="140" height="60" rx="6" fill="#2d2d2d" stroke="#444" strokeWidth="1"/>
+                            {/* Serial label area */}
+                            <rect x="60" y="35" width="80" height="25" rx="3" fill="#3a3a3a" stroke="#c40000" strokeWidth="2" strokeDasharray="3 2"/>
+                            {/* Barcode lines */}
+                            <rect x="68" y="40" width="2" height="10" fill="#666"/>
+                            <rect x="72" y="40" width="1" height="10" fill="#666"/>
+                            <rect x="75" y="40" width="3" height="10" fill="#666"/>
+                            <rect x="80" y="40" width="1" height="10" fill="#666"/>
+                            <rect x="83" y="40" width="2" height="10" fill="#666"/>
+                            <rect x="87" y="40" width="1" height="10" fill="#666"/>
+                            <rect x="90" y="40" width="3" height="10" fill="#666"/>
+                            <rect x="95" y="40" width="2" height="10" fill="#666"/>
+                            <rect x="99" y="40" width="1" height="10" fill="#666"/>
+                            <rect x="102" y="40" width="2" height="10" fill="#666"/>
+                            <rect x="106" y="40" width="1" height="10" fill="#666"/>
+                            <rect x="109" y="40" width="3" height="10" fill="#666"/>
+                            <rect x="114" y="40" width="2" height="10" fill="#666"/>
+                            <rect x="118" y="40" width="1" height="10" fill="#666"/>
+                            <rect x="121" y="40" width="2" height="10" fill="#666"/>
+                            <rect x="125" y="40" width="1" height="10" fill="#666"/>
+                            <rect x="128" y="40" width="3" height="10" fill="#666"/>
+                            {/* S/N text line */}
+                            <rect x="68" y="52" width="60" height="4" rx="1" fill="#555"/>
+                            {/* Arrow */}
+                            <path d="M100 90 L100 68" stroke="#c40000" strokeWidth="2.5" strokeLinecap="round"/>
+                            <path d="M94 74 L100 68 L106 74" stroke="#c40000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
                         </div>
                         {/* Text explanation */}
                         <div className="text-sm text-right space-y-1">

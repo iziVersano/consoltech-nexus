@@ -188,10 +188,7 @@ const ProductSlider = () => {
                     <p className="text-muted-foreground text-sm flex-grow">
                       {product.description}
                     </p>
-                    <div className="flex items-center justify-between pt-2">
-                      <span className="text-primary font-semibold">
-                        {product.price}
-                      </span>
+                    <div className="flex items-center justify-end pt-2">
                       <Link to={`/products?q=${encodeURIComponent(product.name)}`}>
                         <Button className="btn-accent-small">
                           <ArrowRight className="h-4 w-4" />

@@ -182,11 +182,8 @@ const Products = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between pt-2">
-                    <span className="text-primary font-semibold">
-                      {product.price}
-                    </span>
-                    <button 
+                  <div className="flex items-center justify-end pt-2">
+                    <button
                       className="btn-inquiry inline-flex items-center gap-2 px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
                       data-product={product.name}
                       data-sku={`${product.category.toUpperCase()}-${product.id}`}

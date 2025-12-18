@@ -138,17 +138,9 @@ const FeaturedProducts = () => {
                 <p className="text-muted-foreground leading-relaxed">
                   {product.description}
                 </p>
-                <div className="flex items-center justify-between pt-2">
-                  <div className="space-y-1">
-                    <span className="block text-2xl font-bold text-primary">
-                      {product.price}
-                    </span>
-                    <span className="text-xs text-muted-foreground font-mono uppercase tracking-wide">
-                      Starting Price
-                    </span>
-                  </div>
+                <div className="flex items-center justify-end pt-2">
                   <div className="flex flex-col gap-2">
-                    <button 
+                    <button
                       className="btn-inquiry inline-flex items-center justify-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
                       data-product={product.name}
                       data-sku={`${product.category.replace(/\s+/g, '-').toUpperCase()}-${product.id}`}

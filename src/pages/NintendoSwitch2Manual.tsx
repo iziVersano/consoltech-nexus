@@ -117,6 +117,24 @@ const additionalTocItems = [
   { id: 'importer-service', title: '🛠️ פרטי שירות היבואן – CONSOLTECH' },
 ];
 
+// Reusable CTA Banner Component
+const WarrantyCTABanner = () => (
+  <section className="max-w-3xl mx-auto py-4 px-6 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-border/50">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
+      <div className="flex-1">
+        <h2 className="text-lg font-semibold mb-1">רכשתם <span dir="ltr">Nintendo Switch 2</span>?</h2>
+        <p className="text-muted-foreground text-sm">הפעילו את האחריות שלכם עכשיו</p>
+      </div>
+      <Link to="/warranty" className="flex-shrink-0">
+        <Button className="btn-hero px-4 py-2 text-sm">
+          <span>רישום אחריות</span>
+          <ArrowRight className="h-4 w-4 rotate-180" />
+        </Button>
+      </Link>
+    </div>
+  </section>
+);
+
 const NintendoSwitch2Manual = () => {
   const canonicalUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/nintendo-switch-2`
@@ -136,6 +154,11 @@ const NintendoSwitch2Manual = () => {
 
       {/* Main content is RTL Hebrew */}
       <main dir="rtl" className="container px-4 md:px-6 pt-24 pb-16">
+        {/* CTA Banner - Top */}
+        <div className="mb-10">
+          <WarrantyCTABanner />
+        </div>
+
         {/* Header */}
         <header className="max-w-4xl mx-auto text-center mb-10">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -465,21 +488,10 @@ const NintendoSwitch2Manual = () => {
           </div>
         </section>
 
-        {/* CTA Section - Compact notification style */}
-        <section className="max-w-3xl mx-auto mt-12 py-4 px-6 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-border/50">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
-            <div className="flex-1">
-              <h2 className="text-lg font-semibold mb-1">רכשתם <span dir="ltr">Nintendo Switch 2</span>?</h2>
-              <p className="text-muted-foreground text-sm">הפעילו את האחריות שלכם עכשיו</p>
-            </div>
-            <Link to="/warranty" className="flex-shrink-0">
-              <Button className="btn-hero px-4 py-2 text-sm">
-                <span>רישום אחריות</span>
-                <ArrowRight className="h-4 w-4 rotate-180" />
-              </Button>
-            </Link>
-          </div>
-        </section>
+        {/* CTA Banner - Bottom */}
+        <div className="mt-12">
+          <WarrantyCTABanner />
+        </div>
       </main>
     </div>
   );

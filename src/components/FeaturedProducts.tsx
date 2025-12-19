@@ -132,7 +132,7 @@ const FeaturedProducts = () => {
               </div>
               
               <div className="space-y-4 relative z-10">
-                <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300 tracking-tight">
+                <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300 tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
                   {product.name}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">

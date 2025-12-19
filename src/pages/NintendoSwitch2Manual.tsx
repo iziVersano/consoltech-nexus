@@ -24,13 +24,13 @@ const steps = [
   {
     id: 'step-3',
     title: 'שלב 3: בחירת שפה ואזור',
-    images: [{ src: '/manual-images/language-region-selection.svg', alt: 'בחירת שפה ואזור - בחרו עברית ואזור ישראל מתפריט ההגדרות', caption: 'בחרו את השפה והאזור המתאימים לכם' }],
+    images: [{ src: '/manual-images/language-region-selection.svg', alt: 'בחירת שפה ואזור - בחרו עברית ואזור ישראל מתפריט ההגדרות', caption: '' }],
     text: ['כעת, הגיע הזמן לבחור את השפה המועדפת עליכם. תוכלו לעשות זאת על ידי נגיעה במסך או שימוש בבקר על ידי לחיצה על כפתור A.', 'לאחר מכן, בחרו את האזור הנכון. לדוגמה, אם אתם בישראל, בחרו את האזור המתאים מהאפשרויות המוצגות.']
   },
   {
     id: 'step-4',
     title: 'שלב 4: עיון ואישור הסכם המשתמש',
-    images: [{ src: '/manual-images/user-agreement-screen.svg', alt: 'מסך הסכם משתמש - סמנו את תיבת האישור ולחצו המשך', caption: 'קראו ואשרו את תנאי השימוש' }],
+    images: [{ src: '/manual-images/user-agreement-screen.svg', alt: 'מסך הסכם משתמש - סמנו את תיבת האישור ולחצו המשך', caption: '' }],
     text: ['לפני שתמשיכו, תתבקשו לעיין בהסכם רישיון למשתמש קצה.', "לאחר שקראתם והסכמתם לתנאים, לחצו על 'המשך' כדי להתקדם."]
   },
   {
@@ -191,15 +191,17 @@ const NintendoSwitch2Manual = () => {
               <div className="space-y-6">
                 {step.images.map((img, idx) => (
                   <figure key={idx} className="text-center">
-                    <img 
-                      src={img.src} 
+                    <img
+                      src={img.src}
                       alt={img.alt}
                       className="mx-auto rounded-xl shadow-lg max-w-full h-auto border border-border"
                       loading="lazy"
                     />
-                    <figcaption className="mt-3 text-sm text-muted-foreground italic">
-                      {img.caption}
-                    </figcaption>
+                    {img.caption && (
+                      <figcaption className="mt-3 text-sm text-muted-foreground italic">
+                        {img.caption}
+                      </figcaption>
+                    )}
                   </figure>
                 ))}
                 
@@ -463,16 +465,20 @@ const NintendoSwitch2Manual = () => {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="max-w-3xl mx-auto mt-16 p-8 rounded-2xl bg-gradient-to-r from-primary/10 to-accent/10 border border-border text-center">
-          <h2 className="text-2xl font-bold mb-4">רכשתם Nintendo Switch 2?</h2>
-          <p className="text-muted-foreground mb-6">הפעילו את האחריות שלכם עכשיו</p>
-          <Link to="/warranty">
-            <Button className="btn-hero">
-              <span>רישום אחריות</span>
-              <ArrowRight className="h-5 w-5 rotate-180" />
-            </Button>
-          </Link>
+        {/* CTA Section - Compact notification style */}
+        <section className="max-w-3xl mx-auto mt-12 py-4 px-6 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-border/50">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold mb-1">רכשתם Nintendo Switch 2?</h2>
+              <p className="text-muted-foreground text-sm">הפעילו את האחריות שלכם עכשיו</p>
+            </div>
+            <Link to="/warranty" className="flex-shrink-0">
+              <Button className="btn-hero px-4 py-2 text-sm">
+                <span>רישום אחריות</span>
+                <ArrowRight className="h-4 w-4 rotate-180" />
+              </Button>
+            </Link>
+          </div>
         </section>
       </main>
     </div>

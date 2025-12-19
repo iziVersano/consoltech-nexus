@@ -163,7 +163,7 @@ const Products = () => {
                 </div>
                 
                 <div className="space-y-4">
-                  <h3 className="text-xl font-semibold text-foreground group-hover:text-accent transition-colors">
+                  <h3 className="text-xl font-semibold text-foreground group-hover:text-accent transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
                     {product.name}
                   </h3>
                   

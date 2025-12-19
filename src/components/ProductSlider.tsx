@@ -182,7 +182,7 @@ const ProductSlider = () => {
                   </div>
                   
                   <div className="flex flex-col flex-grow space-y-3">
-                    <h3 className="text-xl font-semibold text-foreground group-hover:text-accent transition-colors">
+                    <h3 className="text-xl font-semibold text-foreground group-hover:text-accent transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
                       {product.name}
                     </h3>
                     <p className="text-muted-foreground text-sm flex-grow">

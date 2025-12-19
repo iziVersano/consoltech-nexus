@@ -469,7 +469,7 @@ const NintendoSwitch2Manual = () => {
         <section className="max-w-3xl mx-auto mt-12 py-4 px-6 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-border/50">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
             <div className="flex-1">
-              <h2 className="text-lg font-semibold mb-1">רכשתם Nintendo Switch 2?</h2>
+              <h2 className="text-lg font-semibold mb-1">רכשתם <span dir="ltr">Nintendo Switch 2</span>?</h2>
               <p className="text-muted-foreground text-sm">הפעילו את האחריות שלכם עכשיו</p>
             </div>
             <Link to="/warranty" className="flex-shrink-0">

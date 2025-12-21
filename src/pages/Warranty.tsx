@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Upload, CheckCircle, Info } from 'lucide-react';
+import Footer from '@/components/Footer';
 
 // Use Azure backend API
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -221,13 +222,14 @@ const Warranty = () => {
   const errorClass = "text-sm text-red-500 mt-1.5 text-right break-words";
 
   return (
-    <div dir="rtl" className="min-h-screen bg-background">
+    <div dir="rtl" className="min-h-screen bg-background flex flex-col">
       <Helmet>
         <title>רישום אחריות - Nintendo Switch 2 | Consoltech</title>
         <meta name="description" content="טופס רישום אחריות למוצרי Nintendo Switch 2" />
         <html lang="he" />
       </Helmet>
 
+      <main id="main-content" className="flex-1">
       <div className="max-w-2xl mx-auto px-4 py-8 sm:py-16">
         {/* Header */}
         <div className="text-center mb-8">
@@ -498,6 +500,8 @@ const Warranty = () => {
           </div>
         )}
       </div>
+      </main>
+      <Footer />
     </div>
   );
 };

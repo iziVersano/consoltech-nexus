@@ -1,4 +1,5 @@
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Shield, AlertTriangle, Mail, Gamepad, CreditCard, ExternalLink } from 'lucide-react';
@@ -153,7 +154,7 @@ const NintendoSwitch2Manual = () => {
     : '/nintendo-switch-2';
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Helmet>
         <title>מדריך התקנה Nintendo Switch 2 | Consoltech</title>
         <meta name="description" content="מדריך התקנה מלא ל-Nintendo Switch 2 בעברית. הוראות שלב אחר שלב להפעלה ראשונית, חיבור בקרים, הגדרת רשת ועוד." />
@@ -165,7 +166,7 @@ const NintendoSwitch2Manual = () => {
       <Navigation />
 
       {/* Main content is RTL Hebrew */}
-      <main dir="rtl" className="container px-4 md:px-6 pt-24 pb-16">
+      <main id="main-content" dir="rtl" className="container px-4 md:px-6 pt-24 pb-16 flex-1">
         {/* CTA Banner - Top */}
         <div className="mb-10">
           <WarrantyCTABanner />
@@ -514,6 +515,7 @@ const NintendoSwitch2Manual = () => {
           <WarrantyCTABanner />
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

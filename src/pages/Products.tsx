@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Filter, Search, Phone, RotateCcw, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -82,18 +83,19 @@ const Products = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen flex flex-col">
         <Navigation />
-        <div className="flex items-center justify-center h-screen">
-          <Loader2 className="h-12 w-12 animate-spin text-primary" />
+        <div className="flex items-center justify-center flex-1">
+          <Loader2 className="h-12 w-12 animate-spin text-primary" aria-label="Loading products" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navigation />
+      <main id="main-content" className="flex-1">
       
       {/* Hero Section */}
       <section className="pt-24 pb-12">
@@ -235,6 +237,8 @@ const Products = () => {
           </Button>
         </div>
       </section>
+      </main>
+      <Footer />
     </div>
   );
 };

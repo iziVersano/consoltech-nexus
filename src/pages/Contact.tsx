@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, Clock, Send, Loader2, LucideIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
@@ -155,9 +156,9 @@ const Contact = () => {
   const isSingleOffice = offices.length === 1;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navigation />
-      
+      <main id="main-content" className="flex-1">
       {/* Hero Section */}
       <section className="pt-24 pb-2 md:pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -429,7 +430,8 @@ const Contact = () => {
           </div>
         </div>
       </section>
-      
+      </main>
+      <Footer />
     </div>
   );
 };

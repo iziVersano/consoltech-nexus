@@ -11,11 +11,13 @@ import Contact from "./pages/Contact";
 import Health from "./pages/Health";
 import Warranty from "./pages/Warranty";
 import NintendoSwitch2Manual from "./pages/NintendoSwitch2Manual";
+import Accessibility from "./pages/Accessibility";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/Login";
 import AdminProducts from "./pages/admin/Products";
 import AdminProductForm from "./pages/admin/ProductForm";
 import WarrantyRecords from "./pages/admin/WarrantyRecords";
+import SkipLink from "./components/SkipLink";
 
 import { useEffect } from "react";
 
@@ -36,6 +38,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <SkipLink />
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
@@ -45,6 +48,7 @@ const App = () => (
             <Route path="/health" element={<Health />} />
             <Route path="/warranty" element={<Warranty />} />
             <Route path="/nintendo-switch-2" element={<NintendoSwitch2Manual />} />
+            <Route path="/accessibility" element={<Accessibility />} />
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/products" element={<AdminProducts />} />

@@ -1,4 +1,5 @@
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -6,7 +7,7 @@ const About = () => {
   const canonicalUrl = typeof window !== 'undefined' ? `${window.location.origin}/about` : '/about';
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navigation />
       <Helmet>
         <title>About Consoltech | Global Import & Distribution Experts</title>
@@ -38,7 +39,7 @@ const About = () => {
         </script>
       </Helmet>
 
-      <main className="container px-4 md:px-6 pt-24 pb-16">
+      <main id="main-content" className="container px-4 md:px-6 pt-24 pb-16 flex-1">
         <header className="max-w-4xl mx-auto text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold">About Consoltech</h1>
         </header>
@@ -127,6 +128,7 @@ const About = () => {
           </Card>
         </section>
       </main>
+      <Footer />
     </div>
   );
 };

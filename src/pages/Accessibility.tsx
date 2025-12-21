@@ -11,16 +11,15 @@ const Accessibility = () => {
   });
 
   return (
-    <div className="min-h-screen flex flex-col" dir="rtl">
+    <div className="min-h-screen flex flex-col">
       <Helmet>
         <title>הצהרת נגישות | Consoltech</title>
         <meta name="description" content="מחויבות Consoltech לנגישות דיגיטלית. למידע על עמידה בתקן WCAG 2.1 Level AA ודרכי יצירת קשר לתמיכה בנגישות." />
-        <html lang="he" />
       </Helmet>
 
       <Navigation />
 
-      <main id="main-content" className="flex-1 pt-24 pb-16">
+      <main id="main-content" className="flex-1 pt-24 pb-16" dir="rtl" lang="he">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <header className="mb-12 text-center">
             <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-4">

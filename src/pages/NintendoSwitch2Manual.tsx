@@ -1,7 +1,7 @@
 import Navigation from '@/components/Navigation';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Shield, AlertTriangle, Phone, Gamepad, CreditCard } from 'lucide-react';
+import { ArrowRight, Shield, AlertTriangle, Mail, Gamepad, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // Manual step data
@@ -445,7 +445,7 @@ const NintendoSwitch2Manual = () => {
         {/* Importer Service Details Section */}
         <section id="importer-service" className="max-w-3xl mx-auto mt-12 scroll-mt-24 p-6 rounded-2xl bg-card/30 border border-border/50">
           <div className="flex items-center gap-3 mb-6 pr-4 border-r-4 border-accent">
-            <Phone className="h-7 w-7 text-accent" />
+            <Mail className="h-7 w-7 text-accent" />
             <h2 className="text-xl md:text-2xl font-bold text-foreground">
               🛠️ פרטי שירות היבואן – CONSOLTECH
             </h2>
@@ -456,18 +456,16 @@ const NintendoSwitch2Manual = () => {
               לשירות, תמיכה טכנית ומימוש אחריות, אנא פנו ליבואן הרשמי:
             </p>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="p-4 rounded-lg bg-card/50 border border-border/50">
+            <div className="flex flex-col items-center gap-4">
+              <div className="p-4 rounded-lg bg-card/50 border border-border/50 w-full max-w-md text-center">
                 <p className="text-sm text-muted-foreground mb-1">שם היבואן</p>
                 <p className="font-bold text-primary text-lg">CONSOLTECH</p>
               </div>
-              <div className="p-4 rounded-lg bg-card/50 border border-border/50">
-                <p className="text-sm text-muted-foreground mb-1">טלפון שירות לקוחות</p>
-                <p className="font-medium text-foreground" dir="ltr">050-123-4567</p>
-              </div>
-              <div className="p-4 rounded-lg bg-card/50 border border-border/50 sm:col-span-2">
-                <p className="text-sm text-muted-foreground mb-1">אימייל שירות</p>
-                <p className="font-medium text-foreground">support@consoltech.co.il</p>
+              <div className="p-4 rounded-lg bg-card/50 border border-border/50 w-full max-w-md text-center">
+                <p className="text-sm text-muted-foreground mb-1">שירות לקוחות</p>
+                <a href="mailto:sales@consoltech.shop" className="font-medium text-accent hover:underline text-lg">
+                  sales@consoltech.shop
+                </a>
               </div>
             </div>
 
@@ -482,7 +480,7 @@ const NintendoSwitch2Manual = () => {
 
             <div className="mt-4 p-3 rounded-lg bg-primary/10 border border-primary/30">
               <p className="text-sm text-muted-foreground">
-                📞 <strong>לשירות מהיר יותר:</strong> הכינו מראש את מספר הסידורי של המוצר ואת פרטי הרכישה.
+                ✉️ <strong>לשירות מהיר יותר:</strong> הכינו מראש את מספר הסידורי של המוצר ואת פרטי הרכישה.
               </p>
             </div>
           </div>

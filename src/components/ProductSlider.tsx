@@ -6,7 +6,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { getProducts, getImageUrl, type Product as ApiProduct } from '@/lib/api';
+import { getProducts, getImageUrl, type Product as ApiProduct, FALLBACK_PRODUCTS } from '@/lib/api';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -46,8 +46,16 @@ const ProductSlider = () => {
       setProducts(transformedProducts);
     } catch (error) {
       console.error('Error loading products:', error);
-      // Fallback to empty array if API fails
-      setProducts([]);
+      // Use fallback products when API fails
+      const transformedFallback: Product[] = FALLBACK_PRODUCTS.slice(0, 5).map((p: ApiProduct) => ({
+        id: p.id,
+        name: p.title,
+        category: p.category,
+        description: p.description,
+        image: p.imageUrl,
+        price: p.price > 0 ? `$${p.price.toFixed(2)}` : 'Contact for pricing'
+      }));
+      setProducts(transformedFallback);
     } finally {
       setIsLoading(false);
     }

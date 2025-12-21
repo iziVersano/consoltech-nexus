@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Filter, Search, Phone, RotateCcw, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { getProducts, getImageUrl, type Product as ApiProduct } from '@/lib/api';
+import { getProducts, getImageUrl, type Product as ApiProduct, FALLBACK_PRODUCTS } from '@/lib/api';
 import { toast } from 'sonner';
 
 interface Product {
@@ -57,9 +57,17 @@ const Products = () => {
       setProducts(transformedProducts);
     } catch (error) {
       console.error('Error loading products:', error);
-      toast.error('Failed to load products. Using cached data.');
-      // Fallback to empty array if API fails
-      setProducts([]);
+      // Use fallback products when API fails
+      const transformedFallback: Product[] = FALLBACK_PRODUCTS.map((p: ApiProduct) => ({
+        id: p.id,
+        name: p.title,
+        category: p.category,
+        description: p.description,
+        image: p.imageUrl,
+        features: extractFeatures(p.description),
+        price: p.price > 0 ? `$${p.price.toFixed(2)}` : 'Contact for pricing'
+      }));
+      setProducts(transformedFallback);
     } finally {
       setIsLoading(false);
     }

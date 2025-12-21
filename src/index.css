@@ -581,13 +581,65 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
     .tech-grid {
       background-size: 40px 40px;
     }
-    
+
     .holographic-ring {
       @apply opacity-10;
     }
-    
+
     .tech-line {
       @apply opacity-10;
     }
+  }
+}
+
+/* Accessibility Styles */
+@layer utilities {
+  /* High Contrast Mode */
+  body.high-contrast {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+    --muted-foreground: 0 0% 90%;
+    --border: 0 0% 40%;
+  }
+
+  body.high-contrast * {
+    border-color: white !important;
+  }
+
+  /* Highlight Links */
+  body.highlight-links a:not(.no-highlight) {
+    background-color: rgba(255, 255, 0, 0.3) !important;
+    text-decoration: underline !important;
+    outline: 2px solid yellow !important;
+  }
+
+  /* Highlight Headings */
+  body.highlight-headings h1,
+  body.highlight-headings h2,
+  body.highlight-headings h3,
+  body.highlight-headings h4,
+  body.highlight-headings h5,
+  body.highlight-headings h6 {
+    background-color: rgba(0, 255, 255, 0.2) !important;
+    outline: 2px solid cyan !important;
+    padding: 4px !important;
+  }
+
+  /* Enhanced Focus Highlight */
+  body.enhanced-focus *:focus {
+    outline: 4px solid #ff6600 !important;
+    outline-offset: 4px !important;
+    box-shadow: 0 0 0 8px rgba(255, 102, 0, 0.3) !important;
+  }
+
+  /* Disable Animations */
+  body.reduce-motion,
+  body.reduce-motion * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -18,6 +18,7 @@ import AdminProducts from "./pages/admin/Products";
 import AdminProductForm from "./pages/admin/ProductForm";
 import WarrantyRecords from "./pages/admin/WarrantyRecords";
 import SkipLink from "./components/SkipLink";
+import AccessibilityMenu from "./components/AccessibilityMenu";
 
 import { useEffect } from "react";
 
@@ -39,6 +40,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <SkipLink />
+          <AccessibilityMenu />
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />

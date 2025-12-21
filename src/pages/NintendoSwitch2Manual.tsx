@@ -127,7 +127,7 @@ const additionalTocItems = [
   { id: 'game-loaded', title: '✅ אימות טעינת המשחק' },
   { id: 'parental-controls', title: '🔒 בקרת הורים' },
   { id: 'safety-warnings', title: '⚠️ אזהרות בטיחות' },
-  { id: 'importer-service', title: '🛠️ פרטי שירות היבואן – CONSOLTECH' },
+  { id: 'importer-service', title: '🛠️ פרטי שירות – CONSOLTECH' },
 ];
 
 // Reusable CTA Banner Component
@@ -471,13 +471,13 @@ const NintendoSwitch2Manual = () => {
           <div className="flex items-center gap-3 mb-6 pr-4 border-r-4 border-accent">
             <Mail className="h-7 w-7 text-accent" />
             <h2 className="text-xl md:text-2xl font-bold text-foreground">
-              🛠️ פרטי שירות היבואן – CONSOLTECH
+              🛠️ פרטי שירות – CONSOLTECH
             </h2>
           </div>
 
           <div className="p-4 rounded-xl bg-muted/30">
             <p className="text-foreground leading-relaxed mb-6">
-              לשירות, תמיכה טכנית ומימוש אחריות, אנא פנו ליבואן הרשמי:
+              לשירות, תמיכה טכנית ומימוש אחריות
             </p>
 
             <div className="flex flex-col items-center gap-4">

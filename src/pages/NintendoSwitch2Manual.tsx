@@ -1,7 +1,7 @@
 import Navigation from '@/components/Navigation';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Shield, AlertTriangle, Mail, Gamepad, CreditCard } from 'lucide-react';
+import { ArrowRight, Shield, AlertTriangle, Mail, Gamepad, CreditCard, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // Manual step data
@@ -207,6 +207,17 @@ const NintendoSwitch2Manual = () => {
                   </a>
                 </li>
               ))}
+              <li>
+                <a
+                  href="https://support.nintendo.co.il/category/nintendo-switch-2/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+                >
+                  🔗 תמיכה רשמית – Nintendo Switch 2
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              </li>
             </ul>
           </div>
         </nav>

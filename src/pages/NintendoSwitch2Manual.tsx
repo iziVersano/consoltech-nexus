@@ -66,8 +66,20 @@ const steps = [
   {
     id: 'step-10',
     title: 'שלב 10: חיבור לטלוויזיה (אופציונלי)',
-    images: [{ src: '/manual-images/nintendo-switch-2-kickstand.jpg', alt: 'חיבור Nintendo Switch 2 לטלוויזיה באמצעות תחנת עגינה', caption: 'חברו את הקונסולה לטלוויזיה דרך תחנת העגינה' }],
-    text: ['אם תרצו לשחק משחקים על מסך גדול יותר, ה-Nintendo Switch 2 יכול להתחבר לטלוויזיה באמצעות תחנת העגינה שלו.', 'תוכלו לבחור להגדיר זאת מאוחר יותר אם תעדיפו.']
+    images: [
+      { src: 'https://en-americas-support.nintendo.com/app/images/answer_attachments/3500/3528/1/1/kA0Qy0000001MnbKAE_en_US_1.png', alt: 'פתיחת המכסה האחורי של תחנת העגינה', caption: 'פתחו את המכסה האחורי של תחנת העגינה' },
+      { src: 'https://en-americas-support.nintendo.com/app/images/answer_attachments/3500/3528/2/1/kA0Qy0000001MnbKAE_en_US_2.png', alt: 'חיבור כבל HDMI לתחנת העגינה', caption: 'חברו את כבל ה-HDMI לתחנת העגינה ולטלוויזיה' },
+      { src: 'https://en-americas-support.nintendo.com/app/images/answer_attachments/3500/3528/3/1/kA0Qy0000001MnbKAE_en_US_3.png', alt: 'הכנסת הקונסולה לתחנת העגינה', caption: 'הכניסו את הקונסולה לתחנת העגינה כשהמסך פונה קדימה' }
+    ],
+    text: [
+      'פתחו את המכסה האחורי של תחנת העגינה של Nintendo Switch 2.',
+      'חברו את כבל ה-USB Type-C של מתאם החשמל (דגם NGN-01) ליציאת החשמל בתחנת העגינה, ואת התקע לשקע בקיר. שימו לב: מתאם החשמל של Nintendo Switch הרגיל אינו תואם למצב טלוויזיה.',
+      'חברו קצה אחד של כבל HDMI מהיר במיוחד (Ultra High Speed) ליציאת ה-HDMI בתחנת העגינה, והקצה השני ליציאת HDMI בטלוויזיה. חשוב: כבל ה-HDMI שמצורף ל-Nintendo Switch הרגיל אינו מתאים.',
+      'סגרו את המכסה האחורי של תחנת העגינה.',
+      'הסירו את בקרי ה-Joy-Con 2 מהקונסולה. אם הבקרים לא היו מחוברים קודם לכן, יש לבצע צימוד תחילה.',
+      'מקמו את הקונסולה כך שהמסך פונה לאותו כיוון כמו הפאנל הקדמי של תחנת העגינה, והכניסו אותה לתחנה. כשהקונסולה מעוגנת, המסך יכבה.',
+      'הדליקו את הטלוויזיה ובחרו את כניסת ה-HDMI הנכונה.'
+    ]
   },
   {
     id: 'step-11',

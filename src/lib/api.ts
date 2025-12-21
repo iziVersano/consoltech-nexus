@@ -11,6 +11,75 @@ export interface Product {
   price: number;
 }
 
+// Fallback products data (used when API is unavailable)
+// Nintendo Switch 2 is FIRST for priority display
+export const FALLBACK_PRODUCTS: Product[] = [
+  {
+    id: 0,
+    title: "Nintendo Switch 2",
+    description: "The next generation of Nintendo gaming. Experience enhanced graphics, faster performance, and an expanded game library. Features a larger display, improved Joy-Con controllers, and backward compatibility.",
+    category: "Gaming",
+    imageUrl: "/images/nintendo-switch-2-product.jpg",
+    price: 449.99
+  },
+  {
+    id: 1,
+    title: "PlayStation 5",
+    description: "Next-generation gaming console with ultra-fast SSD and ray tracing technology. Experience lightning-fast loading and stunning graphics.",
+    category: "Gaming",
+    imageUrl: "/images/bd80e124-a5e2-4d34-9c82-ebc0dbd6a697.png",
+    price: 499.99
+  },
+  {
+    id: 2,
+    title: "Xbox Series X",
+    description: "The most powerful Xbox ever with 12 teraflops of GPU performance and Smart Delivery technology.",
+    category: "Gaming",
+    imageUrl: "/images/78a95f48-606e-44b6-950e-af0555a3f04f.png",
+    price: 449.99
+  },
+  {
+    id: 3,
+    title: "Professional Drones",
+    description: "High-performance drones for commercial photography, surveying, and recreational flying with advanced stabilization.",
+    category: "Drones",
+    imageUrl: "/images/07ba8bc0-8d14-4d62-a534-659913ac5f99.png",
+    price: 1299.99
+  },
+  {
+    id: 4,
+    title: "Smart E-Bikes",
+    description: "Electric bikes with smart connectivity, long-range batteries, and advanced motor systems for urban mobility.",
+    category: "E-Bikes",
+    imageUrl: "/images/a0bd3ab6-05d5-4312-b6ec-f0e256d7a63a.png",
+    price: 1899.99
+  },
+  {
+    id: 5,
+    title: "4K Smart TVs",
+    description: "Ultra-high definition smart TVs with AI upscaling, HDR support, and built-in streaming platforms.",
+    category: "TVs",
+    imageUrl: "/images/6df37998-af04-426e-b749-365ffeb66787.png",
+    price: 799.99
+  },
+  {
+    id: 6,
+    title: "Gaming Accessories",
+    description: "Premium gaming peripherals including controllers, headsets, and racing wheels from top brands.",
+    category: "Gaming",
+    imageUrl: "/images/bd80e124-a5e2-4d34-9c82-ebc0dbd6a697.png",
+    price: 149.99
+  },
+  {
+    id: 7,
+    title: "Smart Home Electronics",
+    description: "Connected home devices including smart speakers, security cameras, and automation systems.",
+    category: "Electronics",
+    imageUrl: "/images/6df37998-af04-426e-b749-365ffeb66787.png",
+    price: 299.99
+  }
+];
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -81,7 +150,19 @@ export const login = async (credentials: LoginRequest): Promise<LoginResponse> =
 
 // Products API
 export const getProducts = async (): Promise<Product[]> => {
-  return fetchApi('/products');
+  try {
+    const products = await fetchApi('/products');
+    // Ensure Nintendo Switch 2 is first if it exists in API response
+    const sortedProducts = [...products].sort((a, b) => {
+      if (a.title.toLowerCase().includes('nintendo switch 2')) return -1;
+      if (b.title.toLowerCase().includes('nintendo switch 2')) return 1;
+      return 0;
+    });
+    return sortedProducts;
+  } catch (error) {
+    console.log('API unavailable, using fallback products');
+    return FALLBACK_PRODUCTS;
+  }
 };
 
 export const getProduct = async (id: number): Promise<Product> => {

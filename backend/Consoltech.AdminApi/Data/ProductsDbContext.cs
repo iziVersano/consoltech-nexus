@@ -16,10 +16,20 @@ public class ProductsDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Seed initial data
+        // Nintendo Switch 2 is FIRST (lowest ID) for priority display
         modelBuilder.Entity<Product>().HasData(
             new Product
             {
                 Id = 1,
+                Title = "Nintendo Switch 2",
+                Description = "The next generation of Nintendo gaming. Experience enhanced graphics, faster performance, and an expanded game library. Features a larger display, improved Joy-Con controllers, and backward compatibility.",
+                Category = "Gaming",
+                ImageUrl = "/images/nintendo-switch-2-product.jpg",
+                Price = 449.99m
+            },
+            new Product
+            {
+                Id = 2,
                 Title = "PlayStation 5",
                 Description = "Next-generation gaming console with ultra-fast SSD and ray tracing technology. Experience lightning-fast loading and stunning graphics.",
                 Category = "Gaming",
@@ -28,7 +38,7 @@ public class ProductsDbContext : DbContext
             },
             new Product
             {
-                Id = 2,
+                Id = 3,
                 Title = "Xbox Series X",
                 Description = "The most powerful Xbox ever with 12 teraflops of GPU performance and Smart Delivery technology.",
                 Category = "Gaming",
@@ -37,7 +47,7 @@ public class ProductsDbContext : DbContext
             },
             new Product
             {
-                Id = 3,
+                Id = 4,
                 Title = "Professional Drones",
                 Description = "High-performance drones for commercial photography, surveying, and recreational flying with advanced stabilization.",
                 Category = "Drones",
@@ -46,7 +56,7 @@ public class ProductsDbContext : DbContext
             },
             new Product
             {
-                Id = 4,
+                Id = 5,
                 Title = "Smart E-Bikes",
                 Description = "Electric bikes with smart connectivity, long-range batteries, and advanced motor systems for urban mobility.",
                 Category = "E-Bikes",
@@ -55,7 +65,7 @@ public class ProductsDbContext : DbContext
             },
             new Product
             {
-                Id = 5,
+                Id = 6,
                 Title = "4K Smart TVs",
                 Description = "Ultra-high definition smart TVs with AI upscaling, HDR support, and built-in streaming platforms.",
                 Category = "TVs",
@@ -64,7 +74,7 @@ public class ProductsDbContext : DbContext
             },
             new Product
             {
-                Id = 6,
+                Id = 7,
                 Title = "Gaming Accessories",
                 Description = "Premium gaming peripherals including controllers, headsets, and racing wheels from top brands.",
                 Category = "Gaming",
@@ -73,7 +83,7 @@ public class ProductsDbContext : DbContext
             },
             new Product
             {
-                Id = 7,
+                Id = 8,
                 Title = "Smart Home Electronics",
                 Description = "Connected home devices including smart speakers, security cameras, and automation systems.",
                 Category = "Electronics",

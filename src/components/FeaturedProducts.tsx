@@ -11,6 +11,16 @@ import { cn } from '@/lib/utils';
 const FeaturedProducts = () => {
   const products = [
     {
+      id: 0,
+      name: 'Nintendo Switch 2',
+      category: 'Gaming Systems',
+      description: 'The next generation of Nintendo gaming. Enhanced graphics, faster performance, larger display, and backward compatibility with your favorite games.',
+      image: '/images/nintendo-switch-2-product.jpg',
+      price: 'From $449',
+      featured: true,
+      specs: ['Enhanced Display', 'New Joy-Con', 'Backward Compatible', 'Faster Performance']
+    },
+    {
       id: 1,
       name: 'PlayStation 5 Console',
       category: 'Gaming Systems',

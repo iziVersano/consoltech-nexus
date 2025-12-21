@@ -48,8 +48,8 @@ const steps = [
   {
     id: 'step-7',
     title: 'שלב 7: הגדרת אזור זמן',
-    images: [{ src: '/manual-images/time-zone-selection-screen.jpg', alt: 'מסך בחירת אזור זמן', caption: 'בחרו את אזור הזמן שלכם' }],
-    text: ['בחרו את אזור הזמן המתאים בהתאם למיקומכם.', 'לדוגמה, אם אתם בישראל, בחרו באזור הזמן של ישראל (GMT+2) כדי להבטיח שעון מדויק בקונסולה שלכם.']
+    images: [{ src: '/src/pages/images/timezone.png', alt: 'מסך בחירת אזור זמן', caption: '' }],
+    text: ['בחרו את אזור הזמן המתאים למיקומכם.', 'לדוגמה: אם אתם בישראל, בחרו Tel Aviv, Jerusalem (UTC-03:00) ולחצו OK.']
   },
   {
     id: 'step-8',
@@ -67,9 +67,9 @@ const steps = [
     id: 'step-10',
     title: 'שלב 10: חיבור לטלוויזיה (אופציונלי)',
     images: [
-      { src: 'https://en-americas-support.nintendo.com/app/images/answer_attachments/3500/3528/1/1/kA0Qy0000001MnbKAE_en_US_1.png', alt: 'פתיחת המכסה האחורי של תחנת העגינה', caption: 'פתחו את המכסה האחורי של תחנת העגינה' },
-      { src: 'https://en-americas-support.nintendo.com/app/images/answer_attachments/3500/3528/2/1/kA0Qy0000001MnbKAE_en_US_2.png', alt: 'חיבור כבל HDMI לתחנת העגינה', caption: 'חברו את כבל ה-HDMI לתחנת העגינה ולטלוויזיה' },
-      { src: 'https://en-americas-support.nintendo.com/app/images/answer_attachments/3500/3528/3/1/kA0Qy0000001MnbKAE_en_US_3.png', alt: 'הכנסת הקונסולה לתחנת העגינה', caption: 'הכניסו את הקונסולה לתחנת העגינה כשהמסך פונה קדימה' }
+      { src: '/src/pages/images/bee-dock2-openback-photo.jpg', alt: 'פתיחת המכסה האחורי של תחנת העגינה', caption: '' },
+      { src: '/src/pages/images/bee-dock2-cables-pluggedin-photo.jpg', alt: 'חיבור כבלים לתחנת העגינה', caption: '' },
+      { src: '/src/pages/images/bee-tvmode-dockedpluggedin-photo.jpg', alt: 'Nintendo Switch 2 מחובר לטלוויזיה', caption: '' }
     ],
     text: [
       'פתחו את המכסה האחורי של תחנת העגינה של Nintendo Switch 2.',

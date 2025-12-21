@@ -197,6 +197,17 @@ const NintendoSwitch2Manual = () => {
           <div className="mt-6 pt-4 border-t border-border/50">
             <h3 className="text-lg font-semibold mb-3 text-primary">מידע נוסף</h3>
             <ul className="space-y-2 pr-4">
+              <li>
+                <a
+                  href="https://support.nintendo.co.il/category/nintendo-switch-2/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary font-semibold text-base hover:text-primary/80 transition-colors inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+                >
+                  🔗 תמיכה רשמית – Nintendo Switch 2
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </li>
               {additionalTocItems.map((item) => (
                 <li key={item.id}>
                   <a
@@ -207,17 +218,6 @@ const NintendoSwitch2Manual = () => {
                   </a>
                 </li>
               ))}
-              <li>
-                <a
-                  href="https://support.nintendo.co.il/category/nintendo-switch-2/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
-                >
-                  🔗 תמיכה רשמית – Nintendo Switch 2
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              </li>
             </ul>
           </div>
         </nav>

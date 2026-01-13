@@ -3,7 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Filter, Search, Phone, RotateCcw, Loader2 } from 'lucide-react';
+import { ArrowRight, Filter, Search, Phone, RotateCcw, Loader2, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getProducts, getImageUrl, type Product as ApiProduct, FALLBACK_PRODUCTS } from '@/lib/api';
 import { toast } from 'sonner';
@@ -23,6 +23,7 @@ const Products = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [lightboxImage, setLightboxImage] = useState<{ url: string; alt: string } | null>(null);
 
   const location = useLocation();
 
@@ -39,6 +40,26 @@ const Products = () => {
       setSearchTerm(q);
     }
   }, [location.search]);
+
+  // Handle ESC key for lightbox
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && lightboxImage) {
+        setLightboxImage(null);
+      }
+    };
+
+    if (lightboxImage) {
+      document.addEventListener('keydown', handleEscape);
+      // Prevent body scroll when lightbox is open
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [lightboxImage]);
 
   const loadProducts = async () => {
     try {
@@ -161,10 +182,20 @@ const Products = () => {
                     src={getImageUrl(product.image)}
                     alt={product.name}
                     className={cn(
-                      "w-full h-48 transition-transform duration-500 object-cover group-hover:scale-110"
+                      "w-full h-48 transition-transform duration-500 object-cover group-hover:scale-110 cursor-pointer"
                     )}
+                    onClick={() => setLightboxImage({ url: getImageUrl(product.image), alt: product.name })}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setLightboxImage({ url: getImageUrl(product.image), alt: product.name });
+                      }
+                    }}
+                    aria-label={`View larger image of ${product.name}`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                   <div className="absolute top-4 left-4">
                     <span className="bg-accent text-accent-foreground px-3 py-1 rounded-full text-sm font-medium">
                       {product.category}
@@ -247,6 +278,41 @@ const Products = () => {
       </section>
       </main>
       <Footer />
+
+      {/* Image Lightbox */}
+      {lightboxImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 animate-in fade-in-0 duration-300"
+          onClick={() => setLightboxImage(null)}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              setLightboxImage(null);
+            }
+          }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image lightbox"
+          tabIndex={-1}
+        >
+          <button
+            onClick={() => setLightboxImage(null)}
+            className="absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+            aria-label="Close lightbox"
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <div
+            className="relative max-w-7xl max-h-[90vh] p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={lightboxImage.url}
+              alt={lightboxImage.alt}
+              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

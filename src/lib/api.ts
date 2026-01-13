@@ -18,7 +18,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
     id: 0,
     title: "Nintendo Switch 2",
     description: "The next generation of Nintendo gaming. Experience enhanced graphics, faster performance, and an expanded game library. Features a larger display, improved Joy-Con controllers, and backward compatibility.",
-    category: "Gaming",
+    category: "New Arrivals",
     imageUrl: "/images/nintendo-switch-2-product.jpg",
     price: 449.99
   },
@@ -26,7 +26,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
     id: 1,
     title: "PlayStation 5",
     description: "Next-generation gaming console with ultra-fast SSD and ray tracing technology. Experience lightning-fast loading and stunning graphics.",
-    category: "Gaming",
+    category: "New Arrivals",
     imageUrl: "/images/bd80e124-a5e2-4d34-9c82-ebc0dbd6a697.png",
     price: 499.99
   },
@@ -34,7 +34,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
     id: 2,
     title: "Xbox Series X",
     description: "The most powerful Xbox ever with 12 teraflops of GPU performance and Smart Delivery technology.",
-    category: "Gaming",
+    category: "New Arrivals",
     imageUrl: "/images/78a95f48-606e-44b6-950e-af0555a3f04f.png",
     price: 449.99
   },

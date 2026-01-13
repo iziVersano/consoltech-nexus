@@ -23,7 +23,7 @@ public class ProductsDbContext : DbContext
                 Id = 1,
                 Title = "Nintendo Switch 2",
                 Description = "The next generation of Nintendo gaming. Experience enhanced graphics, faster performance, and an expanded game library. Features a larger display, improved Joy-Con controllers, and backward compatibility.",
-                Category = "Gaming",
+                Category = "New Arrivals",
                 ImageUrl = "/images/nintendo-switch-2-product.jpg",
                 Price = 449.99m
             },
@@ -32,7 +32,7 @@ public class ProductsDbContext : DbContext
                 Id = 2,
                 Title = "PlayStation 5",
                 Description = "Next-generation gaming console with ultra-fast SSD and ray tracing technology. Experience lightning-fast loading and stunning graphics.",
-                Category = "Gaming",
+                Category = "New Arrivals",
                 ImageUrl = "/images/bd80e124-a5e2-4d34-9c82-ebc0dbd6a697.png",
                 Price = 499.99m
             },
@@ -41,7 +41,7 @@ public class ProductsDbContext : DbContext
                 Id = 3,
                 Title = "Xbox Series X",
                 Description = "The most powerful Xbox ever with 12 teraflops of GPU performance and Smart Delivery technology.",
-                Category = "Gaming",
+                Category = "New Arrivals",
                 ImageUrl = "/images/78a95f48-606e-44b6-950e-af0555a3f04f.png",
                 Price = 449.99m
             },

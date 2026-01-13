@@ -3,6 +3,8 @@ import { Grid3X3, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import heroImage from '@/assets/hero-tech.jpg';
+import NewArrivalsSpotlight from '@/components/NewArrivalsSpotlight';
+import { isFeatureEnabled } from '@/lib/featureFlags';
 
 const Hero = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -75,30 +77,40 @@ const Hero = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="space-y-6 md:space-y-8">
-          {/* CONSOLTECH Promotional Image */}
+          {/* Hero Visual - Toggle between Spotlight and Promotional Image */}
           <div className="relative mb-8 md:mb-12">
-            <img
-              src="/images/41931538-f28c-4223-89e9-23b458ec78db.png"
-              alt="Gaming consoles, electronics, drones, smart TV and tech products showcase"
-              className="w-full max-w-4xl mx-auto h-auto rounded-lg shadow-2xl shadow-primary/20"
-            />
-            {/* More lights behind drone and bicycle + brighter wall/floor */}
-            <div className="pointer-events-none absolute inset-0 z-10" aria-hidden="true">
-              {/* Drone glows */}
-              <div className="absolute top-[18%] right-[12%] w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 rounded-full blur-3xl opacity-90 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--accent))/0.6_0%,transparent_65%)]"></div>
-              <div className="absolute top-[16.5%] right-[11%] w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full blur-xl opacity-90 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--accent))/0.8_0%,transparent_70%)]"></div>
-              <div className="absolute top-[15%] right-[8%] w-64 h-40 md:w-80 md:h-48 lg:w-96 lg:h-56 rounded-[9999px] blur-3xl opacity-70 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--accent))/0.45_0%,transparent_80%)]"></div>
-              
-              {/* Bicycle glows */}
-              <div className="absolute bottom-[14%] left-[10%] w-44 h-44 md:w-60 md:h-60 lg:w-80 lg:h-80 rounded-full blur-3xl opacity-90 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--primary))/0.55_0%,transparent_70%)]"></div>
-              <div className="absolute bottom-[16%] left-[12%] w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full blur-xl opacity-90 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--primary))/0.75_0%,transparent_75%)]"></div>
-              <div className="absolute bottom-[12%] left-[8%] w-72 h-44 md:w-96 md:h-56 lg:w-[28rem] lg:h-64 rounded-[9999px] blur-3xl opacity-70 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--primary))/0.4_0%,transparent_85%)]"></div>
-              
-              {/* Wall highlight */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[92%] md:w-[88%] lg:w-[82%] h-[26%] md:h-[24%] rounded-[50%] blur-3xl opacity-75 mix-blend-screen bg-[radial-gradient(ellipse_at_top,hsl(var(--accent))/0.4_0%,transparent_75%)]"></div>
-              {/* Floor highlight */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[92%] md:w-[88%] lg:w-[82%] h-[22%] md:h-[20%] rounded-[50%] blur-3xl opacity-80 mix-blend-screen bg-[radial-gradient(ellipse_at_bottom,hsl(var(--primary))/0.45_0%,transparent_80%)]"></div>
-            </div>
+            {isFeatureEnabled('HERO_NEW_ARRIVALS_SPOTLIGHT') ? (
+              /* New Arrivals Spotlight */
+              <div className="flex justify-center">
+                <NewArrivalsSpotlight />
+              </div>
+            ) : (
+              /* CONSOLTECH Promotional Image */
+              <>
+                <img
+                  src="/images/41931538-f28c-4223-89e9-23b458ec78db.png"
+                  alt="Gaming consoles, electronics, drones, smart TV and tech products showcase"
+                  className="w-full max-w-4xl mx-auto h-auto rounded-lg shadow-2xl shadow-primary/20"
+                />
+                {/* More lights behind drone and bicycle + brighter wall/floor */}
+                <div className="pointer-events-none absolute inset-0 z-10" aria-hidden="true">
+                  {/* Drone glows */}
+                  <div className="absolute top-[18%] right-[12%] w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 rounded-full blur-3xl opacity-90 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--accent))/0.6_0%,transparent_65%)]"></div>
+                  <div className="absolute top-[16.5%] right-[11%] w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full blur-xl opacity-90 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--accent))/0.8_0%,transparent_70%)]"></div>
+                  <div className="absolute top-[15%] right-[8%] w-64 h-40 md:w-80 md:h-48 lg:w-96 lg:h-56 rounded-[9999px] blur-3xl opacity-70 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--accent))/0.45_0%,transparent_80%)]"></div>
+
+                  {/* Bicycle glows */}
+                  <div className="absolute bottom-[14%] left-[10%] w-44 h-44 md:w-60 md:h-60 lg:w-80 lg:h-80 rounded-full blur-3xl opacity-90 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--primary))/0.55_0%,transparent_70%)]"></div>
+                  <div className="absolute bottom-[16%] left-[12%] w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full blur-xl opacity-90 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--primary))/0.75_0%,transparent_75%)]"></div>
+                  <div className="absolute bottom-[12%] left-[8%] w-72 h-44 md:w-96 md:h-56 lg:w-[28rem] lg:h-64 rounded-[9999px] blur-3xl opacity-70 mix-blend-screen bg-[radial-gradient(ellipse_at_center,hsl(var(--primary))/0.4_0%,transparent_85%)]"></div>
+
+                  {/* Wall highlight */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[92%] md:w-[88%] lg:w-[82%] h-[26%] md:h-[24%] rounded-[50%] blur-3xl opacity-75 mix-blend-screen bg-[radial-gradient(ellipse_at_top,hsl(var(--accent))/0.4_0%,transparent_75%)]"></div>
+                  {/* Floor highlight */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[92%] md:w-[88%] lg:w-[82%] h-[22%] md:h-[20%] rounded-[50%] blur-3xl opacity-80 mix-blend-screen bg-[radial-gradient(ellipse_at_bottom,hsl(var(--primary))/0.45_0%,transparent_80%)]"></div>
+                </div>
+              </>
+            )}
           </div>
           
           {/* Main Headline */}
@@ -126,7 +138,7 @@ const Hero = () => {
                 <span>Explore Products</span>
               </Button>
             </Link>
-            
+
             <Link to="/contact">
               <Button className="btn-neon-square group">
                 <Send className="h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:translate-x-1" />

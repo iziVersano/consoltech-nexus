@@ -32,11 +32,17 @@ const Products = () => {
     loadProducts();
   }, []);
 
-  // Prefill search from ?q= query param
+  // Handle URL query params for search (?q=) and category (?category=)
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const q = params.get('q') || '';
-    if (q) {
+    const category = params.get('category') || '';
+
+    // If category is specified, set it and clear search
+    if (category) {
+      setSelectedCategory(category);
+      setSearchTerm(''); // Clear search when coming from category link
+    } else if (q) {
       setSearchTerm(q);
     }
   }, [location.search]);

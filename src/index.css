@@ -327,6 +327,17 @@ All colors MUST be HSL. Premium blue gradients with neon accents.
     50% { transform: translateY(-20px); }
   }
 
+  /* Progress bar animation for spotlight */
+  .animate-progress {
+    animation: progress linear forwards;
+    width: 0%;
+  }
+
+  @keyframes progress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
   /* Pulse glow animation */
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite alternate;

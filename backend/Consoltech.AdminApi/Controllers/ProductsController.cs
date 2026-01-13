@@ -40,7 +40,7 @@ public class ProductsController : ControllerBase
 
     // POST: api/products
     [HttpPost]
-    [Authorize]
+    // [Authorize] - Temporarily disabled for credential-free admin mode
     public async Task<ActionResult<Product>> CreateProduct(Product product)
     {
         _context.Products.Add(product);
@@ -51,7 +51,7 @@ public class ProductsController : ControllerBase
 
     // PUT: api/products/5
     [HttpPut("{id}")]
-    [Authorize]
+    // [Authorize] - Temporarily disabled for credential-free admin mode
     public async Task<IActionResult> UpdateProduct(int id, Product product)
     {
         if (id != product.Id)
@@ -82,7 +82,7 @@ public class ProductsController : ControllerBase
 
     // DELETE: api/products/5
     [HttpDelete("{id}")]
-    [Authorize]
+    // [Authorize] - Temporarily disabled for credential-free admin mode
     public async Task<IActionResult> DeleteProduct(int id)
     {
         var product = await _context.Products.FindAsync(id);

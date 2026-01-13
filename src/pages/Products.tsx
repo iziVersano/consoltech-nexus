@@ -279,7 +279,7 @@ const Products = () => {
       </main>
       <Footer />
 
-      {/* Image Lightbox */}
+      {/* Product Image Lightbox Modal */}
       {lightboxImage && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 animate-in fade-in-0 duration-300"

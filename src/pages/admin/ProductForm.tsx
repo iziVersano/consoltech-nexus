@@ -24,7 +24,7 @@ import {
 import { toast } from 'sonner';
 import { ArrowLeft, Save, Loader2, Upload, Image } from 'lucide-react';
 
-const categories = ['Gaming', 'Electronics', 'Drones', 'E-Bikes', 'TVs'];
+const categories = ['New Arrivals', 'Gaming', 'Electronics', 'Drones', 'E-Bikes', 'TVs'];
 
 const ProductForm = () => {
   const { id } = useParams();

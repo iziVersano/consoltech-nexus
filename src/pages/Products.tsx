@@ -80,7 +80,7 @@ const Products = () => {
     return words.slice(0, 4);
   };
 
-  const categories = ['All', 'Gaming', 'Electronics', 'Drones', 'E-Bikes', 'TVs'];
+  const categories = ['All', 'New Arrivals', 'Gaming', 'Electronics', 'Drones', 'E-Bikes', 'TVs'];
 
   const filteredProducts = products.filter(product => {
     const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;

@@ -114,19 +114,18 @@ const Hero = () => {
           </div>
           
           {/* Main Headline */}
-          <div className="space-y-3 md:space-y-4">
-            <h1 className="text-center text-3xl md:text-4xl lg:text-6xl leading-snug lg:leading-tight font-bold break-normal whitespace-normal">
-              <span className="block text-3xl md:text-4xl lg:text-7xl font-black mb-2 md:mb-1 lg:mb-2 leading-tight">
+          <div className="space-y-2">
+            <h1 className="text-center text-2xl md:text-3xl lg:text-4xl leading-tight font-bold">
+              <span className="block text-2xl md:text-3xl lg:text-5xl font-black mb-1 leading-tight">
                 Your Gateway to Gaming, Gadgets & <span className="gradient-text">Innovation</span>
               </span>
-              <span className="block text-foreground text-2xl md:text-4xl lg:text-6xl font-bold leading-snug">
+              <span className="block text-foreground text-xl md:text-2xl lg:text-3xl font-bold leading-tight">
                 Delivering Smart Tech & <span className="text-accent text-glow">Toys</span> to the World
               </span>
             </h1>
-            
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Your premier partner for cutting-edge technology distribution worldwide. 
-              From gaming consoles to smart devices, we bring innovation to your doorstep.
+
+            <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-normal">
+              Your premier partner for cutting-edge technology distribution worldwide.
             </p>
           </div>
 

@@ -12,30 +12,29 @@ export interface Product {
 }
 
 // Fallback products data (used when API is unavailable)
-// Nintendo Switch 2 is FIRST for priority display
 export const FALLBACK_PRODUCTS: Product[] = [
   {
-    id: 0,
-    title: "Nintendo Switch 2",
-    description: "The next generation of Nintendo gaming. Experience enhanced graphics, faster performance, and an expanded game library. Features a larger display, improved Joy-Con controllers, and backward compatibility.",
+    id: 8,
+    title: "Meta Quest 3",
+    description: "Next-generation VR headset with breakthrough mixed reality, powerful performance, and an expanding library of immersive experiences.",
     category: "New Arrivals",
-    imageUrl: "/images/nintendo-switch-2-product.jpg",
-    price: 449.99
-  },
-  {
-    id: 1,
-    title: "PlayStation 5",
-    description: "Next-generation gaming console with ultra-fast SSD and ray tracing technology. Experience lightning-fast loading and stunning graphics.",
-    category: "New Arrivals",
-    imageUrl: "/images/bd80e124-a5e2-4d34-9c82-ebc0dbd6a697.png",
+    imageUrl: "/images/m3w.png",
     price: 499.99
   },
   {
-    id: 2,
-    title: "Xbox Series X",
-    description: "The most powerful Xbox ever with 12 teraflops of GPU performance and Smart Delivery technology.",
+    id: 9,
+    title: "ASUS ROG Gaming Laptop",
+    description: "Ultimate gaming performance with cutting-edge graphics, high-refresh display, and advanced cooling technology for serious gamers.",
     category: "New Arrivals",
-    imageUrl: "/images/78a95f48-606e-44b6-950e-af0555a3f04f.png",
+    imageUrl: "/images/asus-new.png",
+    price: 1799.99
+  },
+  {
+    id: 10,
+    title: "Nintendo Switch 2",
+    description: "The next generation of Nintendo gaming. Experience enhanced graphics, faster performance, and an expanded game library.",
+    category: "New Arrivals",
+    imageUrl: "/images/nin2.jpeg",
     price: 449.99
   },
   {
@@ -151,14 +150,7 @@ export const login = async (credentials: LoginRequest): Promise<LoginResponse> =
 // Products API
 export const getProducts = async (): Promise<Product[]> => {
   try {
-    const products = await fetchApi('/products');
-    // Ensure Nintendo Switch 2 is first if it exists in API response
-    const sortedProducts = [...products].sort((a, b) => {
-      if (a.title.toLowerCase().includes('nintendo switch 2')) return -1;
-      if (b.title.toLowerCase().includes('nintendo switch 2')) return 1;
-      return 0;
-    });
-    return sortedProducts;
+    return await fetchApi('/products');
   } catch (error) {
     console.log('API unavailable, using fallback products');
     return FALLBACK_PRODUCTS;

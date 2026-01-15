@@ -126,6 +126,7 @@ const Hero = () => {
 
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-normal">
               Your premier partner for cutting-edge technology distribution worldwide.
+              From gaming consoles to smart devices, we bring innovation to your doorstep.
             </p>
           </div>
 

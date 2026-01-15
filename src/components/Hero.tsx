@@ -30,15 +30,12 @@ const Hero = () => {
         />
         
         {/* High Quality Image */}
-        <img 
-          src={heroImage} 
-          alt="High-tech electronics and gaming devices" 
-          className={`w-full h-full object-cover transition-opacity duration-500 ease-out ${
-            imageLoaded ? 'opacity-30' : 'opacity-0'
-          }`}
-          onLoad={() => setImageLoaded(true)}
+        {/* High Quality Image */}
+        <img
+          src={heroImage}
+          alt="High-tech electronics and gaming devices"
+          className="w-full h-full object-cover"
         />
-        
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
       </div>
 

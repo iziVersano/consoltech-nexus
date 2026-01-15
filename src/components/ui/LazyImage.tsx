@@ -1,0 +1,1 @@
+Reusable `LazyImage` component to handle lazy loading, placeholders, and smooth transitions for images.

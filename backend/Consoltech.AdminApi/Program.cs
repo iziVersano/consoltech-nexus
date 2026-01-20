@@ -1,3 +1,4 @@
+// Consoltech Admin API - Backend Service
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

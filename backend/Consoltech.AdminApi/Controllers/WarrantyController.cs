@@ -11,22 +11,11 @@ namespace Consoltech.AdminApi.Controllers
     [Route("api/warranty")]
     public class WarrantyController : ControllerBase
     {
-        private readonly BlobStorageService? _blobStorageService;
-        private readonly TableStorageService? _tableStorageService;
         private readonly LocalStorageService _localStorageService;
-        private readonly bool _useAzureStorage;
 
-        public WarrantyController(
-            LocalStorageService localStorageService,
-            BlobStorageService? blobStorageService = null,
-            TableStorageService? tableStorageService = null)
+        public WarrantyController(LocalStorageService localStorageService)
         {
             _localStorageService = localStorageService;
-            _blobStorageService = blobStorageService;
-            _tableStorageService = tableStorageService;
-
-            // Use Azure Storage only if both services are available
-            _useAzureStorage = blobStorageService != null && tableStorageService != null;
         }
 
         [HttpPost]
@@ -46,17 +35,8 @@ namespace Consoltech.AdminApi.Controllers
                 if (invoice != null)
                 {
                     invoiceFileName = invoice.FileName;
-
-                    if (_useAzureStorage && _blobStorageService != null)
-                    {
-                        using var stream = invoice.OpenReadStream();
-                        invoiceUrl = await _blobStorageService.UploadInvoiceAsync(stream, invoice.FileName);
-                    }
-                    else
-                    {
-                        using var stream = invoice.OpenReadStream();
-                        invoiceUrl = await _localStorageService.SaveInvoiceAsync(stream, invoice.FileName);
-                    }
+                    using var stream = invoice.OpenReadStream();
+                    invoiceUrl = await _localStorageService.SaveInvoiceAsync(stream, invoice.FileName);
                 }
 
                 var entity = new WarrantySubmissionEntity
@@ -69,14 +49,7 @@ namespace Consoltech.AdminApi.Controllers
                     InvoiceFileName = invoiceFileName
                 };
 
-                if (_useAzureStorage && _tableStorageService != null)
-                {
-                    await _tableStorageService.SaveWarrantyAsync(entity);
-                }
-                else
-                {
-                    await _localStorageService.SaveWarrantyRecordAsync(entity);
-                }
+                await _localStorageService.SaveWarrantyRecordAsync(entity);
 
                 return Ok(new { success = true, message = "Warranty registration submitted successfully" });
             }
@@ -91,16 +64,8 @@ namespace Consoltech.AdminApi.Controllers
         {
             try
             {
-                if (_useAzureStorage && _tableStorageService != null)
-                {
-                    var records = await _tableStorageService.GetAllAsync();
-                    return Ok(records);
-                }
-                else
-                {
-                    var records = await _localStorageService.GetAllRecordsAsync();
-                    return Ok(records);
-                }
+                var records = await _localStorageService.GetAllRecordsAsync();
+                return Ok(records);
             }
             catch (Exception ex)
             {
@@ -109,4 +74,3 @@ namespace Consoltech.AdminApi.Controllers
         }
     }
 }
-

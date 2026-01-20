@@ -1,4 +1,4 @@
-// Consoltech Admin API - Backend Service v2
+// Consoltech Admin API - Backend Service for Render
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -8,52 +8,50 @@ using Consoltech.AdminApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure for Azure App Service
-// Azure automatically handles port binding via PORT environment variable
+// Configure for Render - listen on PORT environment variable
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME")))
-{
-    // Running on Azure App Service
-    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-}
-else
-{
-    // Local development
-    builder.WebHost.UseUrls($"http://localhost:{port}");
-}
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configure SQLite Database
-var dbPath = Path.Combine(builder.Environment.ContentRootPath, "AppData", "products.db");
-var dbDirectory = Path.GetDirectoryName(dbPath);
-if (!Directory.Exists(dbDirectory))
+// Configure PostgreSQL Database (Render) or SQLite (local development)
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+if (!string.IsNullOrEmpty(databaseUrl))
 {
-    Directory.CreateDirectory(dbDirectory!);
+    // Parse Render PostgreSQL connection string format: postgres://user:password@host:port/database
+    var connectionString = ConvertPostgresUrlToConnectionString(databaseUrl);
+    builder.Services.AddDbContext<ProductsDbContext>(options =>
+        options.UseNpgsql(connectionString));
+}
+else
+{
+    // Local development fallback to SQLite
+    var dbPath = Path.Combine(builder.Environment.ContentRootPath, "AppData", "products.db");
+    var dbDirectory = Path.GetDirectoryName(dbPath);
+    if (!Directory.Exists(dbDirectory))
+    {
+        Directory.CreateDirectory(dbDirectory!);
+    }
+    builder.Services.AddDbContext<ProductsDbContext>(options =>
+        options.UseSqlite($"Data Source={dbPath}"));
 }
 
-builder.Services.AddDbContext<ProductsDbContext>(options =>
-    options.UseSqlite($"Data Source={dbPath}"));
-
-// Register Local Storage service (always available for development/fallback)
+// Register Local Storage service (for warranty uploads)
 builder.Services.AddSingleton<LocalStorageService>();
 
-// Conditionally register Azure Storage services only if real Azure configuration is present
-// Skip for development mode using "UseDevelopmentStorage=true"
-var azureConnectionString = builder.Configuration["AzureStorage:ConnectionString"];
-if (!string.IsNullOrEmpty(azureConnectionString) && azureConnectionString != "UseDevelopmentStorage=true")
-{
-    // Register Azure services only when real Azure connection string is provided
-    builder.Services.AddSingleton<BlobStorageService>();
-    builder.Services.AddSingleton<TableStorageService>();
-}
-
 // Configure JWT Authentication
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey not configured");
+var jwtSecretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY")
+    ?? builder.Configuration["JwtSettings:SecretKey"]
+    ?? "ConsolTechSuperSecretKey2024!@#$%^&*()";
+var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER")
+    ?? builder.Configuration["JwtSettings:Issuer"]
+    ?? "Consoltech.AdminApi";
+var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE")
+    ?? builder.Configuration["JwtSettings:Audience"]
+    ?? "Consoltech.Frontend";
 
 builder.Services.AddAuthentication(options =>
 {
@@ -68,23 +66,20 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtAudience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey))
     };
 });
 
 builder.Services.AddAuthorization();
 
-// Configure CORS
+// Configure CORS - allow frontend origins
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-            "https://consoltech-admin-windows-fbcphwasbuddgpas.westeurope-01.azurewebsites.net",
-            "https://consoltech-admin.azurewebsites.net",
-            "https://consoletech-api-d0aacba3exdqh5df.westeurope-01.azurewebsites.net",
             "https://consoltech.shop",
             "https://www.consoltech.shop",
             "http://localhost:5173",
@@ -100,15 +95,15 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Initialize database
+// Initialize database and run migrations
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ProductsDbContext>();
-    db.Database.EnsureCreated();
+    db.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline
-// Swagger MUST be enabled always (development + production)
+// Swagger enabled in all environments
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -137,3 +132,17 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Helper function to convert Render's DATABASE_URL format to Npgsql connection string
+static string ConvertPostgresUrlToConnectionString(string databaseUrl)
+{
+    var uri = new Uri(databaseUrl);
+    var userInfo = uri.UserInfo.Split(':');
+    var host = uri.Host;
+    var port = uri.Port > 0 ? uri.Port : 5432;
+    var database = uri.AbsolutePath.TrimStart('/');
+    var username = userInfo[0];
+    var password = userInfo.Length > 1 ? userInfo[1] : "";
+
+    return $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+}

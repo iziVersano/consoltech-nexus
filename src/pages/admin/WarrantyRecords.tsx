@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import { Loader2, Eye, CheckCircle, X, Download } from 'lucide-react';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Extract backend base URL (remove /api suffix)
+const BACKEND_BASE_URL = API_BASE_URL.replace('/api', '');
 
 interface WarrantyRecord {
   customerName: string;
@@ -156,7 +158,10 @@ const WarrantyRecords = () => {
                     <td className="p-3 border border-border">
                       {record.invoiceUrl ? (
                         <button
-                          onClick={() => setSelectedInvoice({ url: record.invoiceUrl, fileName: record.invoiceFileName })}
+                          onClick={() => setSelectedInvoice({
+                            url: record.invoiceUrl.startsWith('http') ? record.invoiceUrl : `${BACKEND_BASE_URL}${record.invoiceUrl}`,
+                            fileName: record.invoiceFileName
+                          })}
                           className="text-primary hover:underline flex items-center gap-1"
                         >
                           <Eye className="h-4 w-4" />

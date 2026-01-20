@@ -84,6 +84,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
             "https://consoltech-admin-windows-fbcphwasbuddgpas.westeurope-01.azurewebsites.net",
             "https://consoltech-admin.azurewebsites.net",
+            "https://consoletech-api-d0aacba3exdqh5df.westeurope-01.azurewebsites.net",
             "https://consoltech.shop",
             "https://www.consoltech.shop",
             "http://localhost:5173",
@@ -92,8 +93,7 @@ builder.Services.AddCors(options =>
             "https://localhost:8080"
         )
         .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials();
+        .AllowAnyMethod();
     });
 });
 

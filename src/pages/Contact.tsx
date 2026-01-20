@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, Clock, Send, Loader2, LucideIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import { useI18n } from '@/hooks/I18nContext';
 
 // WhatsApp Icon Component - Official glyph from Simple Icons
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -21,6 +22,7 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 const FORM_ENDPOINT = "https://formspree.io/f/xyzpvaeg";
 
 const Contact = () => {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -56,7 +58,7 @@ const Contact = () => {
 
     // Basic validation
     if (!data.name || !data.email || !/^\S+@\S+\.\S+$/.test(data.email as string) || !data.message) {
-      toast({ variant: "destructive", title: "Please complete all required fields." });
+      toast({ variant: "destructive", title: t('contact.errors.incompleteFields') });
       return;
     }
 
@@ -89,15 +91,15 @@ const Contact = () => {
 
       const json = await res.json();
       if (json.ok === true || json.success === true) {
-        toast({ title: "Thank you! Your message has been sent.", description: "We will get back to you shortly." });
+        toast({ title: t('contact.success.title'), description: t('contact.success.description') });
         form.reset();
         setFormData({ name: '', email: '', company: '', subject: '', message: '' });
       } else {
-        throw new Error(json.error || "Submission failed");
+        throw new Error(json.error || t('contact.errors.submissionFailed'));
       }
     } catch (err) {
       console.error(err);
-      toast({ variant: "destructive", title: "Network error", description: "Please try again." });
+      toast({ variant: "destructive", title: t('contact.errors.networkError'), description: t('contact.errors.tryAgain') });
     } finally {
       btn?.removeAttribute("disabled");
       setIsSubmitting(false);
@@ -113,33 +115,33 @@ const Contact = () => {
   const contactInfo = [
     {
       icon: Mail,
-      title: 'Email Us',
+      title: t('contact.info.emailUs'),
       details: ['info@consoltech.shop', 'sales@consoltech.shop'],
-      description: 'Get in touch via email for detailed inquiries'
+      description: t('contact.info.emailDescription')
     },
     {
       icon: Phone,
-      title: 'Call Us',
+      title: t('contact.info.callUs'),
       details: ['+972-52-2768607'],
-      description: '24/7 support for urgent matters'
+      description: t('contact.info.callDescription')
     },
     {
       icon: WhatsAppIcon,
-      title: 'WhatsApp',
-      details: ['Message us instantly'],
-      description: 'Quick responses via WhatsApp'
+      title: t('contact.info.whatsApp'),
+      details: [t('contact.info.whatsAppInstant')],
+      description: t('contact.info.whatsAppDescription')
     },
     {
       icon: MapPin,
-      title: 'Visit Us',
+      title: t('contact.info.visitUs'),
       details: ['47 Moshe Sneh St., Tel Aviv 6930243, Israel'],
-      description: 'Headquarters in Tel Aviv, Israel'
+      description: t('contact.info.visitDescription')
     },
     {
       icon: Clock,
-      title: 'Business Hours',
-      details: ['Mon-Fri: 9:00-18:00', 'Weekend: On-call support'],
-      description: 'We\'re here when you need us'
+      title: t('contact.info.businessHours'),
+      details: [t('contact.info.businessHoursWeekdays'), t('contact.info.businessHoursWeekend')],
+      description: t('contact.info.hoursDescription')
     }
   ];
 
@@ -158,278 +160,254 @@ const Contact = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <main id="main-content" className="flex-1">
-      {/* Hero Section */}
-      <section className="pt-24 pb-2 md:pb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-4 md:mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Get In <span className="gradient-text">Touch</span>
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Ready to partner with us? Have questions about our products? 
-              Our global team is here to help you succeed.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form & Info */}
-      <section className="pb-10 md:pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="product-card">
-              <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-                <form id="contactForm" onSubmit={handleSubmit} method="POST" className="space-y-6" noValidate>
-                  {/* Honeypot field */}
-                  <input type="text" name="_gotcha" style={{display:'none'}} tabIndex={-1} autoComplete="off" aria-hidden="true" />
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Full Name *</label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder="Your full name"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Email Address *</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder="your@email.com"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Company</label>
-                    <input
-                      type="text"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="Your company name"
-                    />
-                  </div>
-  
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Subject *</label>
-                    <select
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    >
-                      <option value="">Select a subject</option>
-                      <option value="partnership">Partnership Inquiry</option>
-                      <option value="products">Product Information</option>
-                      <option value="distribution">Distribution Services</option>
-                      <option value="support">Technical Support</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-  
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Message *</label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={6}
-                      className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                      placeholder="Tell us about your requirements..."
-                    />
-                  </div>
-  
-                  <Button type="submit" className="btn-hero w-full" disabled={isSubmitting} aria-disabled={isSubmitting}>
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="h-5 w-5 animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="h-5 w-5" />
-                        <span>Send Message</span>
-                      </>
-                    )}
-                  </Button>
-                </form>
+      <main className="container px-4 md:px-6 pt-24 pb-16 flex-1">
+        <header className="max-w-4xl mx-auto text-center mb-10">
+          <h1 className="text-4xl md:text-5xl font-bold">{t('contact.title')}</h1>
+        </header>
+        {/* Contact Form */}
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-6">
+          {/* Honeypot field */}
+          <input type="text" name="_gotcha" style={{display:'none'}} tabIndex={-1} autoComplete="off" aria-hidden="true" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">{t('contact.name')}</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder={t('contact.placeholders.name')}
+              />
             </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">{t('contact.email')}</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder={t('contact.placeholders.email')}
+              />
+            </div>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium mb-2">{t('contact.company')}</label>
+            <input
+              type="text"
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              placeholder={t('contact.placeholders.company')}
+            />
+          </div>
 
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
-                <div className="grid grid-cols-1 gap-6">
-                  {contactInfo.map((info, index) => (
-                    <div key={index} className="product-card p-6">
-                      <div className="flex items-start space-x-4">
-                        <div className="flex items-center justify-center">
-                          {info.title === 'WhatsApp' ? (
-                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#25D366] flex items-center justify-center">
-                              <WhatsAppIcon className="w-7 h-7 md:w-8 md:h-8 text-white" />
-                            </div>
-                          ) : (
-                            <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
-                              {React.createElement(info.icon as any, { className: "h-6 w-6 text-white" })}
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
-                           <div className="space-y-1">
-                             {info.details.map((detail, idx) => {
-                               if (info.title === 'Call Us') {
-                                 return (
-                                   <a
-                                     key={idx}
-                                     href="tel:+972522768607"
-                                     className="text-accent font-medium underline"
-                                     aria-label="Call us on mobile at +972-52-2768607"
-                                   >
-                                     {detail} (Mobile)
-                                   </a>
-                                 );
-                               }
-                                if (info.title === 'WhatsApp') {
-                                  return (
-                                     <a
-                                       key={idx}
-                                       href="https://wa.me/972522768607?text=Hi%20Consoltech,%20I%27d%20like%20to%20inquire%20about%20your%20products."
-                                       target="_blank"
-                                       rel="noopener noreferrer"
-                                       className="text-accent font-medium underline"
-                                       aria-label="WhatsApp"
-                                       title="WhatsApp"
-                                     >
-                                       {detail}
-                                     </a>
-                                  );
-                                }
-                               if (info.title === 'Visit Us') {
-                                 const mapsQuery = encodeURIComponent(detail);
-                                 return (
-                                   <a
-                                     key={idx}
-                                     href={`https://www.google.com/maps?q=${mapsQuery}`}
-                                     target="_blank"
-                                     rel="noopener noreferrer"
-                                     className="text-accent font-medium underline"
-                                   >
-                                     {detail}
-                                   </a>
-                                 );
-                               }
-                               return (
-                                 <p key={idx} className="text-accent font-medium">{detail}</p>
-                               );
-                             })}
-                           </div>
-                           <p className="text-muted-foreground text-sm mt-2">{info.description}</p>
-                        </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">{t('contact.subject')}</label>
+            <select
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            >
+              <option value="">{t('contact.placeholders.selectSubject')}</option>
+              <option value="partnership">{t('contact.subjects.partnership')}</option>
+              <option value="products">{t('contact.subjects.products')}</option>
+              <option value="distribution">{t('contact.subjects.distribution')}</option>
+              <option value="support">{t('contact.subjects.support')}</option>
+              <option value="other">{t('contact.subjects.other')}</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">{t('contact.message')}</label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              required
+              rows={6}
+              className="w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+              placeholder={t('contact.placeholders.message')}
+            />
+          </div>
+
+          <Button type="submit" className="btn-hero w-full" disabled={isSubmitting} aria-disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <span>{t('contact.sending')}</span>
+              </>
+            ) : (
+              <>
+                <Send className="h-5 w-5" />
+                <span>{t('contact.send')}</span>
+              </>
+            )}
+          </Button>
+        </form>
+
+        {/* Contact Information */}
+        <div className="mt-16">
+          <h2 className="text-2xl font-bold mb-6">{t('contact.info.title')}</h2>
+          <div className="grid grid-cols-1 gap-6">
+            {contactInfo.map((info, index) => (
+              <div key={index} className="product-card p-6">
+                <div className="flex items-start space-x-4">
+                  <div className="flex items-center justify-center">
+                    {info.title === 'WhatsApp' ? (
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#25D366] flex items-center justify-center">
+                        <WhatsAppIcon className="w-7 h-7 md:w-8 md:h-8 text-white" />
                       </div>
-                    </div>
-                  ))}
+                    ) : (
+                      <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
+                        {React.createElement(info.icon as any, { className: "h-6 w-6 text-white" })}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
+                     <div className="space-y-1">
+                       {info.details.map((detail, idx) => {
+                         if (info.title === t('contact.info.callUs')) {
+                           return (
+                             <a
+                               key={idx}
+                               href="tel:+972522768607"
+                               className="text-accent font-medium underline"
+                               aria-label="Call us on mobile at +972-52-2768607"
+                             >
+                               {detail} (Mobile)
+                             </a>
+                           );
+                         }
+                          if (info.title === t('contact.info.whatsApp')) {
+                           return (
+                              <a
+                                key={idx}
+                                href="https://wa.me/972522768607?text=Hi%20Consoltech,%20I%27d%20like%20to%20inquire%20about%20your%20products."
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-accent font-medium underline"
+                                aria-label="WhatsApp"
+                                title="WhatsApp"
+                              >
+                                {detail}
+                              </a>
+                           );
+                         }
+                         if (info.title === t('contact.info.visitUs')) {
+                           const mapsQuery = encodeURIComponent(detail);
+                           return (
+                             <a
+                               key={idx}
+                               href={`https://www.google.com/maps?q=${mapsQuery}`}
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               className="text-accent font-medium underline"
+                             >
+                               {detail}
+                             </a>
+                           );
+                         }
+                         return (
+                           <p key={idx} className="text-accent font-medium">{detail}</p>
+                         );
+                       })}
+                     </div>
+                     <p className="text-muted-foreground text-sm mt-2">{info.description}</p>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Global Offices */}
+        <section className="pt-8 pb-8 md:pt-12 md:pb-10 bg-card/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8 md:mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                {t('contact.offices.title')}
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                {t('contact.offices.subtitle')}
+              </p>
+            </div>
+
+            <div className={`grid gap-8 grid-cols-1 ${isSingleOffice ? 'md:grid-cols-1 md:max-w-md md:mx-auto' : 'md:grid-cols-3'}`}>
+              {offices.map((office, index) => (
+                <div key={index} className="product-card text-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <MapPin className="h-8 w-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">{office.city}</h3>
+                  <p className="text-accent font-medium mb-4">{office.country}</p>
+                    <div className="space-y-2 text-sm text-muted-foreground">
+                      <a
+                        href={`https://www.google.com/maps?q=${encodeURIComponent(`${office.address}, ${office.country}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent underline"
+                      >
+                        {office.address}
+                      </a>
+                      <a
+                        href={`tel:${office.phone.replace(/[^+\d]/g, '')}`}
+                        className="text-foreground font-medium underline"
+                      >
+                        {office.phone}
+                      </a>
+                      <p className="text-accent">{office.email}</p>
+                    </div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Global Offices */}
-      <section className="pt-8 pb-8 md:pt-12 md:pb-10 bg-card/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Our <span className="gradient-text">Global Offices</span>
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Headquartered in Tel Aviv, Israel.
-            </p>
-          </div>
+        {/* FAQ Section */}
+        <section className="pt-6 md:pt-8 pb-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                {t('contact.faq.title')}
+              </h2>
+            </div>
 
-          <div className={`grid gap-8 grid-cols-1 ${isSingleOffice ? 'md:grid-cols-1 md:max-w-md md:mx-auto' : 'md:grid-cols-3'}`}>
-            {offices.map((office, index) => (
-              <div key={index} className="product-card text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="h-8 w-8 text-white" />
+            <div className="space-y-6">
+              {[
+                {
+                  question: t('contact.faq.items.0.question'),
+                  answer: t('contact.faq.items.0.answer')
+                },
+                {
+                  question: t('contact.faq.items.1.question'),
+                  answer: t('contact.faq.items.1.answer')
+                },
+                {
+                  question: t('contact.faq.items.2.question'),
+                  answer: t('contact.faq.items.2.answer')
+                },
+                {
+                  question: t('contact.faq.items.3.question'),
+                  answer: t('contact.faq.items.3.answer')
+                }
+              ].map((faq, index) => (
+                <div key={index} className="product-card">
+                  <h3 className="text-lg font-semibold mb-3 text-accent">{faq.question}</h3>
+                  <p className="text-muted-foreground">{faq.answer}</p>
                 </div>
-                <h3 className="text-xl font-bold mb-2">{office.city}</h3>
-                <p className="text-accent font-medium mb-4">{office.country}</p>
-                  <div className="space-y-2 text-sm text-muted-foreground">
-                    <a
-                      href={`https://www.google.com/maps?q=${encodeURIComponent(`${office.address}, ${office.country}`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-accent underline"
-                    >
-                      {office.address}
-                    </a>
-                    <a
-                      href={`tel:${office.phone.replace(/[^+\d]/g, '')}`}
-                      className="text-foreground font-medium underline"
-                    >
-                      {office.phone}
-                    </a>
-                    <p className="text-accent">{office.email}</p>
-                  </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="pt-6 md:pt-8 pb-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Frequently Asked <span className="gradient-text">Questions</span>
-            </h2>
-          </div>
-
-          <div className="space-y-6">
-            {[
-              {
-                question: "What is your minimum order quantity?",
-                answer: "Our MOQ varies by product category. For gaming consoles, it's typically 10-20 units. For accessories and smaller electronics, MOQ starts at 50 units. Contact us for specific product requirements."
-              },
-              {
-                question: "Do you provide international shipping?",
-                answer: "Yes, we ship to over 50 countries worldwide. We have partnerships with leading logistics providers to ensure fast, secure delivery with full tracking and insurance coverage."
-              },
-              {
-                question: "What payment methods do you accept?",
-                answer: "We accept bank transfers, letters of credit, and for established clients, we offer flexible payment terms. All transactions are secured and comply with international trade standards."
-              },
-              {
-                question: "Do you provide product warranties?",
-                answer: "All our products come with manufacturer warranties. We also provide additional support and can facilitate warranty claims through our global service network."
-              }
-            ].map((faq, index) => (
-              <div key={index} className="product-card">
-                <h3 className="text-lg font-semibold mb-3 text-accent">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
       </main>
       <Footer />
     </div>

@@ -2,23 +2,38 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, MessageSquare, Gamepad2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useI18n } from '@/hooks/I18nContext';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { lang, setLang, t } = useI18n();
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Products', href: '/products' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Accessibility', href: '/accessibility' },
+    { name: t('menu.home'), href: '/' },
+    { name: t('menu.about'), href: '/about' },
+    { name: t('menu.products'), href: '/products' },
+    { name: t('menu.contact'), href: '/contact' },
+    { name: t('menu.accessibility'), href: '/accessibility' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
 
+  function LanguageToggleInline() {
+    return (
+      <button
+        aria-label={lang === 'en' ? 'Switch to Hebrew' : 'החלף לאנגלית'}
+        className="ms-2 px-2 py-1 border rounded text-xs font-medium bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        onClick={() => setLang(lang === 'en' ? 'he' : 'en')}
+        style={{ minWidth: 48 }}
+      >
+        {lang === 'en' ? t('toggle.he') : t('toggle.en')}
+      </button>
+    );
+  }
+
   return (
-    <nav className="fixed top-0 w-full z-50 nav-glass" role="navigation" aria-label="Main navigation">
+    <nav className="fixed top-0 w-full z-50 nav-glass" role="navigation" aria-label="Main navigation" dir={lang === 'he' ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -37,7 +52,7 @@ const Navigation = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8" role="menubar">
+          <div className="hidden md:flex items-center gap-8" role="menubar">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -55,7 +70,8 @@ const Navigation = () => {
             ))}
             <Button className="btn-nav">
               <MessageSquare className="h-4 w-4" aria-hidden="true" />
-              <span>Get Quote</span>
+              <span>{t('menu.getQuote')}</span>
+              <LanguageToggleInline />
             </Button>
           </div>
 
@@ -97,7 +113,8 @@ const Navigation = () => {
               <div className="px-3 pt-2">
                 <Button className="btn-nav w-full">
                   <MessageSquare className="h-4 w-4" aria-hidden="true" />
-                  <span>Get Quote</span>
+                  <span>{t('menu.getQuote')}</span>
+                  <LanguageToggleInline />
                 </Button>
               </div>
             </div>

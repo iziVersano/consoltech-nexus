@@ -6,6 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Upload, CheckCircle, Info } from 'lucide-react';
 import Footer from '@/components/Footer';
+import { useI18n } from '@/hooks/I18nContext';
 
 // Use Azure backend API
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -25,6 +26,7 @@ interface FieldErrors {
 
 const Warranty = () => {
   const navigate = useNavigate();
+  const { t, lang } = useI18n();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -48,30 +50,30 @@ const Warranty = () => {
   const validateField = (name: string, value: string): string | undefined => {
     switch (name) {
       case 'fullName':
-        if (!value.trim()) return 'נא להזין שם מלא';
-        if (value.trim().length < 2) return 'השם חייב להכיל לפחות 2 תווים';
+        if (!value.trim()) return t('warranty.errors.required');
+        if (value.trim().length < 2) return t('warranty.errors.nameTooShort');
         return undefined;
       case 'email':
-        if (!value.trim()) return 'נא להזין כתובת אימייל';
-        if (!/^\S+@\S+\.\S+$/.test(value)) return 'כתובת אימייל לא תקינה';
+        if (!value.trim()) return t('warranty.errors.required');
+        if (!/^\S+@\S+\.\S+$/.test(value)) return t('warranty.errors.invalidEmail');
         return undefined;
       case 'phone':
-        if (!value.trim()) return 'נא להזין מספר טלפון';
-        if (!/^0\d{1,2}[-]?\d{7}$/.test(value.replace(/\s/g, ''))) return 'מספר טלפון לא תקין';
+        if (!value.trim()) return t('warranty.errors.required');
+        if (!/^0\d{1,2}[-]?\d{7}$/.test(value.replace(/\s/g, ''))) return t('warranty.errors.invalidPhone');
         return undefined;
       case 'productModel':
-        if (!value.trim()) return 'נא לבחור דגם מוצר';
+        if (!value.trim()) return t('warranty.errors.required');
         return undefined;
       case 'serialNumber':
-        if (!value.trim()) return 'נא להזין מספר סידורי תקין';
-        if (value.trim().length < 4) return 'מספר סידורי חייב להכיל לפחות 4 תווים';
+        if (!value.trim()) return t('warranty.errors.required');
+        if (value.trim().length < 4) return t('warranty.errors.serialTooShort');
         return undefined;
       case 'purchaseDate':
-        if (!value) return 'נא לבחור תאריך רכישה';
-        if (new Date(value) > new Date()) return 'תאריך הרכישה לא יכול להיות בעתיד';
+        if (!value) return t('warranty.errors.required');
+        if (new Date(value) > new Date()) return t('warranty.errors.futureDateNotAllowed');
         return undefined;
       case 'storeName':
-        if (!value.trim()) return 'נא להזין את שם החנות';
+        if (!value.trim()) return t('warranty.errors.required');
         return undefined;
       default:
         return undefined;
@@ -80,11 +82,11 @@ const Warranty = () => {
 
   // Validate file
   const validateFile = (selectedFile: File | null): string | undefined => {
-    if (!selectedFile) return 'נא להעלות קובץ חשבונית';
+    if (!selectedFile) return t('warranty.errors.fileRequired');
     const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    if (!validTypes.includes(selectedFile.type)) return 'סוג קובץ לא נתמך. אנא העלו קובץ PDF, JPG או PNG';
-    if (selectedFile.size > maxSize) return 'הקובץ גדול מדי. גודל מקסימלי: 5MB';
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (!validTypes.includes(selectedFile.type)) return t('warranty.errors.invalidFileType');
+    if (selectedFile.size > maxSize) return t('warranty.errors.fileTooLarge');
     return undefined;
   };
 
@@ -222,11 +224,11 @@ const Warranty = () => {
   const errorClass = "text-sm text-red-500 mt-1.5 text-right break-words";
 
   return (
-    <div dir="rtl" className="min-h-screen bg-background flex flex-col">
+    <div dir={lang === 'he' ? 'rtl' : 'ltr'} className="min-h-screen bg-background flex flex-col">
       <Helmet>
-        <title>רישום אחריות - Nintendo Switch 2 | Consoltech</title>
-        <meta name="description" content="טופס רישום אחריות למוצרי Nintendo Switch 2" />
-        <html lang="he" />
+        <title>{t('warranty.title')} - {t('warranty.subtitle')} | Consoltech</title>
+        <meta name="description" content={t('warranty.description')} />
+        <html lang={lang} />
       </Helmet>
 
       <main id="main-content" className="flex-1">
@@ -234,13 +236,13 @@ const Warranty = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 gradient-text leading-tight">
-            טופס רישום אחריות
+            {t('warranty.title')}
           </h1>
           <h2 className="text-xl sm:text-2xl font-semibold text-primary mb-4">
-            Nintendo Switch 2
+            {t('warranty.subtitle')}
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg px-2">
-            אנא מלאו את הפרטים הבאים וצרפו חשבונית רכישה לצורך הפעלת האחריות.
+            {t('warranty.description')}
           </p>
         </div>
 
@@ -248,15 +250,15 @@ const Warranty = () => {
         {isSuccess ? (
           <div className="product-card text-center py-12">
             <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-4 text-green-500">הטופס נשלח בהצלחה.</h2>
+            <h2 className="text-2xl font-bold mb-4 text-green-500">{t('warranty.success.title')}</h2>
             <p className="text-muted-foreground text-lg">
-              נציג מטעמנו ייצור עמכם קשר במידת הצורך.
+              {t('warranty.success.description')}
             </p>
-            <Button 
+            <Button
               className="mt-8 btn-hero"
               onClick={() => setIsSuccess(false)}
             >
-              שליחת טופס נוסף
+              {t('warranty.success.submitAnother')}
             </Button>
           </div>
         ) : (
@@ -265,7 +267,7 @@ const Warranty = () => {
             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               {/* Full Name */}
               <div>
-                <label className={labelClass}>שם מלא *</label>
+                <label className={labelClass}>{t('warranty.fullName')} *</label>
                 <input
                   type="text"
                   name="fullName"
@@ -273,7 +275,7 @@ const Warranty = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={touched.fullName && errors.fullName ? inputErrorClass : inputClass}
-                  placeholder="הזינו את שמכם המלא"
+                  placeholder={t('warranty.placeholders.fullName')}
                 />
                 {touched.fullName && errors.fullName && (
                   <p className={errorClass}>{errors.fullName}</p>
@@ -282,7 +284,7 @@ const Warranty = () => {
 
               {/* Email */}
               <div>
-                <label className={labelClass}>כתובת אימייל *</label>
+                <label className={labelClass}>{t('warranty.email')} *</label>
                 <input
                   type="email"
                   name="email"
@@ -290,7 +292,7 @@ const Warranty = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={touched.email && errors.email ? inputErrorClass : inputClass}
-                  placeholder="example@email.com"
+                  placeholder={t('warranty.placeholders.email')}
                   dir="ltr"
                   style={{ textAlign: 'left' }}
                 />
@@ -301,7 +303,7 @@ const Warranty = () => {
 
               {/* Phone */}
               <div>
-                <label className={labelClass}>מספר טלפון *</label>
+                <label className={labelClass}>{t('warranty.phone')} *</label>
                 <input
                   type="tel"
                   name="phone"
@@ -309,7 +311,7 @@ const Warranty = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={touched.phone && errors.phone ? inputErrorClass : inputClass}
-                  placeholder="050-1234567"
+                  placeholder={t('warranty.placeholders.phone')}
                   dir="ltr"
                   style={{ textAlign: 'left' }}
                 />
@@ -320,7 +322,7 @@ const Warranty = () => {
 
               {/* Product Model */}
               <div>
-                <label className={labelClass}>דגם המוצר *</label>
+                <label className={labelClass}>{t('warranty.productModel')} *</label>
                 <input
                   type="text"
                   name="productModel"
@@ -328,7 +330,7 @@ const Warranty = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={touched.productModel && errors.productModel ? inputErrorClass : inputClass}
-                  placeholder="Nintendo Switch 2"
+                  placeholder={t('warranty.subtitle')}
                 />
                 {touched.productModel && errors.productModel && (
                   <p className={errorClass}>{errors.productModel}</p>
@@ -338,7 +340,7 @@ const Warranty = () => {
               {/* Serial Number */}
               <div>
                 <div className="flex items-center gap-1.5 mb-2">
-                  <label className="text-sm font-medium text-right">מספר סידורי (S/N) *</label>
+                  <label className="text-sm font-medium text-right">{t('warranty.serialNumber')} (S/N) *</label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button
@@ -404,7 +406,7 @@ const Warranty = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={touched.serialNumber && errors.serialNumber ? inputErrorClass : inputClass}
-                  placeholder="הזינו את המספר הסידורי"
+                  placeholder={t('warranty.placeholders.serialNumber')}
                   dir="ltr"
                   style={{ textAlign: 'left' }}
                 />
@@ -415,7 +417,7 @@ const Warranty = () => {
 
               {/* Purchase Date */}
               <div>
-                <label className={labelClass}>תאריך רכישה *</label>
+                <label className={labelClass}>{t('warranty.purchaseDate')} *</label>
                 <input
                   type="date"
                   name="purchaseDate"
@@ -432,7 +434,7 @@ const Warranty = () => {
 
               {/* Store Name */}
               <div>
-                <label className={labelClass}>שם החנות בה נרכש המוצר *</label>
+                <label className={labelClass}>{t('warranty.storeName')} *</label>
                 <input
                   type="text"
                   name="storeName"
@@ -440,7 +442,7 @@ const Warranty = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={touched.storeName && errors.storeName ? inputErrorClass : inputClass}
-                  placeholder="הזינו את שם החנות"
+                  placeholder={t('warranty.placeholders.storeName')}
                 />
                 {touched.storeName && errors.storeName && (
                   <p className={errorClass}>{errors.storeName}</p>
@@ -449,7 +451,7 @@ const Warranty = () => {
 
               {/* File Upload */}
               <div>
-                <label className={labelClass}>העלאת קובץ חשבונית *</label>
+                <label className={labelClass}>{t('warranty.purchaseInvoice')} *</label>
                 <div className="relative">
                   <input
                     type="file"
@@ -468,7 +470,7 @@ const Warranty = () => {
                   >
                     <Upload className={`h-5 w-5 flex-shrink-0 ${file ? 'text-green-500' : 'text-muted-foreground'}`} />
                     <span className={`${file ? 'text-foreground' : 'text-muted-foreground'} break-all text-center`}>
-                      {file ? file.name : 'בחרו קובץ (PDF, JPG, PNG)'}
+                      {file ? file.name : t('warranty.chooseFile') + ' (PDF, JPG, PNG)'}
                     </span>
                   </label>
                 </div>
@@ -476,7 +478,7 @@ const Warranty = () => {
                   <p className={errorClass}>{errors.file}</p>
                 ) : (
                   <p className="text-xs text-muted-foreground mt-2 text-right">
-                    גודל מקסימלי: 5MB | פורמטים: PDF, JPG, PNG
+                    {t('warranty.fileInfo')}
                   </p>
                 )}
               </div>
@@ -490,10 +492,10 @@ const Warranty = () => {
                 {isSubmitting ? (
                   <>
                     <Loader2 className="h-5 w-5 animate-spin" />
-                    <span>שולח...</span>
+                    <span>{t('warranty.submitting')}</span>
                   </>
                 ) : (
-                  <span>שליחת טופס</span>
+                  <span>{t('warranty.submit')}</span>
                 )}
               </Button>
             </form>

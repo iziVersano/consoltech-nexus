@@ -5,8 +5,10 @@ import { useState, useEffect } from 'react';
 import heroImage from '@/assets/hero-tech.jpg';
 import NewArrivalsSpotlight from '@/components/NewArrivalsSpotlight';
 import { isFeatureEnabled } from '@/lib/featureFlags';
+import { useI18n } from '@/hooks/I18nContext';
 
 const Hero = () => {
+  const { t } = useI18n();
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
@@ -114,16 +116,15 @@ const Hero = () => {
           <div className="space-y-2">
             <h1 className="text-center text-2xl md:text-3xl lg:text-4xl leading-tight font-bold">
               <span className="block text-2xl md:text-3xl lg:text-5xl font-black mb-1 leading-tight">
-                Your Gateway to Gaming, Gadgets & <span className="gradient-text">Innovation</span>
+                {t('hero.headline1', 'Your Gateway to Gaming, Gadgets & ')}<span className="gradient-text">{t('hero.innovation', 'Innovation')}</span>
               </span>
               <span className="block text-foreground text-xl md:text-2xl lg:text-3xl font-bold leading-tight">
-                Delivering Smart Tech & <span className="text-accent text-glow">Toys</span> to the World
+                {t('hero.headline2', 'Delivering Smart Tech & ')}<span className="text-accent text-glow">{t('hero.toys', 'Toys')}</span>{t('hero.headline2b', ' to the World')}
               </span>
             </h1>
 
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-normal">
-              Your premier partner for cutting-edge technology distribution worldwide.
-              From gaming consoles to smart devices, we bring innovation to your doorstep.
+              {t('hero.desc', 'Your premier partner for cutting-edge technology distribution worldwide. From gaming consoles to smart devices, we bring innovation to your doorstep.')}
             </p>
           </div>
 
@@ -132,14 +133,14 @@ const Hero = () => {
             <Link to="/products">
               <Button className="btn-hero-square group">
                 <Grid3X3 className="h-5 w-5 md:h-6 md:w-6" />
-                <span>Explore Products</span>
+                <span>{t('hero.explore', 'Explore Products')}</span>
               </Button>
             </Link>
 
             <Link to="/contact">
               <Button className="btn-neon-square group">
                 <Send className="h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:translate-x-1" />
-                <span>Contact Us</span>
+                <span>{t('hero.contact', 'Contact Us')}</span>
               </Button>
             </Link>
           </div>
@@ -148,19 +149,19 @@ const Hero = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-16">
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-accent">50+</div>
-              <div className="text-sm text-muted-foreground">Countries Served</div>
+              <div className="text-sm text-muted-foreground">{t('hero.countries', 'Countries Served')}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-primary">1000+</div>
-              <div className="text-sm text-muted-foreground">Products</div>
+              <div className="text-sm text-muted-foreground">{t('hero.products', 'Products')}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-accent">24/7</div>
-              <div className="text-sm text-muted-foreground">Support</div>
+              <div className="text-sm text-muted-foreground">{t('hero.support', 'Support')}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-primary">15+</div>
-              <div className="text-sm text-muted-foreground">Years Experience</div>
+              <div className="text-sm text-muted-foreground">{t('hero.years', 'Years Experience')}</div>
             </div>
           </div>
         </div>

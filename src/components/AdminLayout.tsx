@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { LogOut, Package, LayoutDashboard } from 'lucide-react';
 import { removeAuthToken } from '@/lib/api';
+import { useI18n } from '@/hooks/I18nContext';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface AdminLayoutProps {
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useI18n();
 
   const handleLogout = () => {
     removeAuthToken();
@@ -30,9 +32,9 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                   <span className="logo-consol">CONSOL</span>
                   <span className="logo-tech">TECH</span>
                 </span>
-                <span className="text-xs text-muted-foreground">Admin</span>
+                <span className="text-xs text-muted-foreground">{t('admin.layout.admin')}</span>
               </Link>
-              
+
               <div className="hidden md:flex items-center gap-2">
                 <Button
                   asChild
@@ -41,7 +43,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                 >
                   <Link to="/admin/products">
                     <Package className="h-4 w-4" />
-                    <span>Products</span>
+                    <span>{t('admin.layout.products')}</span>
                   </Link>
                 </Button>
               </div>
@@ -49,7 +51,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
             <Button onClick={handleLogout} variant="ghost" size="sm">
               <LogOut className="h-4 w-4" />
-              <span>Logout</span>
+              <span>{t('admin.layout.logout')}</span>
             </Button>
           </div>
         </div>

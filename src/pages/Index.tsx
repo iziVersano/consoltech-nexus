@@ -8,28 +8,31 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { ArrowRight, Globe, Shield, Zap, HeartHandshake, UserPlus, Search, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { useI18n } from '@/hooks/I18nContext';
 
 const Index = () => {
+  const { t } = useI18n();
+
   const features = [
     {
       icon: Globe,
-      title: 'Global Distribution',
-      description: 'Worldwide shipping to 50+ countries with local support and fast delivery'
+      title: t('index.features.globalDistribution.title'),
+      description: t('index.features.globalDistribution.description')
     },
     {
       icon: Shield,
-      title: 'Quality Assurance',
-      description: 'All products authenticated and tested before distribution'
+      title: t('index.features.qualityAssurance.title'),
+      description: t('index.features.qualityAssurance.description')
     },
     {
       icon: Zap,
-      title: 'Latest Technology',
-      description: 'First access to cutting-edge products from leading brands'
+      title: t('index.features.latestTechnology.title'),
+      description: t('index.features.latestTechnology.description')
     },
     {
       icon: HeartHandshake,
-      title: 'Trusted Partnerships',
-      description: 'Long-term relationships with manufacturers and distributors'
+      title: t('index.features.trustedPartnerships.title'),
+      description: t('index.features.trustedPartnerships.description')
     }
   ];
 
@@ -70,16 +73,15 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Why Choose <span className="gradient-text">CONSOLTECH</span>?
+              {t('index.whyChoose.title')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              We're more than just a distributor – we're your technology partner, 
-              committed to your success in the global marketplace.
+              {t('index.whyChoose.description')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
+            {features.map((feature) => (
               <div key={feature.title} className="product-card text-center group">
                 <div className="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                   <feature.icon className="h-8 w-8 text-white" />
@@ -96,23 +98,22 @@ const Index = () => {
       <section className="py-12 md:py-20 bg-gradient-to-r from-primary/10 to-accent/10">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to <span className="gradient-text">Transform</span> Your Business?
+            {t('index.cta.title')}
           </h2>
           <p className="text-xl text-muted-foreground mb-6 md:mb-8">
-            Join thousands of successful businesses worldwide who trust CONSOLTECH 
-            for their technology distribution needs.
+            {t('index.cta.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact">
               <Button className="btn-hero">
                 <UserPlus className="h-5 w-5" />
-                <span>Start Partnership</span>
+                <span>{t('index.cta.startPartnership')}</span>
               </Button>
             </Link>
             <Link to="/products">
               <Button className="btn-neon">
                 <Search className="h-5 w-5" />
-                <span>Browse Catalog</span>
+                <span>{t('index.cta.browseCatalog')}</span>
               </Button>
             </Link>
           </div>
@@ -128,24 +129,21 @@ const Index = () => {
               {/* Left Column */}
               <div className="md:col-span-7 space-y-6">
                 <h2 className="text-4xl md:text-5xl font-bold">
-                  About <span className="gradient-text">Consoltech</span>
+                  {t('index.aboutSection.title')}
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Founded in 2001 in Tel Aviv, Consoltech is a trusted importer, exporter, and distributor 
-                  delivering high-demand consumer electronics and gaming products to retailers, resellers, 
-                  and wholesale clients across global markets. As a VIP+ Handelot member, we prioritize 
-                  reliability, transparency, and fast, flexible logistics.
+                  {t('index.aboutSection.description')}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link to="/about">
                     <Button className="btn-hero">
                       <ArrowRight className="h-5 w-5" />
-                      <span>Learn more</span>
+                      <span>{t('index.aboutSection.learnMore')}</span>
                     </Button>
                   </Link>
                   <Link to="/contact">
                     <Button variant="outline" className="border-border hover:bg-accent/10">
-                      <span>Contact us</span>
+                      <span>{t('index.aboutSection.contactUs')}</span>
                     </Button>
                   </Link>
                 </div>
@@ -156,13 +154,13 @@ const Index = () => {
                 {/* Check-list bullets */}
                 <div className="space-y-3">
                   {[
-                    'Consumer electronics & IT products',
-                    'Gaming consoles & accessories',
-                    'E-bikes & branded toys',
-                    'Gadgets & tech innovations',
-                    'VIP+ member on Handelot'
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-center space-x-3">
+                    t('index.aboutSection.checklist.electronics'),
+                    t('index.aboutSection.checklist.gaming'),
+                    t('index.aboutSection.checklist.ebikes'),
+                    t('index.aboutSection.checklist.gadgets'),
+                    t('index.aboutSection.checklist.vip')
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-center space-x-3">
                       <div className="w-5 h-5 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center flex-shrink-0">
                         <Check className="h-3 w-3 text-white" />
                       </div>
@@ -175,15 +173,15 @@ const Index = () => {
                 <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border">
                   <div className="text-center">
                     <div className="text-2xl font-bold gradient-text">20+</div>
-                    <div className="text-sm text-muted-foreground">Years of experience</div>
+                    <div className="text-sm text-muted-foreground">{t('index.aboutSection.stats.years')}</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold gradient-text">4</div>
-                    <div className="text-sm text-muted-foreground">Regions served</div>
+                    <div className="text-sm text-muted-foreground">{t('index.aboutSection.stats.regions')}</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold gradient-text">Fast</div>
-                    <div className="text-sm text-muted-foreground">Logistics</div>
+                    <div className="text-2xl font-bold gradient-text">{t('index.aboutSection.stats.fastValue')}</div>
+                    <div className="text-sm text-muted-foreground">{t('index.aboutSection.stats.logistics')}</div>
                   </div>
                 </div>
               </div>
@@ -194,61 +192,61 @@ const Index = () => {
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="more-about-us" className="product-card px-6">
               <AccordionTrigger className="text-xl font-semibold py-6">
-                More about us
+                {t('index.moreAbout.title')}
               </AccordionTrigger>
               <AccordionContent className="pb-6">
                 <div className="space-y-8">
                   {/* What we do */}
                   <div>
-                    <h3 className="text-lg font-semibold mb-3 text-accent">What we do</h3>
+                    <h3 className="text-lg font-semibold mb-3 text-accent">{t('index.moreAbout.whatWeDo.title')}</h3>
                     <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-                      <li>Consumer electronics & IT products</li>
-                      <li>Gaming consoles & accessories</li>
-                      <li>Electric bikes & branded toys</li>
-                      <li>Gadgets & tech innovations</li>
+                      <li>{t('index.moreAbout.whatWeDo.electronics')}</li>
+                      <li>{t('index.moreAbout.whatWeDo.gaming')}</li>
+                      <li>{t('index.moreAbout.whatWeDo.ebikes')}</li>
+                      <li>{t('index.moreAbout.whatWeDo.gadgets')}</li>
                     </ul>
                   </div>
 
                   {/* Who we serve */}
                   <div>
-                    <h3 className="text-lg font-semibold mb-3 text-accent">Who we serve</h3>
+                    <h3 className="text-lg font-semibold mb-3 text-accent">{t('index.moreAbout.whoWeServe.title')}</h3>
                     <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-                      <li>Retailers</li>
-                      <li>Resellers</li>
-                      <li>Wholesale clients</li>
+                      <li>{t('index.moreAbout.whoWeServe.retailers')}</li>
+                      <li>{t('index.moreAbout.whoWeServe.resellers')}</li>
+                      <li>{t('index.moreAbout.whoWeServe.wholesale')}</li>
                     </ul>
                   </div>
 
                   {/* Where we operate */}
                   <div>
-                    <h3 className="text-lg font-semibold mb-3 text-accent">Where we operate</h3>
+                    <h3 className="text-lg font-semibold mb-3 text-accent">{t('index.moreAbout.whereWeOperate.title')}</h3>
                     <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-                      <li>Europe</li>
-                      <li>United States</li>
-                      <li>Middle East</li>
-                      <li>Asia (Hong Kong, China, Singapore, Korea)</li>
+                      <li>{t('index.moreAbout.whereWeOperate.europe')}</li>
+                      <li>{t('index.moreAbout.whereWeOperate.us')}</li>
+                      <li>{t('index.moreAbout.whereWeOperate.middleEast')}</li>
+                      <li>{t('index.moreAbout.whereWeOperate.asia')}</li>
                     </ul>
                   </div>
 
                   {/* How we work */}
                   <div>
-                    <h3 className="text-lg font-semibold mb-3 text-accent">How we work</h3>
+                    <h3 className="text-lg font-semibold mb-3 text-accent">{t('index.moreAbout.howWeWork.title')}</h3>
                     <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-                      <li>VIP+ member on Handelot for trusted partnerships</li>
-                      <li>Strong global partnerships with manufacturers</li>
-                      <li>Reliability and transparency in all operations</li>
-                      <li>Efficient logistics designed for speed and flexibility</li>
-                      <li>Focus on long-term, mutually beneficial cooperation</li>
+                      <li>{t('index.moreAbout.howWeWork.vip')}</li>
+                      <li>{t('index.moreAbout.howWeWork.partnerships')}</li>
+                      <li>{t('index.moreAbout.howWeWork.reliability')}</li>
+                      <li>{t('index.moreAbout.howWeWork.logistics')}</li>
+                      <li>{t('index.moreAbout.howWeWork.cooperation')}</li>
                     </ul>
                   </div>
 
                   {/* Contact & HQ */}
                   <div>
-                    <h3 className="text-lg font-semibold mb-3 text-accent">Contact & HQ</h3>
+                    <h3 className="text-lg font-semibold mb-3 text-accent">{t('index.moreAbout.contact.title')}</h3>
                     <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-                      <li><strong>Address:</strong> 47 Moshe Sneh St., Tel Aviv 6930243, Israel</li>
-                      <li><strong>Mobile / WhatsApp:</strong> +972-52-2768607</li>
-                      <li><strong>Email:</strong> sales@gamestation.co.il</li>
+                      <li><strong>{t('index.moreAbout.contact.addressLabel')}</strong> 47 Moshe Sneh St., Tel Aviv 6930243, Israel</li>
+                      <li><strong>{t('index.moreAbout.contact.mobileLabel')}</strong> +972-52-2768607</li>
+                      <li><strong>{t('index.moreAbout.contact.emailLabel')}</strong> sales@gamestation.co.il</li>
                     </ul>
                   </div>
                 </div>

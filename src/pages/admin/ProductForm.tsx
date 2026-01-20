@@ -23,6 +23,7 @@ import {
 } from '@/lib/api';
 import { toast } from 'sonner';
 import { ArrowLeft, Save, Loader2, Upload, Image } from 'lucide-react';
+import { useI18n } from '@/hooks/I18nContext';
 
 const categories = ['New Arrivals', 'Gaming', 'Electronics', 'Drones', 'E-Bikes', 'TVs'];
 
@@ -31,6 +32,7 @@ const ProductForm = () => {
   const navigate = useNavigate();
   const isEditMode = !!id;
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useI18n();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -94,15 +96,15 @@ const ProductForm = () => {
           id: parseInt(id),
           ...productData,
         });
-        toast.success('Product updated successfully');
+        toast.success(t('admin.productForm.success.updated'));
       } else {
         await createProduct(productData);
-        toast.success('Product created successfully');
+        toast.success(t('admin.productForm.success.created'));
       }
 
       navigate('/admin/products');
     } catch (error) {
-      toast.error(`Failed to ${isEditMode ? 'update' : 'create'} product`);
+      toast.error(t(isEditMode ? 'admin.productForm.error.update' : 'admin.productForm.error.create'));
       console.error('Error saving product:', error);
     } finally {
       setIsSaving(false);
@@ -167,38 +169,38 @@ const ProductForm = () => {
             onClick={() => navigate('/admin/products')}
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>{t('admin.productForm.back')}</span>
           </Button>
           <div>
             <h1 className="text-3xl font-bold">
-              {isEditMode ? 'Edit Product' : 'New Product'}
+              {isEditMode ? t('admin.productForm.editProduct') : t('admin.productForm.newProduct')}
             </h1>
             <p className="text-muted-foreground">
-              {isEditMode ? 'Update product details' : 'Add a new product to your catalog'}
+              {isEditMode ? t('admin.productForm.updateDetails') : t('admin.productForm.addNew')}
             </p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="title">Title *</Label>
+            <Label htmlFor="title">{t('admin.productForm.title')} *</Label>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) => handleChange('title', e.target.value)}
-              placeholder="Product title"
+              placeholder={t('admin.productForm.titlePlaceholder')}
               required
               disabled={isSaving}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description *</Label>
+            <Label htmlFor="description">{t('admin.productForm.description')} *</Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={(e) => handleChange('description', e.target.value)}
-              placeholder="Product description"
+              placeholder={t('admin.productForm.descriptionPlaceholder')}
               rows={4}
               required
               disabled={isSaving}
@@ -206,14 +208,14 @@ const ProductForm = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="category">Category *</Label>
+            <Label htmlFor="category">{t('admin.productForm.category')} *</Label>
             <Select
               value={formData.category}
               onValueChange={(value) => handleChange('category', value)}
               disabled={isSaving}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a category" />
+                <SelectValue placeholder={t('admin.productForm.categoryPlaceholder')} />
               </SelectTrigger>
               <SelectContent>
                 {categories.map((category) => (
@@ -248,12 +250,12 @@ const ProductForm = () => {
                 {isUploading ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    <span>Uploading...</span>
+                    <span>{t('admin.productForm.uploading')}</span>
                   </>
                 ) : (
                   <>
                     <Upload className="h-4 w-4" />
-                    <span>Upload Image</span>
+                    <span>{t('admin.productForm.uploadImage')}</span>
                   </>
                 )}
               </Button>
@@ -261,13 +263,13 @@ const ProductForm = () => {
 
             {/* Or enter URL manually */}
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span>Or enter URL manually:</span>
+              <span>{t('admin.productForm.imageUrl')}:</span>
             </div>
             <Input
               id="imageUrl"
               value={formData.imageUrl}
               onChange={(e) => handleChange('imageUrl', e.target.value)}
-              placeholder="https://example.com/image.jpg"
+              placeholder={t('admin.productForm.imageUrlPlaceholder')}
               required
               disabled={isSaving || isUploading}
             />
@@ -289,7 +291,7 @@ const ProductForm = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="price">Price (USD) *</Label>
+            <Label htmlFor="price">{t('admin.productForm.price')} *</Label>
             <Input
               id="price"
               type="number"
@@ -297,7 +299,7 @@ const ProductForm = () => {
               min="0"
               value={formData.price}
               onChange={(e) => handleChange('price', e.target.value)}
-              placeholder="0.00"
+              placeholder={t('admin.productForm.pricePlaceholder')}
               required
               disabled={isSaving}
             />
@@ -312,12 +314,12 @@ const ProductForm = () => {
               {isSaving ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Saving...</span>
+                  <span>{t('admin.productForm.saving')}</span>
                 </>
               ) : (
                 <>
                   <Save className="h-4 w-4" />
-                  <span>{isEditMode ? 'Update Product' : 'Create Product'}</span>
+                  <span>{isEditMode ? t('admin.productForm.updateProduct') : t('admin.productForm.createProduct')}</span>
                 </>
               )}
             </Button>
@@ -327,7 +329,7 @@ const ProductForm = () => {
               onClick={() => navigate('/admin/products')}
               disabled={isSaving}
             >
-              Cancel
+              {t('admin.productForm.cancel')}
             </Button>
           </div>
         </form>

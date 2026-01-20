@@ -4,11 +4,14 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 // Types
 export interface Product {
   id: number;
+  sku?: string;
   title: string;
   description: string;
   category: string;
   imageUrl: string;
   price: number;
+  flags?: string;
+  badges?: string;
 }
 
 // Fallback products data (used when API is unavailable)
@@ -147,18 +150,39 @@ export const login = async (credentials: LoginRequest): Promise<LoginResponse> =
   });
 };
 
-// Products API
-export const getProducts = async (): Promise<Product[]> => {
+/**
+ * Get current locale from i18n context.
+ * This function should be called from within React components where useI18n hook is available.
+ * For use outside components, pass locale explicitly to API functions.
+ */
+export const getCurrentLocale = (): string => {
+  // Try to get from localStorage (set by I18nContext)
+  return localStorage.getItem('language') || 'en';
+};
+
+// Products API with localization support
+/**
+ * Fetch all products with localized content.
+ * Accepts optional locale parameter (defaults to current i18n locale).
+ * API returns already-localized products based on locale.
+ */
+export const getProducts = async (locale?: string): Promise<Product[]> => {
   try {
-    return await fetchApi('/products');
+    const lang = locale || getCurrentLocale();
+    return await fetchApi(`/products?lang=${lang}`);
   } catch (error) {
     console.log('API unavailable, using fallback products');
     return FALLBACK_PRODUCTS;
   }
 };
 
-export const getProduct = async (id: number): Promise<Product> => {
-  return fetchApi(`/products/${id}`);
+/**
+ * Fetch a single product with localized content.
+ * Accepts optional locale parameter (defaults to current i18n locale).
+ */
+export const getProduct = async (id: number, locale?: string): Promise<Product> => {
+  const lang = locale || getCurrentLocale();
+  return fetchApi(`/products/${id}?lang=${lang}`);
 };
 
 export const createProduct = async (product: Omit<Product, 'id'>): Promise<Product> => {
@@ -227,4 +251,3 @@ export const getImageUrl = (imageUrl: string): string => {
   }
   return imageUrl;
 };
-

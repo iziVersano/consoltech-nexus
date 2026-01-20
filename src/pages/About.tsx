@@ -2,19 +2,18 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useI18n } from '@/hooks/I18nContext';
 
 const About = () => {
+  const { t } = useI18n();
   const canonicalUrl = typeof window !== 'undefined' ? `${window.location.origin}/about` : '/about';
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
       <Helmet>
-        <title>About Consoltech | Global Import & Distribution Experts</title>
-        <meta
-          name="description"
-          content="About Consoltech: Global importer and distributor of consumer electronics and gaming since 2001. Based in Tel Aviv, serving worldwide suppliers and buyers."
-        />
+        <title>{t('about.title')}</title>
+        <meta name="description" content={t('about.trusted')} />
         <link rel="canonical" href={canonicalUrl} />
         <script type="application/ld+json">
           {JSON.stringify({
@@ -38,91 +37,80 @@ const About = () => {
           })}
         </script>
       </Helmet>
-
       <main id="main-content" className="container px-4 md:px-6 pt-24 pb-16 flex-1">
         <header className="max-w-4xl mx-auto text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold">About Consoltech</h1>
+          <h1 className="text-4xl md:text-5xl font-bold">{t('about.title')}</h1>
         </header>
-
         <section className="max-w-3xl mx-auto space-y-3 text-base leading-6 text-muted-foreground">
           <div className="space-y-0">
-            <p>Founded in 2001 and headquartered in Tel Aviv, Israel.</p>
-            <p>Consoltech is a trusted importer, exporter, and distributor of:</p>
+            <p>{t('about.founded')}</p>
+            <p>{t('about.trusted')}</p>
           </div>
           <ul className="list-disc pl-6 space-y-1">
-            <li>Consumer electronics &amp; IT products</li>
-            <li>Gaming consoles &amp; accessories</li>
-            <li>Electric bikes &amp; branded toys</li>
-            <li>Gadgets &amp; tech innovations</li>
+            <li>{t('about.list.electronics')}</li>
+            <li>{t('about.list.gaming')}</li>
+            <li>{t('about.list.bikes')}</li>
+            <li>{t('about.list.gadgets')}</li>
           </ul>
-
           <div className="space-y-0">
-            <p>We have over 20 years of experience.</p>
-            <p>We proudly serve a wide range of global markets.</p>
-            <p>Our main focus is the Middle East.</p>
+            <p>{t('about.experience')}</p>
+            <p>{t('about.markets')}</p>
+            <p>{t('about.focus')}</p>
           </div>
-
-          <p>We deliver innovative and high-demand products to:</p>
+          <p>{t('about.deliver')}</p>
           <ul className="list-disc pl-6 space-y-1">
-            <li>Retailers</li>
-            <li>Resellers</li>
-            <li>Wholesale clients</li>
+            <li>{t('about.list.retailers')}</li>
+            <li>{t('about.list.resellers')}</li>
+            <li>{t('about.list.wholesale')}</li>
           </ul>
-
-          <p>As a VIP+ member on Handelot, we:</p>
+          <p>{t('about.vip')}</p>
           <ul className="list-disc pl-6 space-y-1">
-            <li>Maintain strong global partnerships</li>
-            <li>Uphold reliability and transparency</li>
-            <li>Ensure efficient logistics</li>
+            <li>{t('about.list.partnerships')}</li>
+            <li>{t('about.list.reliability')}</li>
+            <li>{t('about.list.logistics')}</li>
           </ul>
-
-          <p>We source and distribute from major regions:</p>
+          <p>{t('about.source')}</p>
           <ul className="list-disc pl-6 space-y-1">
-            <li>Europe</li>
-            <li>United States</li>
-            <li>Middle East</li>
-            <li>Asia (Hong Kong, China, Singapore, Korea)</li>
+            <li>{t('about.list.europe')}</li>
+            <li>{t('about.list.us')}</li>
+            <li>{t('about.list.me')}</li>
+            <li>{t('about.list.asia')}</li>
           </ul>
-
           <div className="space-y-0">
-            <p>Our supply chain is designed for speed and flexibility.</p>
-            <p>We meet the evolving needs of the electronics and gaming industries.</p>
-            <p>At Consoltech, we are expanding our network.</p>
-            <p>We welcome serious suppliers and buyers.</p>
-            <p>We focus on long-term, mutually beneficial cooperation.</p>
+            <p>{t('about.supply')}</p>
+            <p>{t('about.needs')}</p>
+            <p>{t('about.expanding')}</p>
+            <p>{t('about.welcome')}</p>
+            <p>{t('about.cooperation')}</p>
           </div>
         </section>
-
         <section className="max-w-4xl mx-auto mt-12" aria-labelledby="connect-heading">
           <h2 id="connect-heading" className="text-2xl md:text-3xl font-semibold mb-4">
-            Let’s Connect
+            {t('about.connect')}
           </h2>
-          <p className="mb-6">
-            If you are a manufacturer, distributor, or wholesaler interested in doing business, please feel free to reach
-            out with your company profile and updated price lists.
-          </p>
+          <p className="mb-6">{t('about.business')}</p>
           <Card className="max-w-3xl mx-auto">
             <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
+              <CardTitle>{t('about.contactinfo')}</CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 <li>
-                  <span className="font-medium">Address:</span> 47 Moshe Sneh St., Tel Aviv 6930243, Israel
+                  <span className="font-medium">{t('about.address')}</span> 47 Moshe Sneh St., Tel Aviv 6930243, Israel
                 </li>
                 <li>
-                  <span className="font-medium">Mobile / WhatsApp:</span> <a href="tel:+972522768607" className="underline">+972-52-2768607</a>
+                  <span className="font-medium">{t('about.mobile')}</span> <a href="tel:+972522768607" className="underline">+972-52-2768607</a>
                 </li>
                 <li>
-                  <span className="font-medium">Email:</span> <a href="mailto:sales@gamestation.co.il" className="underline">sales@gamestation.co.il</a>
+                  <span className="font-medium">{t('about.email')}</span> <a href="mailto:sales@gamestation.co.il" className="underline">sales@gamestation.co.il</a>
                 </li>
                 <li>
-                  <span className="font-medium">VAT Registration Number:</span> 032398497
+                  <span className="font-medium">{t('about.vat')}</span> 032398497
                 </li>
               </ul>
               <p className="mt-6 text-muted-foreground">
-                We look forward to doing business with you!
-                <br />– Rotem Sharon, Import Manager &amp; Business Development
+                {t('about.thanks')}
+                <br />{t('about.manager')}
               </p>
             </CardContent>
           </Card>

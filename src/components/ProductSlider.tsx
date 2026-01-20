@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { getProducts, getImageUrl, type Product as ApiProduct, FALLBACK_PRODUCTS } from '@/lib/api';
+import { useI18n } from '@/hooks/I18nContext';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -23,17 +24,20 @@ interface Product {
 }
 
 const ProductSlider = () => {
+  const { t, lang } = useI18n();
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Refetch products when language changes
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [lang]);
 
   const loadProducts = async () => {
     try {
       setIsLoading(true);
-      const apiProducts = await getProducts();
+      // Pass current language to API to get localized products
+      const apiProducts = await getProducts(lang);
       // Transform and take first 5 products for the slider
       const transformedProducts: Product[] = apiProducts.slice(0, 5).map((p: ApiProduct) => ({
         id: p.id,
@@ -110,13 +114,10 @@ const ProductSlider = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-10 md:mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="gradient-text">Featured Products</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Discover our latest collection of cutting-edge technology products 
-            from the world's leading brands
-          </p>
+          <div className="mb-8">
+            <span className="gradient-text text-3xl md:text-4xl font-bold block mb-2">{t('products.featuredTitle')}</span>
+            <div className="text-lg md:text-2xl text-muted-foreground">{t('products.featuredDescription')}</div>
+          </div>
         </div>
 
         {/* Product Slider */}
@@ -200,7 +201,7 @@ const ProductSlider = () => {
                       <Link to={`/products?q=${encodeURIComponent(product.name)}`}>
                         <Button className="btn-accent-small">
                           <ArrowRight className="h-4 w-4" />
-                          <span>Learn More</span>
+                          <span>{t('slider.learnMore')}</span>
                         </Button>
                       </Link>
                     </div>
@@ -226,7 +227,7 @@ const ProductSlider = () => {
           <Link to="/products">
             <Button className="btn-hero">
               <ArrowRight className="h-5 w-5" />
-              <span>Explore All Products</span>
+              <span>{t('slider.exploreAll')}</span>
             </Button>
           </Link>
         </div>

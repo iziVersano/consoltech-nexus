@@ -1,0 +1,15 @@
+[
+  {
+    "PartitionKey": "Warranty",
+    "RowKey": "e0ef3f4a-157e-4aad-84c6-6f722654e8f5",
+    "Timestamp": null,
+    "ETag": null,
+    "CustomerName": "John Doe",
+    "Email": "john@example.com",
+    "Product": "Nintendo Switch 2",
+    "SerialNumber": "XAW12345678",
+    "InvoiceUrl": "/warranty-uploads/0bba30b2-36f8-46da-9d62-99c1651febfa_test-invoice.txt",
+    "InvoiceFileName": "test-invoice.txt",
+    "CreatedAt": "2026-01-20T10:08:25.6338763Z"
+  }
+]

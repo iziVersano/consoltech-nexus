@@ -7,14 +7,16 @@ import droneImg from '@/assets/drone.jpg';
 import ebikeImg from '@/assets/ebike.jpg';
 import smartTvImg from '@/assets/smart-tv.jpg';
 import { cn } from '@/lib/utils';
+import { useI18n } from '@/hooks/I18nContext';
 
 const FeaturedProducts = () => {
+  const { t } = useI18n();
   const products = [
     {
       id: 0,
       name: 'Nintendo Switch 2',
-      category: 'Gaming Systems',
-      description: 'The next generation of Nintendo gaming. Enhanced graphics, faster performance, larger display, and backward compatibility with your favorite games.',
+      category: t('products.category.gaming'),
+      description: t('products.nintendoDescription', 'The next generation of Nintendo gaming. Enhanced graphics, faster performance, larger display, and backward compatibility with your favorite games.'),
       image: '/images/nintendo-switch-2-product.jpg',
       price: 'From $449',
       featured: true,
@@ -22,9 +24,9 @@ const FeaturedProducts = () => {
     },
     {
       id: 1,
-      name: 'PlayStation 5 Console',
-      category: 'Gaming Systems',
-      description: 'Experience lightning-fast loading with the custom SSD, deeper immersion with haptic feedback, and 4K gaming at up to 120fps',
+      name: t('products.playstation', 'PlayStation 5 Console'),
+      category: t('products.category.gaming'),
+      description: t('products.playstationDescription', 'Experience lightning-fast loading with the custom SSD, deeper immersion with haptic feedback, and 4K gaming at up to 120fps'),
       image: playstationImg,
       price: 'From $499',
       featured: true,
@@ -32,9 +34,9 @@ const FeaturedProducts = () => {
     },
     {
       id: 2,
-      name: 'Xbox Series X',
-      category: 'Gaming Systems',
-      description: 'The fastest, most powerful Xbox ever with 12 teraflops of GPU power and Smart Delivery technology',
+      name: t('products.xbox', 'Xbox Series X'),
+      category: t('products.category.gaming'),
+      description: t('products.xboxDescription', 'The fastest, most powerful Xbox ever with 12 teraflops of GPU power and Smart Delivery technology'),
       image: xboxImg,
       price: 'From $449',
       featured: true,
@@ -79,15 +81,14 @@ const FeaturedProducts = () => {
         <div className="text-center mb-20 animate-fade-in">
           <div className="inline-block mb-4">
             <span className="text-sm font-mono font-medium text-accent uppercase tracking-wider px-4 py-2 bg-accent/10 rounded-full border border-accent/20">
-              // Featured Collection
+              // {t('featured.collection')}
             </span>
           </div>
           <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight">
-            <span className="gradient-text text-balance">Next-Gen Technology</span>
+            <span className="gradient-text text-balance">{t('featured.title')}</span>
           </h2>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto font-light leading-relaxed text-balance">
-            Discover revolutionary products that define the future of technology. 
-            From gaming to mobility, we bring you the most advanced innovations.
+            {t('featured.description')}
           </p>
         </div>
 
@@ -103,7 +104,7 @@ const FeaturedProducts = () => {
                 {product.featured && (
                   <div className="absolute top-4 right-4 z-10">
                     <span className="bg-gradient-to-r from-primary to-accent text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide shadow-lg">
-                      Featured
+                      {t('featured.badge')}
                     </span>
                   </div>
                 )}
@@ -156,11 +157,11 @@ const FeaturedProducts = () => {
                       data-sku={`${product.category.replace(/\s+/g, '-').toUpperCase()}-${product.id}`}
                       aria-label={`Inquiry about ${product.name}`}
                     >
-                      <span>Inquiry now</span>
+                      <span>{t('featured.inquiryNow')}</span>
                     </button>
                     <Button className="btn-accent-small group/btn">
                       <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                      <span>Explore</span>
+                      <span>{t('featured.explore')}</span>
                     </Button>
                   </div>
                 </div>
@@ -169,8 +170,8 @@ const FeaturedProducts = () => {
           ))}
           
           {/* Enhanced View All Card */}
-          <Link 
-            to="/products" 
+          <Link
+            to="/products"
             className="product-card group cursor-pointer flex items-center justify-center min-h-[500px] bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-dashed border-primary/20 hover:border-primary/50 hover:bg-gradient-to-br hover:from-primary/10 hover:to-accent/10 animate-scale-in"
             style={{ animationDelay: `${products.length * 0.1}s` }}
           >
@@ -183,15 +184,15 @@ const FeaturedProducts = () => {
               </div>
               <div className="space-y-3">
                 <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
-                  Explore All Products
+                  {t('featured.exploreAll')}
                 </h3>
                 <p className="text-muted-foreground max-w-xs mx-auto leading-relaxed">
-                  Discover our complete range of cutting-edge technology products
+                  {t('featured.exploreAllDescription')}
                 </p>
                 <div className="flex items-center justify-center space-x-2 text-sm text-accent font-mono">
                   <span>200+</span>
                   <span className="w-1 h-1 bg-accent rounded-full"></span>
-                  <span>Products Available</span>
+                  <span>{t('featured.productsAvailable')}</span>
                 </div>
               </div>
             </div>
@@ -202,40 +203,40 @@ const FeaturedProducts = () => {
         <div className="text-center space-y-8 animate-slide-up">
           <div className="space-y-4">
             <h3 className="text-3xl md:text-4xl font-bold text-foreground">
-              Ready to Experience the Future?
+              {t('featured.cta.title')}
             </h3>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Join thousands of satisfied customers who trust CONSOLTECH for their technology needs
+              {t('featured.cta.description')}
             </p>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link to="/products">
               <Button className="btn-hero">
                 <ArrowRight className="h-5 w-5" />
-                <span>Browse Catalog</span>
+                <span>{t('featured.browseCatalog')}</span>
               </Button>
             </Link>
             <Link to="/contact">
               <Button className="btn-neon">
                 <Send className="h-5 w-5" />
-                <span>Contact Sales</span>
+                <span>{t('featured.contactSales')}</span>
               </Button>
             </Link>
           </div>
-          
+
           <div className="flex items-center justify-center space-x-8 text-sm text-muted-foreground font-mono">
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-              <span>50+ Countries</span>
+              <span>{t('featured.stats.countries')}</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-accent rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-              <span>24/7 Support</span>
+              <span>{t('featured.stats.support')}</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-neon rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-              <span>Fast Shipping</span>
+              <span>{t('featured.stats.shipping')}</span>
             </div>
           </div>
         </div>

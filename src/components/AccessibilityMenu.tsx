@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { 
-  Accessibility, X, ChevronDown, ChevronUp, 
-  Type, Palette, Monitor, Focus, Zap, Settings, Info
+import {
+  Accessibility, X, ChevronDown, ChevronUp,
+  Type, Palette, Monitor, Focus, Settings, Info
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useI18n } from '@/hooks/I18nContext';
 
 // Types for accessibility settings
 interface AccessibilitySettings {
@@ -94,6 +95,7 @@ const ControlButton = ({ label, isActive, onClick, className }: ControlButtonPro
 );
 
 const AccessibilityMenu = () => {
+  const { t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
   const [settings, setSettings] = useState<AccessibilitySettings>(DEFAULT_SETTINGS);
@@ -245,12 +247,12 @@ const AccessibilityMenu = () => {
         <div className="flex items-center justify-between px-4 py-3 bg-gray-900 border-b border-gray-700">
           <h2 className="text-white font-semibold flex items-center gap-2">
             <Accessibility className="h-5 w-5" aria-hidden="true" />
-            Accessibility
+            {t('a11yMenu.title')}
           </h2>
           <button
             onClick={() => setIsOpen(false)}
             className="p-1 text-gray-400 hover:text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            aria-label="Close accessibility menu"
+            aria-label={t('a11yMenu.closeMenu')}
           >
             <X className="h-5 w-5" />
           </button>
@@ -261,20 +263,20 @@ const AccessibilityMenu = () => {
           {/* Information & Settings */}
           <AccordionSection
             id="info-settings"
-            title="Information & Settings"
+            title={t('a11yMenu.infoSettings')}
             icon={<Info className="h-5 w-5" />}
             isExpanded={expandedSections.has('info-settings')}
             onToggle={() => toggleSection('info-settings')}
           >
             <div className="space-y-3">
               <p className="text-gray-300 text-sm">
-                Customize your browsing experience with accessibility options.
+                {t('a11yMenu.customizeDescription')}
               </p>
               <button
                 onClick={resetAllSettings}
                 className="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-red-400"
               >
-                Reset All Settings
+                {t('a11yMenu.resetAll')}
               </button>
             </div>
           </AccordionSection>
@@ -282,14 +284,14 @@ const AccessibilityMenu = () => {
           {/* Text Size */}
           <AccordionSection
             id="text-size"
-            title="Text Size"
+            title={t('a11yMenu.textSize')}
             icon={<Type className="h-5 w-5" />}
             isExpanded={expandedSections.has('text-size')}
             onToggle={() => toggleSection('text-size')}
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-gray-300 text-sm">Current: {settings.textSize > 0 ? '+' : ''}{settings.textSize}</span>
+                <span className="text-gray-300 text-sm">{t('a11yMenu.current')}: {settings.textSize > 0 ? '+' : ''}{settings.textSize}</span>
               </div>
               <div className="flex gap-2">
                 <ControlButton
@@ -298,7 +300,7 @@ const AccessibilityMenu = () => {
                   className="flex-1"
                 />
                 <ControlButton
-                  label="Reset"
+                  label={t('a11yMenu.reset')}
                   onClick={() => updateSetting('textSize', 0)}
                   isActive={settings.textSize === 0}
                   className="flex-1"
@@ -315,32 +317,32 @@ const AccessibilityMenu = () => {
           {/* Colors */}
           <AccordionSection
             id="colors"
-            title="Colors"
+            title={t('a11yMenu.colors')}
             icon={<Palette className="h-5 w-5" />}
             isExpanded={expandedSections.has('colors')}
             onToggle={() => toggleSection('colors')}
           >
             <div className="space-y-2">
               <ControlButton
-                label="High Contrast"
+                label={t('a11yMenu.highContrast')}
                 isActive={settings.highContrast}
                 onClick={() => updateSetting('highContrast', !settings.highContrast)}
                 className="w-full"
               />
               <ControlButton
-                label="Invert Colors"
+                label={t('a11yMenu.invertColors')}
                 isActive={settings.invertColors}
                 onClick={() => updateSetting('invertColors', !settings.invertColors)}
                 className="w-full"
               />
               <ControlButton
-                label="Grayscale"
+                label={t('a11yMenu.grayscale')}
                 isActive={settings.grayscale}
                 onClick={() => updateSetting('grayscale', !settings.grayscale)}
                 className="w-full"
               />
               <ControlButton
-                label="Reset Colors"
+                label={t('a11yMenu.resetColors')}
                 onClick={() => {
                   updateSetting('highContrast', false);
                   updateSetting('invertColors', false);
@@ -354,20 +356,20 @@ const AccessibilityMenu = () => {
           {/* Display */}
           <AccordionSection
             id="display"
-            title="Display"
+            title={t('a11yMenu.display')}
             icon={<Monitor className="h-5 w-5" />}
             isExpanded={expandedSections.has('display')}
             onToggle={() => toggleSection('display')}
           >
             <div className="space-y-2">
               <ControlButton
-                label="Highlight Links"
+                label={t('a11yMenu.highlightLinks')}
                 isActive={settings.highlightLinks}
                 onClick={() => updateSetting('highlightLinks', !settings.highlightLinks)}
                 className="w-full"
               />
               <ControlButton
-                label="Highlight Headings"
+                label={t('a11yMenu.highlightHeadings')}
                 isActive={settings.highlightHeadings}
                 onClick={() => updateSetting('highlightHeadings', !settings.highlightHeadings)}
                 className="w-full"
@@ -378,17 +380,17 @@ const AccessibilityMenu = () => {
           {/* Focus Highlight */}
           <AccordionSection
             id="focus"
-            title="Focus Highlight"
+            title={t('a11yMenu.focusHighlight')}
             icon={<Focus className="h-5 w-5" />}
             isExpanded={expandedSections.has('focus')}
             onToggle={() => toggleSection('focus')}
           >
             <div className="space-y-2">
               <p className="text-gray-300 text-sm mb-2">
-                Enhance focus indicator for keyboard navigation.
+                {t('a11yMenu.focusDescription')}
               </p>
               <ControlButton
-                label={settings.focusHighlight ? "Focus Highlight: ON" : "Focus Highlight: OFF"}
+                label={settings.focusHighlight ? t('a11yMenu.focusOn') : t('a11yMenu.focusOff')}
                 isActive={settings.focusHighlight}
                 onClick={() => updateSetting('focusHighlight', !settings.focusHighlight)}
                 className="w-full"
@@ -399,14 +401,14 @@ const AccessibilityMenu = () => {
           {/* Other Options */}
           <AccordionSection
             id="other"
-            title="Other Options"
+            title={t('a11yMenu.otherOptions')}
             icon={<Settings className="h-5 w-5" />}
             isExpanded={expandedSections.has('other')}
             onToggle={() => toggleSection('other')}
           >
             <div className="space-y-2">
               <ControlButton
-                label={settings.disableAnimations ? "Animations: OFF" : "Animations: ON"}
+                label={settings.disableAnimations ? t('a11yMenu.animationsOff') : t('a11yMenu.animationsOn')}
                 isActive={settings.disableAnimations}
                 onClick={() => updateSetting('disableAnimations', !settings.disableAnimations)}
                 className="w-full"

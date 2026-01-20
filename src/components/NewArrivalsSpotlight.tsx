@@ -3,18 +3,24 @@ import { useQuery } from '@tanstack/react-query';
 import { getProducts, getImageUrl, Product } from '@/lib/api';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useI18n } from '@/hooks/I18nContext';
 
 const NewArrivalsSpotlight = () => {
+  const { lang, t } = useI18n();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
+  // Refetch products when language changes - queryKey includes lang for cache invalidation
   const { data: products = [] } = useQuery({
-    queryKey: ['products'],
-    queryFn: getProducts,
+    queryKey: ['products', lang],
+    queryFn: () => getProducts(lang),
   });
 
-  // Filter only New Arrivals
-  const newArrivals = products.filter((p: Product) => p.category === 'New Arrivals');
+  // Filter only New Arrivals - category name is now localized from API
+  const newArrivals = products.filter((p: Product) =>
+    // Match against localized category name from translations
+    p.category === t('products.category.newArrivals')
+  );
 
   // Auto-rotate every 5 seconds
   useEffect(() => {
@@ -52,7 +58,7 @@ const NewArrivalsSpotlight = () => {
       <div className="flex items-center justify-center gap-2 mb-6">
         <Sparkles className="w-6 h-6 text-primary animate-pulse" />
         <span className="text-lg font-semibold text-primary uppercase tracking-wider">
-          New Arrivals
+          {t('products.newArrivalsHeader')}
         </span>
         <Sparkles className="w-6 h-6 text-primary animate-pulse" />
       </div>

@@ -19,8 +19,7 @@ import AdminProductForm from "./pages/admin/ProductForm";
 import WarrantyRecords from "./pages/admin/WarrantyRecords";
 import SkipLink from "./components/SkipLink";
 import AccessibilityMenu from "./components/AccessibilityMenu";
-import { useI18n } from './hooks/I18nContext';
-import { I18nProvider } from './hooks/I18nContext';
+import { I18nProvider, useI18n } from './hooks/I18nContext';
 
 import { useEffect } from "react";
 
@@ -49,38 +48,6 @@ const HtmlDirectionSetter = () => {
   return null;
 };
 
-function LanguageToggle() {
-  const { lang, setLang, t } = useI18n();
-  return (
-    <button
-      aria-label={lang === 'en' ? 'Switch to Hebrew' : 'החלף לאנגלית'}
-      className="fixed top-4 right-4 z-50 bg-white dark:bg-gray-900 border rounded px-3 py-1 shadow"
-      onClick={() => setLang(lang === 'en' ? 'he' : 'en')}
-    >
-      {lang === 'en' ? t('toggle.he') : t('toggle.en')}
-    </button>
-  );
-}
-
-function TrustedBrandsBanner() {
-  const { t } = useI18n();
-  return (
-    <section
-      aria-labelledby="trusted-brands-title"
-      data-testid="trusted-brands"
-      className="bg-accent/10 py-6 px-4 text-center mb-6 rounded-lg border border-accent/30"
-    >
-      <h2 id="trusted-brands-title" className="text-2xl md:text-3xl font-bold mb-2 text-gray-900 dark:text-white">
-fffffffff      </h2>
-      <p className="text-lg md:text-xl mb-2 text-gray-700 dark:text-gray-300">{t('products.trustedDescription')}</p>
-      <div className="flex justify-center gap-6 mt-4">
-        <span className="text-xl font-semibold text-gray-800 dark:text-white">{t('products.microsoft')}</span>
-        <span className="text-xl font-semibold text-gray-800 dark:text-white">{t('products.xbox')}</span>
-      </div>
-    </section>
-  );
-}
-
 const App = () => (
   <I18nProvider>
     <QueryClientProvider client={queryClient}>
@@ -93,8 +60,6 @@ const App = () => (
             <AccessibilityMenu />
             <ScrollToTop />
             <HtmlDirectionSetter />
-            <LanguageToggle />
-            <TrustedBrandsBanner />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<About />} />

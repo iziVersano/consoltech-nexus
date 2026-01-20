@@ -28,13 +28,13 @@ const Warranty = () => {
   const navigate = useNavigate();
   const { t, lang } = useI18n();
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
+    fullName: 'John Doe',
+    email: 'john.doe@example.com',
+    phone: '050-1234567',
     productModel: 'Nintendo Switch 2',
-    serialNumber: '',
-    purchaseDate: '',
-    storeName: '',
+    serialNumber: 'XAW12345678',
+    purchaseDate: '2024-12-15',
+    storeName: 'Consoltech Store',
   });
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);

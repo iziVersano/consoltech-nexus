@@ -37,11 +37,18 @@ if (!Directory.Exists(dbDirectory))
 builder.Services.AddDbContext<ProductsDbContext>(options =>
     options.UseSqlite($"Data Source={dbPath}"));
 
-// Register Azure Blob Storage service
-builder.Services.AddSingleton<BlobStorageService>();
+// Register Local Storage service (always available for development/fallback)
+builder.Services.AddSingleton<LocalStorageService>();
 
-// Register Azure Table Storage service
-builder.Services.AddSingleton<TableStorageService>();
+// Conditionally register Azure Storage services only if real Azure configuration is present
+// Skip for development mode using "UseDevelopmentStorage=true"
+var azureConnectionString = builder.Configuration["AzureStorage:ConnectionString"];
+if (!string.IsNullOrEmpty(azureConnectionString) && azureConnectionString != "UseDevelopmentStorage=true")
+{
+    // Register Azure services only when real Azure connection string is provided
+    builder.Services.AddSingleton<BlobStorageService>();
+    builder.Services.AddSingleton<TableStorageService>();
+}
 
 // Configure JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
@@ -79,7 +86,9 @@ builder.Services.AddCors(options =>
             "https://consoltech.shop",
             "https://www.consoltech.shop",
             "http://localhost:5173",
-            "https://localhost:5173"
+            "https://localhost:5173",
+            "http://localhost:8080",
+            "https://localhost:8080"
         )
         .AllowAnyHeader()
         .AllowAnyMethod()
@@ -106,8 +115,20 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 
-// Serve static files (for uploaded images)
+// Serve static files (for uploaded images and warranty invoices)
 app.UseStaticFiles();
+
+// Serve warranty uploads from AppData/warranty-uploads
+var warrantyUploadsPath = Path.Combine(builder.Environment.ContentRootPath, "AppData", "warranty-uploads");
+if (!Directory.Exists(warrantyUploadsPath))
+{
+    Directory.CreateDirectory(warrantyUploadsPath);
+}
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(warrantyUploadsPath),
+    RequestPath = "/warranty-uploads"
+});
 
 app.UseCors("AllowFrontend");
 app.UseAuthentication();

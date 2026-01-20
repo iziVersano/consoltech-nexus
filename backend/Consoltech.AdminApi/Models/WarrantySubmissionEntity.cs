@@ -1,16 +1,14 @@
-using Azure;
-using Azure.Data.Tables;
 using System;
 
 namespace Consoltech.AdminApi.Models
 {
-    public class WarrantySubmissionEntity : ITableEntity
+    public class WarrantySubmissionEntity
     {
-        // Required by Azure Table Storage
+        // Identifiers (kept for compatibility with existing JSON data)
         public string PartitionKey { get; set; } = "Warranty";
         public string RowKey { get; set; } = Guid.NewGuid().ToString();
         public DateTimeOffset? Timestamp { get; set; }
-        public ETag ETag { get; set; }
+        public string? ETag { get; set; }
 
         // Warranty form fields
         public string CustomerName { get; set; }
@@ -26,4 +24,3 @@ namespace Consoltech.AdminApi.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
-

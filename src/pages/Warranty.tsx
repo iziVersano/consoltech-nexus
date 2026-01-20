@@ -111,7 +111,7 @@ const Warranty = () => {
     const fileError = validateFile(file);
 
     return !hasErrors && !fileError;
-  }, [formData, file]);
+  }, [formData, file, t]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -218,8 +218,8 @@ const Warranty = () => {
     }
   };
 
-  const inputClass = "w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 text-right box-border";
-  const inputErrorClass = "w-full px-4 py-3 bg-input rounded-lg border border-red-500 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/30 text-right box-border";
+  const inputClass = "w-full px-4 py-3 bg-input rounded-lg border border-border focus:outline-none text-right box-border";
+  const inputErrorClass = "w-full px-4 py-3 bg-input rounded-lg border border-red-500 focus:outline-none text-right box-border";
   const labelClass = "block text-sm font-medium mb-2 text-right";
   const errorClass = "text-sm text-red-500 mt-1.5 text-right break-words";
 

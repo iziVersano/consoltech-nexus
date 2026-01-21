@@ -47,7 +47,7 @@ const Warranty = () => {
   const { toast } = useToast();
 
   // Get today's date in YYYY-MM-DD format for max date validation
-  const today = useMemo(() => new Date().toISOString().split('T')[0], []);
+  const today = new Date().toISOString().split('T')[0];
 
   // Validate a single field
   const validateField = (name: string, value: string): string | undefined => {

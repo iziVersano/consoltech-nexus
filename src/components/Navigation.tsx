@@ -19,17 +19,19 @@ const Navigation = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
+  // TODO: Uncomment to re-enable language toggle
   function LanguageToggleInline() {
-    return (
-      <button
-        aria-label={lang === 'en' ? 'Switch to Hebrew' : 'החלף לאנגלית'}
-        className="ms-2 px-2 py-1 border rounded text-xs font-medium bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        onClick={() => setLang(lang === 'en' ? 'he' : 'en')}
-        style={{ minWidth: 48 }}
-      >
-        {lang === 'en' ? t('toggle.he') : t('toggle.en')}
-      </button>
-    );
+    return null;
+    // return (
+    //   <button
+    //     aria-label={lang === 'en' ? 'Switch to Hebrew' : 'החלף לאנגלית'}
+    //     className="ms-2 px-2 py-1 border rounded text-xs font-medium bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+    //     onClick={() => setLang(lang === 'en' ? 'he' : 'en')}
+    //     style={{ minWidth: 48 }}
+    //   >
+    //     {lang === 'en' ? t('toggle.he') : t('toggle.en')}
+    //   </button>
+    // );
   }
 
   return (

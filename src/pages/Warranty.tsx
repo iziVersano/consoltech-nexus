@@ -209,8 +209,11 @@ const Warranty = () => {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        // Redirect to admin warranty records page after successful submission
-        navigate('/admin/warranty-records');
+        // Show success message and redirect to home after 3 seconds
+        setIsSuccess(true);
+        setTimeout(() => {
+          navigate('/');
+        }, 3000);
         return;
       } else {
         throw new Error(data.message || "Submission failed");

@@ -107,14 +107,16 @@ const Warranty = () => {
 
     if (!allFieldsFilled) return false;
 
-    // Check for validation errors
-    const hasErrors = Object.keys(formData).some(key =>
-      validateField(key, formData[key as keyof typeof formData]) !== undefined
-    );
-    const fileError = validateFile(file);
+    // Inline validation checks (without using t() to avoid dependency issues)
+    const emailValid = /^\S+@\S+\.\S+$/.test(formData.email);
+    const phoneValid = /^0\d{1,2}[-]?\d{7}$/.test(formData.phone.replace(/\s/g, ''));
+    const nameValid = formData.fullName.trim().length >= 2;
+    const serialValid = formData.serialNumber.trim().length >= 4;
+    const dateValid = new Date(formData.purchaseDate) <= new Date();
+    const fileValid = file && ['application/pdf', 'image/jpeg', 'image/png'].includes(file.type) && file.size <= 10 * 1024 * 1024;
 
-    return !hasErrors && !fileError;
-  }, [formData, file, t]);
+    return emailValid && phoneValid && nameValid && serialValid && dateValid && fileValid;
+  }, [formData, file]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

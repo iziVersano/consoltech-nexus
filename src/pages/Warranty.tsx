@@ -237,12 +237,6 @@ const Warranty = () => {
             <p className="text-muted-foreground text-lg">
               {t('warranty.success.description')}
             </p>
-            <Button
-              className="mt-8 btn-hero"
-              onClick={() => setIsSuccess(false)}
-            >
-              {t('warranty.success.submitAnother')}
-            </Button>
           </div>
         ) : (
           /* Form */

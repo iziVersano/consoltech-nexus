@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { LogOut, Package, LayoutDashboard } from 'lucide-react';
+import { LogOut, Package, LayoutDashboard, FileText } from 'lucide-react';
 import { removeAuthToken } from '@/lib/api';
 import { useI18n } from '@/hooks/I18nContext';
 
@@ -18,7 +18,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     navigate('/admin/login');
   };
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
 
   return (
     <div className="min-h-screen bg-background">
@@ -27,7 +27,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-8">
-              <Link to="/" className="flex items-center gap-2">
+              <Link to="/admin" className="flex items-center gap-2">
                 <span className="logo-text text-xl">
                   <span className="logo-consol">CONSOL</span>
                   <span className="logo-tech">TECH</span>
@@ -38,12 +38,32 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               <div className="hidden md:flex items-center gap-2">
                 <Button
                   asChild
+                  variant={location.pathname === '/admin' ? 'default' : 'ghost'}
+                  size="sm"
+                >
+                  <Link to="/admin">
+                    <LayoutDashboard className="h-4 w-4" />
+                    <span>Dashboard</span>
+                  </Link>
+                </Button>
+                <Button
+                  asChild
                   variant={isActive('/admin/products') ? 'default' : 'ghost'}
                   size="sm"
                 >
                   <Link to="/admin/products">
                     <Package className="h-4 w-4" />
                     <span>{t('admin.layout.products')}</span>
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant={isActive('/admin/warranty-records') ? 'default' : 'ghost'}
+                  size="sm"
+                >
+                  <Link to="/admin/warranty-records">
+                    <FileText className="h-4 w-4" />
+                    <span>Warranties</span>
                   </Link>
                 </Button>
               </div>
@@ -66,4 +86,3 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 };
 
 export default AdminLayout;
-

@@ -14,6 +14,7 @@ import NintendoSwitch2Manual from "./pages/NintendoSwitch2Manual";
 import Accessibility from "./pages/Accessibility";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/Login";
+import AdminDashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/Products";
 import AdminProductForm from "./pages/admin/ProductForm";
 import WarrantyRecords from "./pages/admin/WarrantyRecords";
@@ -71,6 +72,7 @@ const App = () => (
               <Route path="/accessibility" element={<Accessibility />} />
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/products" element={<AdminProducts />} />
               <Route path="/admin/products/new" element={<AdminProductForm />} />
               <Route path="/admin/products/edit/:id" element={<AdminProductForm />} />

@@ -72,5 +72,25 @@ namespace Consoltech.AdminApi.Controllers
                 return StatusCode(500, new { success = false, message = $"Error retrieving records: {ex.Message}" });
             }
         }
+
+        [HttpDelete("{identifier}")]
+        public async Task<IActionResult> DeleteWarranty(string identifier)
+        {
+            try
+            {
+                var deleted = await _localStorageService.DeleteWarrantyRecordAsync(identifier);
+
+                if (!deleted)
+                {
+                    return NotFound(new { success = false, message = "Warranty record not found" });
+                }
+
+                return Ok(new { success = true, message = "Warranty record deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"Error deleting warranty: {ex.Message}" });
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 const BACKEND_BASE_URL = API_BASE_URL.replace('/api', '');
 
 interface WarrantyRecord {
-  id?: string;
+  rowKey?: string;
   customerName: string;
   email: string;
   product: string;
@@ -153,7 +153,7 @@ const WarrantyRecords = () => {
 
     setIsDeleting(true);
     try {
-      const identifier = deleteRecord.id || deleteRecord.serialNumber;
+      const identifier = deleteRecord.rowKey || deleteRecord.serialNumber;
       const response = await fetch(`${API_BASE_URL}/warranty/${encodeURIComponent(identifier)}`, {
         method: 'DELETE',
       });
@@ -162,8 +162,8 @@ const WarrantyRecords = () => {
 
       // Remove from local state
       setRecords(prev => prev.filter(r =>
-        (r.id && r.id !== deleteRecord.id) ||
-        (!r.id && r.serialNumber !== deleteRecord.serialNumber)
+        (r.rowKey && r.rowKey !== deleteRecord.rowKey) ||
+        (!r.rowKey && r.serialNumber !== deleteRecord.serialNumber)
       ));
       setDeleteRecord(null);
     } catch (err) {

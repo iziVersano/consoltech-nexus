@@ -62,5 +62,43 @@ namespace Consoltech.AdminApi.Services
             var records = JsonSerializer.Deserialize<List<WarrantySubmissionEntity>>(json) ?? new List<WarrantySubmissionEntity>();
             return records.OrderByDescending(x => x.CreatedAt).ToList();
         }
+
+        public async Task<bool> DeleteWarrantyRecordAsync(string identifier)
+        {
+            var records = await GetAllRecordsAsync();
+
+            // Find record by RowKey (ID) or SerialNumber
+            var recordToDelete = records.FirstOrDefault(r =>
+                r.RowKey == identifier || r.SerialNumber == identifier);
+
+            if (recordToDelete == null)
+            {
+                return false;
+            }
+
+            // Delete associated invoice file if it exists
+            if (!string.IsNullOrEmpty(recordToDelete.InvoiceUrl))
+            {
+                var fileName = Path.GetFileName(recordToDelete.InvoiceUrl);
+                var filePath = Path.Combine(_uploadsDirectory, fileName);
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+            }
+
+            // Remove record from list
+            records.Remove(recordToDelete);
+
+            // Save updated list
+            var json = JsonSerializer.Serialize(records, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+
+            await File.WriteAllTextAsync(_dataFilePath, json);
+
+            return true;
+        }
     }
 }

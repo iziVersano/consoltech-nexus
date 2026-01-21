@@ -2,6 +2,13 @@ import React, { createContext, useContext, useState, useEffect, useCallback, Rea
 import { translations, Language } from '@/i18n';
 
 const LANG_KEY = 'lang';
+const LANG_RESET_KEY = 'lang_reset_v1';
+
+// One-time reset to fix users who had Hebrew set as default
+if (!localStorage.getItem(LANG_RESET_KEY)) {
+  localStorage.removeItem(LANG_KEY);
+  localStorage.setItem(LANG_RESET_KEY, 'true');
+}
 
 interface I18nContextProps {
   lang: Language;

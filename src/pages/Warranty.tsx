@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
@@ -92,31 +92,6 @@ const Warranty = () => {
     if (selectedFile.size > maxSize) return t('warranty.errors.fileTooLarge');
     return undefined;
   };
-
-  // Check if form is valid for submit button state
-  const isFormValid = useMemo(() => {
-    const allFieldsFilled =
-      formData.fullName.trim() !== '' &&
-      formData.email.trim() !== '' &&
-      formData.phone.trim() !== '' &&
-      formData.productModel.trim() !== '' &&
-      formData.serialNumber.trim() !== '' &&
-      formData.purchaseDate !== '' &&
-      formData.storeName.trim() !== '' &&
-      file !== null;
-
-    if (!allFieldsFilled) return false;
-
-    // Inline validation checks (without using t() to avoid dependency issues)
-    const emailValid = /^\S+@\S+\.\S+$/.test(formData.email);
-    const phoneValid = /^0\d{1,2}[-]?\d{7}$/.test(formData.phone.replace(/\s/g, ''));
-    const nameValid = formData.fullName.trim().length >= 2;
-    const serialValid = formData.serialNumber.trim().length >= 4;
-    const dateValid = new Date(formData.purchaseDate) <= new Date();
-    const fileValid = file && ['application/pdf', 'image/jpeg', 'image/png'].includes(file.type) && file.size <= 10 * 1024 * 1024;
-
-    return emailValid && phoneValid && nameValid && serialValid && dateValid && fileValid;
-  }, [formData, file]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -495,7 +470,7 @@ const Warranty = () => {
               <Button
                 type="submit"
                 className="btn-hero w-full"
-                disabled={isSubmitting || !isFormValid}
+                disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>

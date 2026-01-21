@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
@@ -6,7 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Upload, CheckCircle, Info } from 'lucide-react';
 import Footer from '@/components/Footer';
-import { useI18n } from '@/hooks/I18nContext';
+import { translations } from '@/i18n';
 
 // Use Azure backend API
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -26,12 +26,10 @@ interface FieldErrors {
 
 const Warranty = () => {
   const navigate = useNavigate();
-  const { t, setLang } = useI18n();
 
-  // Force Hebrew for warranty page
-  useEffect(() => {
-    setLang('he');
-  }, [setLang]);
+  // Use Hebrew translations directly for this page only
+  const t = useCallback((key: string) => translations.he[key] || key, []);
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',

@@ -33,13 +33,13 @@ const Warranty = () => {
     setLang('he');
   }, [setLang]);
   const [formData, setFormData] = useState({
-    fullName: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '050-1234567',
-    productModel: 'Nintendo Switch 2',
-    serialNumber: 'XAW12345678',
-    purchaseDate: '2024-12-15',
-    storeName: 'Consoltech Store',
+    fullName: '',
+    email: '',
+    phone: '',
+    productModel: '',
+    serialNumber: '',
+    purchaseDate: '',
+    storeName: '',
   });
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);

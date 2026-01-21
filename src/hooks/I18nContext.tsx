@@ -12,10 +12,7 @@ interface I18nContextProps {
 const I18nContext = createContext<I18nContextProps | undefined>(undefined);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Language>(() => {
-    const stored = localStorage.getItem(LANG_KEY);
-    return stored === 'en' ? 'en' : 'he';
-  });
+  const [lang, setLang] = useState<Language>('he');
 
   useEffect(() => {
     document.documentElement.lang = lang;

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,12 @@ interface FieldErrors {
 
 const Warranty = () => {
   const navigate = useNavigate();
-  const { t, lang } = useI18n();
+  const { t, setLang } = useI18n();
+
+  // Force Hebrew for warranty page
+  useEffect(() => {
+    setLang('he');
+  }, [setLang]);
   const [formData, setFormData] = useState({
     fullName: 'John Doe',
     email: 'john.doe@example.com',
@@ -224,11 +229,11 @@ const Warranty = () => {
   const errorClass = "text-sm text-red-500 mt-1.5 text-right break-words";
 
   return (
-    <div dir={lang === 'he' ? 'rtl' : 'ltr'} className="min-h-screen bg-background flex flex-col">
+    <div dir="rtl" className="min-h-screen bg-background flex flex-col">
       <Helmet>
         <title>{t('warranty.title')} - {t('warranty.subtitle')} | Consoltech</title>
         <meta name="description" content={t('warranty.description')} />
-        <html lang={lang} />
+        <html lang="he" />
       </Helmet>
 
       <main id="main-content" className="flex-1">

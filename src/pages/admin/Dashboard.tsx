@@ -19,22 +19,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Fetch products count
-        const productsRes = await fetch(`${API_BASE_URL}/products`);
+        // Fetch both in parallel
+        const [productsRes, warrantyRes] = await Promise.all([
+          fetch(`${API_BASE_URL}/products`),
+          fetch(`${API_BASE_URL}/warranty`)
+        ]);
+
         const products = productsRes.ok ? await productsRes.json() : [];
-
-        // Fetch warranty count
-        const warrantyRes = await fetch(`${API_BASE_URL}/warranty`);
-        let warranties = [];
-
-        if (warrantyRes.ok) {
-          warranties = await warrantyRes.json();
-          console.log('Warranty API response:', warranties);
-          console.log('Is array?', Array.isArray(warranties));
-          console.log('Length:', warranties?.length);
-        } else {
-          console.error('Warranty fetch failed:', warrantyRes.status, warrantyRes.statusText);
-        }
+        const warranties = warrantyRes.ok ? await warrantyRes.json() : [];
 
         setStats({
           productsCount: Array.isArray(products) ? products.length : 0,

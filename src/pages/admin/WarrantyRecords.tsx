@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Loader2, Eye, Trash2, X, Download, AlertTriangle, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AdminLayout from '@/components/AdminLayout';
+import { isAuthenticated } from '@/lib/api';
 import { USE_MOCK_DATA, getMockWarrantyRecords, deleteMockWarrantyRecord } from '@/lib/mockData';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -124,12 +126,21 @@ const DeleteModal = ({ record, onConfirm, onCancel, isDeleting }: DeleteModalPro
 };
 
 const WarrantyRecords = () => {
+  const navigate = useNavigate();
   const [records, setRecords] = useState<WarrantyRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedInvoice, setSelectedInvoice] = useState<{ url: string; fileName: string } | null>(null);
   const [deleteRecord, setDeleteRecord] = useState<WarrantyRecord | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    // Check authentication
+    if (!isAuthenticated()) {
+      navigate('/admin/login');
+      return;
+    }
+  }, [navigate]);
 
   const fetchRecords = async () => {
     try {

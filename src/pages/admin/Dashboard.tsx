@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Package, FileText, Plus, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AdminLayout from '@/components/AdminLayout';
+import { isAuthenticated } from '@/lib/api';
 import { USE_MOCK_DATA, getMockProducts, getMockWarrantyRecords } from '@/lib/mockData';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -14,10 +15,17 @@ interface DashboardStats {
 }
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats>({ productsCount: 0, warrantyCount: 0 });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Check authentication
+    if (!isAuthenticated()) {
+      navigate('/admin/login');
+      return;
+    }
+
     const fetchStats = async () => {
       try {
         let products: unknown[] = [];

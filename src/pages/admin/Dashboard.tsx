@@ -27,6 +27,8 @@ const Dashboard = () => {
         const warrantyRes = await fetch(`${API_BASE_URL}/warranty`);
         const warranties = warrantyRes.ok ? await warrantyRes.json() : [];
 
+        console.log('Dashboard stats - warranties:', warranties); // Debug log
+
         setStats({
           productsCount: Array.isArray(products) ? products.length : 0,
           warrantyCount: Array.isArray(warranties) ? warranties.length : 0,

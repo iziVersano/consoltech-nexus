@@ -204,60 +204,113 @@ const WarrantyRecords = () => {
             <p>No warranty records found.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto border border-border rounded-lg">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-muted/50 border-b border-border">
-                  <th className="text-left p-4 font-semibold">Customer</th>
-                  <th className="text-left p-4 font-semibold">Email</th>
-                  <th className="text-left p-4 font-semibold">Product</th>
-                  <th className="text-left p-4 font-semibold">Serial Number</th>
-                  <th className="text-left p-4 font-semibold">Invoice</th>
-                  <th className="text-left p-4 font-semibold">Date</th>
-                  <th className="text-center p-4 font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {records.map((record, index) => (
-                  <tr key={record.id || index} className="border-b border-border hover:bg-muted/30">
-                    <td className="p-4">{record.customerName}</td>
-                    <td className="p-4 text-sm">{record.email}</td>
-                    <td className="p-4">{record.product}</td>
-                    <td className="p-4 font-mono text-sm">{record.serialNumber}</td>
-                    <td className="p-4">
-                      {record.invoiceUrl ? (
-                        <button
-                          onClick={() => setSelectedInvoice({
-                            url: record.invoiceUrl.startsWith('http') ? record.invoiceUrl : `${BACKEND_BASE_URL}${record.invoiceUrl}`,
-                            fileName: record.invoiceFileName
-                          })}
-                          className="text-primary hover:underline flex items-center gap-1"
-                        >
-                          <Eye className="h-4 w-4" />
-                          View
-                        </button>
-                      ) : (
-                        <span className="text-muted-foreground">N/A</span>
-                      )}
-                    </td>
-                    <td className="p-4 text-sm text-muted-foreground">
-                      {record.createdAt ? new Date(record.createdAt).toLocaleDateString() : 'N/A'}
-                    </td>
-                    <td className="p-4 text-center">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-red-500 hover:text-red-600 hover:bg-red-500/10"
-                        onClick={() => setDeleteRecord(record)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </td>
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto border border-border rounded-lg">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-muted/50 border-b border-border">
+                    <th className="text-left p-4 font-semibold">Customer</th>
+                    <th className="text-left p-4 font-semibold">Email</th>
+                    <th className="text-left p-4 font-semibold">Product</th>
+                    <th className="text-left p-4 font-semibold">Serial Number</th>
+                    <th className="text-left p-4 font-semibold">Invoice</th>
+                    <th className="text-left p-4 font-semibold">Date</th>
+                    <th className="text-center p-4 font-semibold">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {records.map((record, index) => (
+                    <tr key={record.rowKey || index} className="border-b border-border hover:bg-muted/30">
+                      <td className="p-4">{record.customerName}</td>
+                      <td className="p-4 text-sm">{record.email}</td>
+                      <td className="p-4">{record.product}</td>
+                      <td className="p-4 font-mono text-sm">{record.serialNumber}</td>
+                      <td className="p-4">
+                        {record.invoiceUrl ? (
+                          <button
+                            onClick={() => setSelectedInvoice({
+                              url: record.invoiceUrl.startsWith('http') ? record.invoiceUrl : `${BACKEND_BASE_URL}${record.invoiceUrl}`,
+                              fileName: record.invoiceFileName
+                            })}
+                            className="text-primary hover:underline flex items-center gap-1"
+                          >
+                            <Eye className="h-4 w-4" />
+                            View
+                          </button>
+                        ) : (
+                          <span className="text-muted-foreground">N/A</span>
+                        )}
+                      </td>
+                      <td className="p-4 text-sm text-muted-foreground">
+                        {record.createdAt ? new Date(record.createdAt).toLocaleDateString() : 'N/A'}
+                      </td>
+                      <td className="p-4 text-center">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-red-500 hover:text-red-600 hover:bg-red-500/10"
+                          onClick={() => setDeleteRecord(record)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-4">
+              {records.map((record, index) => (
+                <div key={record.rowKey || index} className="bg-card border border-border rounded-lg p-4 space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="font-semibold">{record.customerName}</h3>
+                      <p className="text-sm text-muted-foreground">{record.email}</p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-500 hover:text-red-600 hover:bg-red-500/10 -mt-1 -mr-2"
+                      onClick={() => setDeleteRecord(record)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">Product:</span>
+                      <span className="ml-2 font-medium">{record.product}</span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Serial:</span>
+                      <span className="ml-2 font-mono text-xs">{record.serialNumber}</span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Date:</span>
+                      <span className="ml-2">{record.createdAt ? new Date(record.createdAt).toLocaleDateString() : 'N/A'}</span>
+                    </div>
+                  </div>
+                  {record.invoiceUrl && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                      onClick={() => setSelectedInvoice({
+                        url: record.invoiceUrl.startsWith('http') ? record.invoiceUrl : `${BACKEND_BASE_URL}${record.invoiceUrl}`,
+                        fileName: record.invoiceFileName
+                      })}
+                    >
+                      <Eye className="h-4 w-4 mr-2" />
+                      View Invoice
+                    </Button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 

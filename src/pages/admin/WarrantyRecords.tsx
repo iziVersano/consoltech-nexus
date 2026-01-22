@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Loader2, Eye, Trash2, X, Download, AlertTriangle, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AdminLayout from '@/components/AdminLayout';
+import { USE_MOCK_DATA, getMockWarrantyRecords, deleteMockWarrantyRecord } from '@/lib/mockData';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const BACKEND_BASE_URL = API_BASE_URL.replace('/api', '');
@@ -132,9 +133,19 @@ const WarrantyRecords = () => {
 
   const fetchRecords = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/warranty`);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data = await response.json();
+      let data: WarrantyRecord[];
+
+      if (USE_MOCK_DATA) {
+        // Use mock data for local development
+        const mockData = await getMockWarrantyRecords();
+        data = mockData as WarrantyRecord[];
+      } else {
+        // Fetch from API in production
+        const response = await fetch(`${API_BASE_URL}/warranty`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        data = await response.json();
+      }
+
       setRecords(data);
     } catch (err) {
       console.error('Failed to fetch warranty records:', err);
@@ -154,11 +165,18 @@ const WarrantyRecords = () => {
     setIsDeleting(true);
     try {
       const identifier = deleteRecord.rowKey || deleteRecord.serialNumber;
-      const response = await fetch(`${API_BASE_URL}/warranty/${encodeURIComponent(identifier)}`, {
-        method: 'DELETE',
-      });
 
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      if (USE_MOCK_DATA) {
+        // Use mock delete for local development
+        const deleted = await deleteMockWarrantyRecord(identifier);
+        if (!deleted) throw new Error('Record not found');
+      } else {
+        // Delete via API in production
+        const response = await fetch(`${API_BASE_URL}/warranty/${encodeURIComponent(identifier)}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      }
 
       // Remove from local state
       setRecords(prev => prev.filter(r =>

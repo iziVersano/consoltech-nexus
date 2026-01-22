@@ -100,5 +100,21 @@ namespace Consoltech.AdminApi.Services
 
             return true;
         }
+
+        /// <summary>
+        /// Delete an invoice file from the uploads directory.
+        /// Used by WarrantyController when deleting warranty records from the database.
+        /// </summary>
+        public void DeleteInvoiceFile(string invoiceUrl)
+        {
+            if (string.IsNullOrEmpty(invoiceUrl)) return;
+
+            var fileName = Path.GetFileName(invoiceUrl);
+            var filePath = Path.Combine(_uploadsDirectory, fileName);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
     }
 }

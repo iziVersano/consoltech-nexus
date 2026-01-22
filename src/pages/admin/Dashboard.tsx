@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Package, FileText, Plus, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AdminLayout from '@/components/AdminLayout';
+import { USE_MOCK_DATA, getMockProducts, getMockWarrantyRecords } from '@/lib/mockData';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -19,14 +20,25 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Fetch both in parallel
-        const [productsRes, warrantyRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/products`),
-          fetch(`${API_BASE_URL}/warranty`)
-        ]);
+        let products: unknown[] = [];
+        let warranties: unknown[] = [];
 
-        const products = productsRes.ok ? await productsRes.json() : [];
-        const warranties = warrantyRes.ok ? await warrantyRes.json() : [];
+        if (USE_MOCK_DATA) {
+          // Use mock data for local development
+          [products, warranties] = await Promise.all([
+            getMockProducts(),
+            getMockWarrantyRecords()
+          ]);
+        } else {
+          // Fetch from API in production
+          const [productsRes, warrantyRes] = await Promise.all([
+            fetch(`${API_BASE_URL}/products`),
+            fetch(`${API_BASE_URL}/warranty`)
+          ]);
+
+          products = productsRes.ok ? await productsRes.json() : [];
+          warranties = warrantyRes.ok ? await warrantyRes.json() : [];
+        }
 
         setStats({
           productsCount: Array.isArray(products) ? products.length : 0,

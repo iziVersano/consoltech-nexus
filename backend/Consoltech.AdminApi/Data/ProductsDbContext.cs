@@ -11,6 +11,7 @@ public class ProductsDbContext : DbContext
 
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductTranslation> ProductTranslations { get; set; }
+    public DbSet<WarrantySubmissionEntity> WarrantySubmissions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,6 +27,17 @@ public class ProductsDbContext : DbContext
         // Create composite index for fast lookups by ProductId + Locale
         modelBuilder.Entity<ProductTranslation>()
             .HasIndex(pt => new { pt.ProductId, pt.Locale });
+
+        // Configure WarrantySubmission entity
+        modelBuilder.Entity<WarrantySubmissionEntity>()
+            .HasIndex(w => w.RowKey)
+            .IsUnique();
+
+        modelBuilder.Entity<WarrantySubmissionEntity>()
+            .HasIndex(w => w.SerialNumber);
+
+        modelBuilder.Entity<WarrantySubmissionEntity>()
+            .HasIndex(w => w.Email);
 
         // Seed Products (language-agnostic data only)
         modelBuilder.Entity<Product>().HasData(

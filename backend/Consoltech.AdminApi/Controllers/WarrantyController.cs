@@ -1,8 +1,11 @@
+using Consoltech.AdminApi.Data;
 using Consoltech.AdminApi.Models;
 using Consoltech.AdminApi.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Consoltech.AdminApi.Controllers
@@ -11,10 +14,12 @@ namespace Consoltech.AdminApi.Controllers
     [Route("api/warranty")]
     public class WarrantyController : ControllerBase
     {
+        private readonly ProductsDbContext _dbContext;
         private readonly LocalStorageService _localStorageService;
 
-        public WarrantyController(LocalStorageService localStorageService)
+        public WarrantyController(ProductsDbContext dbContext, LocalStorageService localStorageService)
         {
+            _dbContext = dbContext;
             _localStorageService = localStorageService;
         }
 
@@ -25,12 +30,12 @@ namespace Consoltech.AdminApi.Controllers
             [FromForm] string email,
             [FromForm] string product,
             [FromForm] string serialNumber,
-            [FromForm] IFormFile invoice)
+            [FromForm] IFormFile? invoice)
         {
             try
             {
-                string invoiceUrl = null;
-                string invoiceFileName = null;
+                string? invoiceUrl = null;
+                string? invoiceFileName = null;
 
                 if (invoice != null)
                 {
@@ -49,7 +54,8 @@ namespace Consoltech.AdminApi.Controllers
                     InvoiceFileName = invoiceFileName
                 };
 
-                await _localStorageService.SaveWarrantyRecordAsync(entity);
+                _dbContext.WarrantySubmissions.Add(entity);
+                await _dbContext.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Warranty registration submitted successfully" });
             }
@@ -64,7 +70,9 @@ namespace Consoltech.AdminApi.Controllers
         {
             try
             {
-                var records = await _localStorageService.GetAllRecordsAsync();
+                var records = await _dbContext.WarrantySubmissions
+                    .OrderByDescending(w => w.CreatedAt)
+                    .ToListAsync();
                 return Ok(records);
             }
             catch (Exception ex)
@@ -78,12 +86,23 @@ namespace Consoltech.AdminApi.Controllers
         {
             try
             {
-                var deleted = await _localStorageService.DeleteWarrantyRecordAsync(identifier);
+                // Find record by RowKey or SerialNumber
+                var record = await _dbContext.WarrantySubmissions
+                    .FirstOrDefaultAsync(w => w.RowKey == identifier || w.SerialNumber == identifier);
 
-                if (!deleted)
+                if (record == null)
                 {
                     return NotFound(new { success = false, message = "Warranty record not found" });
                 }
+
+                // Delete associated invoice file if it exists
+                if (!string.IsNullOrEmpty(record.InvoiceUrl))
+                {
+                    _localStorageService.DeleteInvoiceFile(record.InvoiceUrl);
+                }
+
+                _dbContext.WarrantySubmissions.Remove(record);
+                await _dbContext.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Warranty record deleted successfully" });
             }

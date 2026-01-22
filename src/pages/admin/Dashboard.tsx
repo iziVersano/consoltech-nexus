@@ -25,9 +25,16 @@ const Dashboard = () => {
 
         // Fetch warranty count
         const warrantyRes = await fetch(`${API_BASE_URL}/warranty`);
-        const warranties = warrantyRes.ok ? await warrantyRes.json() : [];
+        let warranties = [];
 
-        console.log('Dashboard stats - warranties:', warranties); // Debug log
+        if (warrantyRes.ok) {
+          warranties = await warrantyRes.json();
+          console.log('Warranty API response:', warranties);
+          console.log('Is array?', Array.isArray(warranties));
+          console.log('Length:', warranties?.length);
+        } else {
+          console.error('Warranty fetch failed:', warrantyRes.status, warrantyRes.statusText);
+        }
 
         setStats({
           productsCount: Array.isArray(products) ? products.length : 0,

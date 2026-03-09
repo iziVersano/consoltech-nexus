@@ -8,9 +8,8 @@ import { Loader2, Upload, CheckCircle, Info } from 'lucide-react';
 import Footer from '@/components/Footer';
 import { translations } from '@/i18n';
 
-// Use Azure backend API
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const WARRANTY_ENDPOINT = `${API_BASE_URL}/warranty`;
+// Formspree endpoint for warranty submissions (same as contact form)
+const WARRANTY_ENDPOINT = "https://formspree.io/f/xyzpvaeg";
 
 // Field error type
 interface FieldErrors {
@@ -168,30 +167,34 @@ const Warranty = () => {
 
     setIsSubmitting(true);
 
-    try {
-      const submitData = new FormData();
-      submitData.append('customerName', formData.fullName);
-      submitData.append('email', formData.email);
-      submitData.append('product', formData.productModel);
-      submitData.append('serialNumber', formData.serialNumber);
-      submitData.append('invoice', file!);
+    const submitData = new FormData();
+    submitData.append('_subject', `Warranty Registration: ${formData.productModel} - ${formData.fullName}`);
+    submitData.append('customerName', formData.fullName);
+    submitData.append('email', formData.email);
+    submitData.append('phone', formData.phone);
+    submitData.append('product', formData.productModel);
+    submitData.append('serialNumber', formData.serialNumber);
+    submitData.append('purchaseDate', formData.purchaseDate);
+    submitData.append('store', formData.store);
+    if (file) {
+      submitData.append('invoice', file);
+    }
 
+    try {
       const res = await fetch(WARRANTY_ENDPOINT, {
         method: "POST",
+        headers: { "Accept": "application/json" },
         body: submitData,
       });
 
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        // Show success message and redirect to home after 3 seconds
+      if (res.ok) {
         setIsSuccess(true);
         setTimeout(() => {
           navigate('/');
         }, 3000);
         return;
       } else {
-        throw new Error(data.message || "Submission failed");
+        throw new Error("Submission failed");
       }
     } catch (error) {
       console.error('Warranty submission error:', error);

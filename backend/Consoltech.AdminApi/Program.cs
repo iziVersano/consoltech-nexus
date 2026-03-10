@@ -82,6 +82,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
             "https://consoltech.shop",
             "https://www.consoltech.shop",
+            "https://izi-project-production.up.railway.app",
             "http://localhost:5173",
             "https://localhost:5173",
             "http://localhost:8080",

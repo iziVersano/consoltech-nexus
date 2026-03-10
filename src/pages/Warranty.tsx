@@ -175,10 +175,16 @@ const Warranty = () => {
       submitData.append('serialNumber', formData.serialNumber);
       submitData.append('invoice', file!);
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+
       const res = await fetch(WARRANTY_ENDPOINT, {
         method: "POST",
         body: submitData,
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       const data = await res.json();
 

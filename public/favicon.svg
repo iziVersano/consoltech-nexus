@@ -1,20 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#00b4d8"/>
-      <stop offset="100%" style="stop-color:#7b2ff7"/>
-    </linearGradient>
-  </defs>
-  <!-- Rounded background -->
-  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
   <!-- Controller body -->
-  <path d="M12 30 C12 24 18 20 24 20 L40 20 C46 20 52 24 52 30 L52 34 C52 38 50 44 44 46 L42 47 C40 48 38 46 38 44 L38 40 C38 38 36 36 34 36 L30 36 C28 36 26 38 26 40 L26 44 C26 46 24 48 22 47 L20 46 C14 44 12 38 12 34 Z" fill="white" opacity="0.95"/>
-  <!-- D-pad -->
-  <rect x="17" y="28" width="3" height="9" rx="1" fill="url(#bg)" opacity="0.7"/>
-  <rect x="14.5" y="30.5" width="8" height="3" rx="1" fill="url(#bg)" opacity="0.7"/>
-  <!-- Buttons -->
-  <circle cx="44" cy="28" r="2.2" fill="#e63946"/>
-  <circle cx="49" cy="32" r="2.2" fill="#2a9d8f"/>
-  <circle cx="44" cy="36" r="2.2" fill="#e9c46a"/>
-  <circle cx="39" cy="32" r="2.2" fill="#457b9d"/>
+  <path d="M8 28 C8 20 16 14 24 14 L40 14 C48 14 56 20 56 28 L56 34 C56 42 52 50 44 52 L41 53 C38 54 36 51 36 48 L36 42 C36 39 34 36 32 36 C30 36 28 39 28 42 L28 48 C28 51 26 54 23 53 L20 52 C12 50 8 42 8 34 Z" fill="#e0e0e0" stroke="#888" stroke-width="1.5"/>
+  <!-- D-pad vertical -->
+  <rect x="17" y="22" width="4" height="14" rx="1.2" fill="#555"/>
+  <!-- D-pad horizontal -->
+  <rect x="14" y="26" width="10" height="4" rx="1.2" fill="#555"/>
+  <!-- Action buttons -->
+  <circle cx="46" cy="24" r="3" fill="#e63946"/>
+  <circle cx="52" cy="30" r="3" fill="#2a9d8f"/>
+  <circle cx="46" cy="36" r="3" fill="#e9c46a"/>
+  <circle cx="40" cy="30" r="3" fill="#457b9d"/>
+  <!-- Center details -->
+  <rect x="28" y="22" width="8" height="3" rx="1.5" fill="#999"/>
+  <rect x="29.5" y="27" width="5" height="3" rx="1.5" fill="#999"/>
 </svg>
